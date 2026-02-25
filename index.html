@@ -5,84 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mini Mario Physics</title>
-
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            background: linear-gradient(#5c94fc, #87ceeb);
-        }
-
-        .ground {
-            position: absolute;
-            bottom: 0;
-            width: 2000px;
-            height: 120px;
-            background: #8B4513;
-        }
-
-        #mario {
-            position: absolute;
-            width: 40px;
-            height: 60px;
-            background: red;
-            border-radius: 8px;
-        }
-
-        .pipe {
-            position: absolute;
-            width: 80px;
-            height: 120px;
-            background: green;
-            bottom: 120px;
-        }
-
-        .pipe::before {
-            content: "";
-            position: absolute;
-            top: -20px;
-            left: -10px;
-            width: 100px;
-            height: 30px;
-            background: darkgreen;
-        }
-
-        #pipe1 {
-            left: 300px;
-        }
-
-        #pipe2 {
-            left: 550px;
-        }
-
-        #pipe3 {
-            left: 800px;
-        }
-
-        #pipe4 {
-            left: 1050px;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background: white;
-            top: 0;
-            left: 0;
-            z-index: 10;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-
-        button {
-            padding: 15px 30px;
-            font-size: 18px;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -111,7 +34,7 @@
         let velocityY = 0;
 
         const gravity = 0.8;
-        const jumpForce = 20; // SALTO PIÙ ALTO
+        const jumpForce = 18;
         const speed = 5;
         const groundLevel = 120;
 
@@ -127,18 +50,14 @@
 
                 let nextX = x;
                 let nextY = y;
-
-                // Movimento (WASD + Frecce)
                 if (keys["arrowright"] || keys["d"]) nextX += speed;
                 if (keys["arrowleft"] || keys["a"]) nextX -= speed;
 
-                // Salto
                 if ((keys["arrowup"] || keys["w"]) && onGround) {
                     velocityY = jumpForce;
                     onGround = false;
                 }
 
-                // Gravità
                 velocityY -= gravity;
                 nextY += velocityY;
 
@@ -148,7 +67,6 @@
                     onGround = true;
                 }
 
-                // Aggiorna temporaneamente posizione verticale
                 let marioRect = {
                     left: nextX,
                     right: nextX + 40,
@@ -156,7 +74,6 @@
                     top: groundLevel + nextY + 60
                 };
 
-                // Collisioni tubi
                 pipes.forEach(pipe => {
                     const rect = pipe.getBoundingClientRect();
                     const pipeLeft = rect.left;
@@ -169,7 +86,6 @@
                     const mTop = window.innerHeight - marioRect.top;
                     const mBottom = window.innerHeight - marioRect.bottom;
 
-                    // Collisione sopra tubo
                     if (
                         mRight > pipeLeft &&
                         mLeft < pipeRight &&
@@ -182,7 +98,6 @@
                         onGround = true;
                     }
 
-                    // Collisione laterale
                     if (
                         mTop < pipeBottom &&
                         mBottom > pipeTop
@@ -195,7 +110,6 @@
                         }
                     }
 
-                    // Entrata tubo (solo sopra)
                     if (
                         (keys["arrowdown"] || keys["s"]) &&
                         onGround &&
