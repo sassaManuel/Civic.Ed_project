@@ -1,0 +1,124 @@
+/* --- AMBIENTE E SFONDO --- */
+body {
+    margin: 0;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #5c94fc 0%, #87ceeb 100%);
+    height: 100vh;
+}
+
+.bg-mountains {
+    position: absolute;
+    bottom: 120px;
+    width: 100%;
+    height: 250px;
+    background-image: 
+        radial-gradient(circle at 15% 100%, #48a048 120px, transparent 121px),
+        radial-gradient(circle at 40% 100%, #3e8e3e 180px, transparent 181px),
+        radial-gradient(circle at 75% 100%, #48a048 140px, transparent 141px);
+    opacity: 0.7;
+    z-index: -1;
+}
+
+.ground {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 105px;
+    background: #8b4513; 
+    border-top: 15px solid #55e010; /* Erba verde */
+    z-index: 1;
+}
+
+#mario {
+    position: absolute;
+    /* top: 775px; */
+    width: 32px;
+    height: 48px;
+    background: #ff0000;
+    border-radius: 4px;
+    z-index: 10;
+    box-shadow: inset 0 -25px 0 #0000ff; 
+}
+
+#mario::before {
+    content: '';
+    position: absolute;
+    top: -6px; left: 2px;
+    width: 28px; height: 10px;
+    background: #ff0000;
+    border-radius: 8px 8px 0 0;
+}
+
+.cloud {
+    position: absolute;
+    background: white;
+    border-radius: 50px;
+    opacity: 0.9;
+    z-index: -2;
+    animation: float 25s linear infinite;
+}
+@keyframes float {
+    from { transform: translateX(-150px); }
+    to { transform: translateX(110vw); }
+}
+
+#cloud1 { width: 100px; height: 40px; top: 80px; left: 10%; }
+#cloud2 { width: 140px; height: 50px; top: 160px; left: 50%; animation-duration: 35s; }
+
+.bush {
+    position: absolute;
+    bottom: 120px;
+    background: #24b024;
+    border-radius: 40px 40px 0 0;
+    z-index: 0;
+}
+#bush1 { width: 80px; height: 40px; left: 15%; }
+#bush2 { width: 110px; height: 55px; left: 65%; }
+
+.sun {
+    position: absolute;
+    top: 40px; right: 60px;
+    width: 60px; height: 60px;
+    background: #fdfd96;
+    border-radius: 50%;
+    box-shadow: 0 0 30px #fdfd96;
+    z-index: -3;
+}
+
+.lucky-block {
+    position: absolute;
+    width: 50px; height: 50px;
+    background: #f8b800;
+    bottom: 350px; left: 250px;
+    border: 4px solid #bb7000;
+    display: flex; justify-content: center; align-items: center;
+    color: white; font-weight: bold; font-size: 30px;
+}
+
+.goomba {
+    position: absolute;
+    width: 40px; height: 40px;
+    background: #a52a2a;
+    bottom: 120px;
+    border-radius: 50% 50% 5px 5px;
+    border: 2px solid #000;
+}
+
+.pipe {
+    position: absolute;
+    width: 80px; height: 100px;
+    background: #00aa00;
+    bottom: 120px;
+    border: 4px solid #005500;
+}
+
+.pipe::before {
+    content: "";
+    position: absolute;
+    top: -20px; left: -14px;
+    width: 100px; height: 30px;
+    background: #00aa00; border: 4px solid #005500;
+}
+
+#pipe1 { left: 850px; }
+#pipe2 { left: 1250px; }

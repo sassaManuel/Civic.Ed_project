@@ -1,11 +1,142 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document1</title>
+    <title>Mario Physics - Goomba Patrol</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <p>hello world</p>
+
+    <div id="mario"></div>
+<div class="sun"></div>
+    <div class="lucky-block" id="luckyBlock">?</div>
+    <div class="goomba" id="goomba"></div>
+    <div class="pipe" id="pipe1"></div>
+    <div class="pipe" id="pipe2"></div>
+    <div class="ground"></div>
+    <div class="bg-mountains"></div>
+    <div class="cloud" id="cloud1"></div>
+    <div class="cloud" id="cloud2"></div>
+
+    <script>
+        const mario = document.getElementById("mario");
+        const luckyBlock = document.getElementById("luckyBlock");
+        const goomba = document.getElementById("goomba");
+        const pipe1 = document.getElementById("pipe1");
+        const pipe2 = document.getElementById("pipe2");
+
+        let x = 50, y = 0, velY = 0;
+        const gravity = 0.65;      
+        const jumpPower = 18;    
+        const speed = 6;        
+        const groundHeight = 120
+
+        // Parametri Goomba
+        let goombaX = 1000;
+        let goombaDir = 1; // 1 = destra, -1 = sinistra
+        const goombaSpeed = 2;
+        const goombaRange = { min: 945, max: 1200 }; // Limiti di pattugliamento
+
+        let keys = {};
+        let onGround = true;
+        let isRedirecting = false;
+
+        document.addEventListener("keydown", e => keys[e.key.toLowerCase()] = true);
+        document.addEventListener("keyup", e => keys[e.key.toLowerCase()] = false);
+
+        function collide(r1, r2) {
+            return r1.x < r2.x + r2.w && r1.x + r1.w > r2.x && r1.y < r2.y + r2.h && r1.y + r1.h > r2.y;
+        }
+
+        function goToPage(url) {
+            if (!isRedirecting) {
+                isRedirecting = true;
+                window.location.href = url;
+            }
+        }
+
+        function gameLoop() {
+            let nextX = x;
+            let nextY = y;
+
+            // --- MOVIMENTO GOOMBA ---
+            goombaX += goombaSpeed * goombaDir;
+            if (goombaX >= goombaRange.max || goombaX <= goombaRange.min) {
+                goombaDir *= -1; // Inverte la direzione quando tocca i limiti
+            }
+            goomba.style.left = goombaX + "px";
+
+            // --- MOVIMENTO MARIO ---
+            if (keys["arrowright"] || keys["d"]) nextX += speed;
+            if (keys["arrowleft"] || keys["a"]) nextX -= speed;
+            if ((keys[" "] || keys["w"] || keys["arrowup"]) && onGround) {
+                velY = jumpPower;
+                onGround = false;
+            }
+
+            velY -= gravity;
+            nextY += velY;
+
+            if (nextY <= 0) {
+                nextY = 0; velY = 0; onGround = true;
+            }
+
+            let marioRect = { x: nextX, y: groundHeight + nextY, w: 40, h: 60 };
+
+            // 1. LUCKY BLOCK
+            const luckyRect = { x: luckyBlock.offsetLeft, y: 350, w: 50, h: 50 };
+            if (collide(marioRect, luckyRect)) {
+                if (velY > 0 && (marioRect.y + 45) < luckyRect.y) {
+                    goToPage('lucky.html');
+                } else {
+                    if (x < luckyRect.x) nextX = luckyRect.x - 40;
+                    else nextX = luckyRect.x + luckyRect.w;
+                }
+            }
+
+            // 2. COLLISIONE GOOMBA (dinamica con goombaX)
+            const goombaRect = { x: goombaX, y: groundHeight, w: 40, h: 40 };
+            if (collide(marioRect, goombaRect)) {
+                if (velY < 0 && marioRect.y > (goombaRect.y + 10)) {
+                    goToPage('goomba.html'); // Uccisione -> Pagina
+                } else {
+                    nextX = 50; // Mario viene colpito e resetta
+                    nextY = 0;
+                }
+            }
+
+            // 3. LOGICA TUBI
+            const pipes = [
+                { el: pipe1, url: 'tubo.html' },
+                { el: pipe2, url: 'tubo2.html' }
+            ];
+
+            pipes.forEach(p => {
+                const pRect = { x: p.el.offsetLeft, y: groundHeight, w: 80, h: 120 };
+                if (collide(marioRect, pRect)) {
+                    const pTop = pRect.y + pRect.h;
+                    if (velY <= 0 && marioRect.y >= pTop - 20) {
+                        nextY = pRect.h;
+                        velY = 0;
+                        onGround = true;
+                        if (keys["s"] || keys["arrowdown"]) goToPage(p.url);
+                    } else {
+                        if (marioRect.x < pRect.x) nextX = pRect.x - 40;
+                        else nextX = pRect.x + pRect.w;
+                    }
+                }
+            });
+
+            x = nextX;
+            y = nextY;
+            mario.style.left = x + "px";
+            mario.style.bottom = (groundHeight + y) + "px";
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        gameLoop();
+    </script>
 </body>
 </html>
