@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini Mario Platform</title>
+    <title>Mini Mario Fixed</title>
 
     <style>
         body {
@@ -13,7 +13,6 @@
             background: linear-gradient(#5c94fc, #87ceeb);
         }
 
-        /* Terreno */
         .ground {
             position: absolute;
             bottom: 0;
@@ -22,7 +21,6 @@
             background: #8B4513;
         }
 
-        /* Mario */
         #mario {
             position: absolute;
             width: 40px;
@@ -31,7 +29,6 @@
             border-radius: 8px;
         }
 
-        /* Tubi */
         .pipe {
             position: absolute;
             width: 80px;
@@ -66,7 +63,6 @@
             left: 900px;
         }
 
-        /* Modale */
         .modal {
             display: none;
             position: fixed;
@@ -111,16 +107,16 @@
         const modal = document.getElementById("modal");
 
         let x = 50;
-        let y = 0;
+        let y = 0; // 0 = terra
         let velocityY = 0;
-        let isJumping = false;
 
         const gravity = 0.8;
-        const jumpPower = -15;
+        const jumpForce = 15;
         const speed = 5;
-        const groundHeight = 120;
+        const groundLevel = 120;
 
         let keys = {};
+        let onGround = true;
 
         document.addEventListener("keydown", e => {
             keys[e.key] = true;
@@ -134,36 +130,36 @@
 
             if (modal.style.display !== "flex") {
 
-                // Movimento continuo
+                // Movimento orizzontale continuo
                 if (keys["ArrowRight"]) x += speed;
                 if (keys["ArrowLeft"]) x -= speed;
 
                 // Salto
-                if (keys["ArrowUp"] && !isJumping) {
-                    velocityY = jumpPower;
-                    isJumping = true;
+                if (keys["ArrowUp"] && onGround) {
+                    velocityY = jumpForce;
+                    onGround = false;
                 }
 
                 // Gravità
-                velocityY += gravity;
+                velocityY -= gravity;
                 y += velocityY;
 
-                if (y > 0) {
+                // Collisione terreno
+                if (y <= 0) {
                     y = 0;
                     velocityY = 0;
-                    isJumping = false;
+                    onGround = true;
                 }
 
-                // Entrata tubo
-                if (keys["ArrowDown"]) {
+                // Entrata tubo (solo se a terra)
+                if (keys["ArrowDown"] && onGround) {
                     pipes.forEach(pipe => {
                         const pipeRect = pipe.getBoundingClientRect();
                         const marioRect = mario.getBoundingClientRect();
 
                         if (
                             marioRect.right > pipeRect.left &&
-                            marioRect.left < pipeRect.right &&
-                            !isJumping
+                            marioRect.left < pipeRect.right
                         ) {
                             enterPipe();
                         }
@@ -171,7 +167,7 @@
                 }
 
                 mario.style.left = x + "px";
-                mario.style.bottom = (groundHeight + y) + "px";
+                mario.style.bottom = (groundLevel + y) + "px";
             }
 
             requestAnimationFrame(gameLoop);
