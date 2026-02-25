@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini Mario Fixed</title>
+    <title>Mini Mario Physics</title>
 
     <style>
         body {
@@ -16,7 +16,7 @@
         .ground {
             position: absolute;
             bottom: 0;
-            width: 100%;
+            width: 2000px;
             height: 120px;
             background: #8B4513;
         }
@@ -52,15 +52,15 @@
         }
 
         #pipe2 {
-            left: 500px;
+            left: 550px;
         }
 
         #pipe3 {
-            left: 700px;
+            left: 800px;
         }
 
         #pipe4 {
-            left: 900px;
+            left: 1050px;
         }
 
         .modal {
@@ -107,64 +107,110 @@
         const modal = document.getElementById("modal");
 
         let x = 50;
-        let y = 0; // 0 = terra
+        let y = 0;
         let velocityY = 0;
 
         const gravity = 0.8;
-        const jumpForce = 15;
+        const jumpForce = 20; // SALTO PIÙ ALTO
         const speed = 5;
         const groundLevel = 120;
 
         let keys = {};
         let onGround = true;
 
-        document.addEventListener("keydown", e => {
-            keys[e.key] = true;
-        });
-
-        document.addEventListener("keyup", e => {
-            keys[e.key] = false;
-        });
+        document.addEventListener("keydown", e => keys[e.key.toLowerCase()] = true);
+        document.addEventListener("keyup", e => keys[e.key.toLowerCase()] = false);
 
         function gameLoop() {
 
             if (modal.style.display !== "flex") {
 
-                // Movimento orizzontale continuo
-                if (keys["ArrowRight"]) x += speed;
-                if (keys["ArrowLeft"]) x -= speed;
+                let nextX = x;
+                let nextY = y;
+
+                // Movimento (WASD + Frecce)
+                if (keys["arrowright"] || keys["d"]) nextX += speed;
+                if (keys["arrowleft"] || keys["a"]) nextX -= speed;
 
                 // Salto
-                if (keys["ArrowUp"] && onGround) {
+                if ((keys["arrowup"] || keys["w"]) && onGround) {
                     velocityY = jumpForce;
                     onGround = false;
                 }
 
                 // Gravità
                 velocityY -= gravity;
-                y += velocityY;
+                nextY += velocityY;
 
-                // Collisione terreno
-                if (y <= 0) {
-                    y = 0;
+                if (nextY <= 0) {
+                    nextY = 0;
                     velocityY = 0;
                     onGround = true;
                 }
 
-                // Entrata tubo (solo se a terra)
-                if (keys["ArrowDown"] && onGround) {
-                    pipes.forEach(pipe => {
-                        const pipeRect = pipe.getBoundingClientRect();
-                        const marioRect = mario.getBoundingClientRect();
+                // Aggiorna temporaneamente posizione verticale
+                let marioRect = {
+                    left: nextX,
+                    right: nextX + 40,
+                    bottom: groundLevel + nextY,
+                    top: groundLevel + nextY + 60
+                };
 
-                        if (
-                            marioRect.right > pipeRect.left &&
-                            marioRect.left < pipeRect.right
-                        ) {
-                            enterPipe();
+                // Collisioni tubi
+                pipes.forEach(pipe => {
+                    const rect = pipe.getBoundingClientRect();
+                    const pipeLeft = rect.left;
+                    const pipeRight = rect.right;
+                    const pipeTop = rect.top;
+                    const pipeBottom = rect.bottom;
+
+                    const mLeft = marioRect.left;
+                    const mRight = marioRect.right;
+                    const mTop = window.innerHeight - marioRect.top;
+                    const mBottom = window.innerHeight - marioRect.bottom;
+
+                    // Collisione sopra tubo
+                    if (
+                        mRight > pipeLeft &&
+                        mLeft < pipeRight &&
+                        mBottom >= pipeTop - 5 &&
+                        mBottom <= pipeTop + 20 &&
+                        velocityY <= 0
+                    ) {
+                        nextY = pipeTop - groundLevel - 60;
+                        velocityY = 0;
+                        onGround = true;
+                    }
+
+                    // Collisione laterale
+                    if (
+                        mTop < pipeBottom &&
+                        mBottom > pipeTop
+                    ) {
+                        if (mRight > pipeLeft && mLeft < pipeLeft && velocityY !== 0) {
+                            nextX = pipeLeft - 40;
                         }
-                    });
-                }
+                        if (mLeft < pipeRight && mRight > pipeRight && velocityY !== 0) {
+                            nextX = pipeRight;
+                        }
+                    }
+
+                    // Entrata tubo (solo sopra)
+                    if (
+                        (keys["arrowdown"] || keys["s"]) &&
+                        onGround &&
+                        mRight > pipeLeft &&
+                        mLeft < pipeRight &&
+                        mBottom >= pipeTop - 5 &&
+                        mBottom <= pipeTop + 20
+                    ) {
+                        enterPipe();
+                    }
+
+                });
+
+                x = nextX;
+                y = nextY;
 
                 mario.style.left = x + "px";
                 mario.style.bottom = (groundLevel + y) + "px";
