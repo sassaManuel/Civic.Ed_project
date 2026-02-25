@@ -1,11 +1,167 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document1</title>
+    <title>Mario Physics Fixed2</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    
+
+    <div id="mario"></div>
+
+    <div class="pipe" id="pipe1"></div>
+    <div class="pipe" id="pipe2"></div>
+    <div class="pipe" id="pipe3"></div>
+    <div class="pipe" id="pipe4"></div>
+
+    <div class="ground"></div>
+
+    <div class="modal" id="modal1">1<br><button onclick="exitPipe()">ESCI</button></div>
+    <div class="modal" id="modal2">2<br><button onclick="exitPipe()">ESCI</button></div>
+    <div class="modal" id="modal3">3<br><button onclick="exitPipe()">ESCI</button></div>
+    <div class="modal" id="modal4">4<br><button onclick="exitPipe()">ESCI</button></div>
+
+    <script>
+
+        const mario = document.getElementById("mario");
+        const pipes = document.querySelectorAll(".pipe");
+
+        let x = 50;
+        let y = 0;
+        let velY = 0;
+
+        const gravity = 0.8;
+        const jumpPower = 18;
+        const speed = 5;
+        const groundHeight = 120;
+
+        let keys = {};
+        let onGround = true;
+
+        document.addEventListener("keydown", e => {
+            keys[e.key.toLowerCase()] = true;
+        });
+
+        document.addEventListener("keyup", e => {
+            keys[e.key.toLowerCase()] = false;
+        });
+
+        function collide(r1, r2) {
+            return (
+                r1.x < r2.x + r2.w &&
+                r1.x + r1.w > r2.x &&
+                r1.y < r2.y + r2.h &&
+                r1.y + r1.h > r2.y
+            );
+        }
+
+        function getModalByPipe(index) {
+            return document.getElementById("modal" + (index + 1));
+        }
+
+        function enterPipe(index) {
+            const modal = getModalByPipe(index);
+            if (modal) modal.style.display = "flex";
+        }
+
+        function exitPipe() {
+            document.querySelectorAll(".modal").forEach(m => {
+                m.style.display = "none";
+            });
+        }
+
+        function gameLoop() {
+
+            if (!document.querySelector(".modal[style*='flex']")) {
+
+                let nextX = x;
+                let nextY = y;
+
+                // Movimento orizzontale
+                if (keys["arrowright"] || keys["d"]) nextX += speed;
+                if (keys["arrowleft"] || keys["a"]) nextX -= speed;
+
+                // Salto con SPACE
+                if (keys[" "] && onGround) {
+                    velY = jumpPower;
+                    onGround = false;
+                }
+
+                // Gravità
+                velY -= gravity;
+                nextY += velY;
+
+                if (nextY <= 0) {
+                    nextY = 0;
+                    velY = 0;
+                    onGround = true;
+                }
+
+                let marioRect = {
+                    x: nextX,
+                    y: groundHeight + nextY,
+                    w: 40,
+                    h: 60
+                };
+
+                pipes.forEach((pipe, index) => {
+
+                    const pipeRect = {
+                        x: pipe.offsetLeft,
+                        y: groundHeight,
+                        w: 80,
+                        h: 120
+                    };
+
+                    const pipeTop = pipeRect.y + pipeRect.h;
+
+                    // Collisione con il tubo
+                    if (collide(marioRect, pipeRect)) {
+
+                        // Se Mario è sopra il tubo → resti sopra
+                        if (velY <= 0 && marioRect.y >= pipeTop - 20) {
+                            nextY = pipeRect.h;
+                            velY = 0;
+                            onGround = true;
+                        }
+                        else {
+                            // Collisione laterale
+                            if (marioRect.x < pipeRect.x) {
+                                nextX = pipeRect.x - 40;
+                            } else {
+                                nextX = pipeRect.x + pipeRect.w;
+                            }
+                        }
+                    }
+
+                    // Entrata tubo con S o ↓
+                    if (
+                        (keys["s"] || keys["arrowdown"]) &&
+                        onGround &&
+                        Math.abs(marioRect.x + 20 - (pipeRect.x + pipeRect.w / 2)) < 25 &&
+                        Math.abs(marioRect.y - pipeTop) < 15
+                    ) {
+                        enterPipe(index);
+                    }
+
+                });
+
+                x = nextX;
+                y = nextY;
+
+                mario.style.left = x + "px";
+                mario.style.bottom = (groundHeight + y) + "px";
+            }
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        gameLoop();
+
+    </script>
+
 </body>
+
 </html>
