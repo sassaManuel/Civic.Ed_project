@@ -1,11 +1,433 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Competenza Civica 10: Sostenibilità</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f1f5f9;
+            --green: #10b981;
+            --yellow: #facc15;
+            --blue: #38bdf8;
+            --black: #000000;
+            --white: #ffffff;
+            --border-width: 3px;
+            --border: var(--border-width) solid var(--black);
+            --shadow: 6px 6px 0px var(--black);
+            --shadow-hover: 10px 10px 0px var(--black);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body { 
+            background-color: var(--bg);
+            /* Blueprint grid pattern */
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px), 
+                linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--black);
+            line-height: 1.5;
+            padding-bottom: 50px;
+        }
+
+        .pixel-font {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            line-height: 1;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background-color: var(--white);
+            border-bottom: var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-transform: uppercase;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background-color: var(--green);
+            border: var(--border);
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .life-bar-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .life-label {
+            font-weight: 800;
+            font-size: 0.9rem;
+        }
+
+        .life-bar-container {
+            width: 200px;
+            height: 24px;
+            background-color: var(--white);
+            border: var(--border);
+            border-radius: 4px;
+            padding: 3px;
+            box-shadow: 4px 4px 0px var(--black);
+            overflow: hidden;
+        }
+
+        .life-fill {
+            width: 70%;
+            height: 100%;
+            background-color: var(--green);
+            border-right: var(--border);
+            transition: width 0.5s ease;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .level-badge {
+            background-color: var(--black);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 0;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            transform: rotate(-1deg);
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1;
+        }
+
+        .hero-desc {
+            font-size: 1.25rem;
+            font-weight: 600;
+            max-width: 700px;
+            margin-bottom: 3rem;
+        }
+
+        /* Pipe Turbines Illustration */
+        .illustration-area {
+            display: flex;
+            align-items: flex-end;
+            gap: 60px;
+            height: 240px;
+            margin-top: 2rem;
+        }
+
+        .turbine-pipe {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .pipe-head {
+            width: 100px;
+            height: 30px;
+            background-color: var(--green);
+            border: var(--border);
+            border-radius: 4px;
+            z-index: 2;
+        }
+
+        .pipe-stem {
+            width: 80px;
+            height: 100px;
+            background-color: var(--green);
+            border-left: var(--border);
+            border-right: var(--border);
+            z-index: 1;
+        }
+
+        .blades-container {
+            position: absolute;
+            top: -60px;
+            width: 120px;
+            height: 120px;
+            animation: spin 3s linear infinite;
+        }
+
+        .blade {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 60px;
+            height: 10px;
+            background-color: var(--white);
+            border: 2px solid var(--black);
+            transform-origin: 0 50%;
+            border-radius: 20px;
+        }
+
+        .blade:nth-child(1) { transform: rotate(0deg); }
+        .blade:nth-child(2) { transform: rotate(120deg); }
+        .blade:nth-child(3) { transform: rotate(240deg); }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Cards Section */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Lucky Block Style Cards */
+        .lucky-card {
+            background-color: var(--yellow);
+            border: var(--border);
+            padding: 2.5rem;
+            position: relative;
+            box-shadow: var(--shadow);
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            min-height: 400px;
+            cursor: pointer;
+        }
+
+        .lucky-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .rivet {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: var(--black);
+            opacity: 0.2;
+            border-radius: 2px;
+        }
+        .r-tl { top: 15px; left: 15px; }
+        .r-tr { top: 15px; right: 15px; }
+        .r-bl { bottom: 15px; left: 15px; }
+        .r-br { bottom: 15px; right: 15px; }
+
+        .question-mark {
+            font-size: 5rem;
+            font-weight: 800;
+            color: rgba(0,0,0,0.1);
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            user-select: none;
+        }
+
+        .card-tag {
+            background-color: var(--white);
+            border: 2px solid var(--black);
+            padding: 4px 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            width: fit-content;
+            box-shadow: 2px 2px 0px var(--black);
+        }
+
+        .lucky-card h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            z-index: 2;
+        }
+
+        .lucky-card p {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--black);
+            z-index: 2;
+            background: rgba(255,255,255,0.3);
+            padding: 1rem;
+            border-radius: 4px;
+        }
+
+        .card-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 2rem;
+        }
+
+        .btn-card {
+            background-color: var(--white);
+            border: var(--border);
+            padding: 0.75rem 1.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            box-shadow: 4px 4px 0px var(--black);
+            transition: 0.1s;
+        }
+
+        .lucky-card:hover .btn-card {
+            background-color: var(--black);
+            color: var(--white);
+        }
+
+        /* Color Variations */
+        .card-green { background-color: var(--green); }
+        .card-blue { background-color: var(--blue); }
+        .card-yellow { background-color: var(--yellow); }
+
+        /* Pixel icons */
+        .icon-pixel {
+            width: 40px;
+            height: 40px;
+            image-rendering: pixelated;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .illustration-area { display: none; }
+        }
+    </style>
 </head>
 <body>
-    
+
+    <nav>
+        <div class="logo">
+            <div class="logo-icon"></div>
+            <span>Sostenibilità 10</span>
+        </div>
+        <div class="life-bar-wrapper">
+            <span class="pixel-font life-label">PROGRESSO</span>
+            <div class="life-bar-container">
+                <div class="life-fill"></div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="level-badge pixel-font">LIVELLO 10: CIVIC COMPETENCE</div>
+        <h1>Futuro Sostenibile</h1>
+        <p class="hero-desc">Benvenuto nella missione per il pianeta. Esplora le strategie per una vita consapevole e guadagna punti competenza.</p>
+        
+        <div class="illustration-area">
+            <div class="turbine-pipe">
+                <div class="blades-container">
+                    <div class="blade"></div>
+                    <div class="blade"></div>
+                    <div class="blade"></div>
+                </div>
+                <div class="pipe-head"></div>
+                <div class="pipe-stem" style="height: 140px;"></div>
+            </div>
+            <div class="turbine-pipe">
+                <div class="blades-container" style="animation-duration: 2s;">
+                    <div class="blade"></div>
+                    <div class="blade"></div>
+                    <div class="blade"></div>
+                </div>
+                <div class="pipe-head"></div>
+                <div class="pipe-stem" style="height: 90px;"></div>
+            </div>
+            <div class="turbine-pipe">
+                <div class="blades-container" style="animation-duration: 4s;">
+                    <div class="blade"></div>
+                    <div class="blade"></div>
+                    <div class="blade"></div>
+                </div>
+                <div class="pipe-head"></div>
+                <div class="pipe-stem" style="height: 120px;"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="dashboard-grid">
+        
+        <!-- Economia Circolare -->
+        <div class="lucky-card card-green">
+            <div class="rivet r-tl"></div>
+            <div class="rivet r-tr"></div>
+            <div class="rivet r-bl"></div>
+            <div class="rivet r-br"></div>
+            <div class="question-mark pixel-font">?</div>
+            <div class="card-tag">Materiali</div>
+            <h2>Economia Circolare</h2>
+            <p>Passare dal modello estrai-produci-getta a un sistema rigenerativo. Ripara, riusa e ricicla per eliminare il concetto di rifiuto alla radice.</p>
+            <div class="card-footer">
+                <button class="btn-card">Esplora</button>
+            </div>
+        </div>
+
+        <!-- Energie Rinnovabili -->
+        <div class="lucky-card card-yellow">
+            <div class="rivet r-tl"></div>
+            <div class="rivet r-tr"></div>
+            <div class="rivet r-bl"></div>
+            <div class="rivet r-br"></div>
+            <div class="question-mark pixel-font">?</div>
+            <div class="card-tag">Energia</div>
+            <h2>Energie Rinnovabili</h2>
+            <p>Sole, vento e acqua sono le chiavi della nostra indipendenza. Scopri come le tecnologie pulite stanno sostituendo i combustibili fossili.</p>
+            <div class="card-footer">
+                <button class="btn-card">Attiva</button>
+            </div>
+        </div>
+
+        <!-- Equità Sociale -->
+        <div class="lucky-card card-blue">
+            <div class="rivet r-tl"></div>
+            <div class="rivet r-tr"></div>
+            <div class="rivet r-bl"></div>
+            <div class="rivet r-br"></div>
+            <div class="question-mark pixel-font">?</div>
+            <div class="card-tag">Persone</div>
+            <h2>Equità Sociale</h2>
+            <p>La sostenibilità non è solo ambiente. È giustizia, parità di genere e diritti per tutti. Nessuno deve essere lasciato indietro nella sfida globale.</p>
+            <div class="card-footer">
+                <button class="btn-card">Unisciti</button>
+            </div>
+        </div>
+
+    </main>
+
 </body>
 </html>
