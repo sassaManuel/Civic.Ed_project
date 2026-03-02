@@ -8,6 +8,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
+        a:visited, a:link{
+            text-decoration: none;
+            color: inherit;
+        }
         :root {
             --bg: #f1f5f9;
             --green: #10b981;
@@ -299,13 +303,11 @@
         .btn-card {
             background-color: var(--white);
             border: var(--border);
-            padding: 0.75rem 1.5rem;
+            padding: 0.75rem;
             font-weight: 800;
             text-transform: uppercase;
             box-shadow: 4px 4px 0px var(--black);
-            transition: 0.1s;
-        }
-
+            transition: 0.1s;        }
         .lucky-card:hover .btn-card {
             background-color: var(--black);
             color: var(--white);
@@ -389,11 +391,11 @@
             <div class="rivet r-bl"></div>
             <div class="rivet r-br"></div>
             <div class="question-mark pixel-font">?</div>
-            <div class="card-tag">Materiali</div>
-            <h2>Economia Circolare</h2>
+            <div class="card-tag">Gioco</div>
+            <h2>Livello Precedente</h2>
             <p>Hai lasciato delle sfide in sospeso nel modulo precedente. Torna indietro per completare il tuo percorso nel mondo di Super Mario e consolidare le tue basi.</p>
             <div class="card-footer">
-                <button class="btn-card">Torna a giocare</button>
+                <button class="btn-card"><a href="index.html">Torna a giocare</a></button>
             </div>
         </div>
 
@@ -424,7 +426,6 @@
             <p>La sostenibilità non è solo ambiente. È giustizia, parità di genere e diritti per tutti. Nessuno deve essere lasciato indietro nella sfida globale.</p>
             <div class="card-footer">
                 <button class="btn-card">Unisciti</button>
-                <img src="download.jpg" alt="">
             </div>
         </div>
 
