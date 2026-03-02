@@ -3,39 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Competenza Civica 10: Sostenibilità</title>
+    <title>Competenza Civica 10: Cittadinanza Digitale</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Font mix: Press Start 2P (micro) + Plus Jakarta Sans (bold readable) -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        a:visited, a:link{
-            text-decoration: none;
-            color: inherit;
-        }
-        :root {
-            --bg: #f1f5f9;
-            --green: #10b981;
-            --yellow: #facc15;
-            --blue: #38bdf8;
-            --black: #000000;
-            --white: #ffffff;
-            --border-width: 3px;
-            --border: var(--border-width) solid var(--black);
-            --shadow: 6px 6px 0px var(--black);
-            --shadow-hover: 10px 10px 0px var(--black);
-        }
-
+        /* ---------- RESET & VARIABLES ---------- */
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
-        body { 
-            background-color: var(--bg);
-            /* Blueprint grid pattern */
+        :root {
+            /* Mario core palette (identica all'originale) */
+            --mario-yellow: #facc15;
+            --mario-green: #10b981;
+            --mario-blue: #38bdf8;
+            --black: #000000;
+            --white: #ffffff;
+            --bg-grid: #f1f5f9;
+
+            /* neo‑brutalist shadows — multiple layers */
+            --shadow-solid: 4px 4px 0px 0px var(--black);
+            --shadow-heavy: 8px 8px 0px 0px var(--black);
+            --shadow-3d: 0 12px 0 0 rgba(0,0,0,0.9), 0 18px 16px -6px rgba(0,0,0,0.4);
+
+            /* glassmorphism */
+            --glass-bg: rgba(255, 255, 255, 0.8);
+            --glass-border: 3px solid var(--black);
+            --glass-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
+
+            /* border */
+            --border-pixel: 3px solid var(--black);
+
+            /* transitions */
+            --bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --elastic: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        body {
+            background-color: var(--bg-grid);
             background-image: 
-                linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px), 
+                linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
             background-size: 30px 30px;
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -48,19 +59,23 @@
             font-family: 'Press Start 2P', cursive;
             font-size: 0.7rem;
             line-height: 1;
+            letter-spacing: 0.02em;
         }
 
-        /* Navigation */
+        /* ---------- NAV (sticky glass) ---------- */
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1.5rem 2rem;
-            background-color: var(--white);
-            border-bottom: var(--border);
+            background: var(--glass-bg);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-bottom: var(--border-pixel);
             position: sticky;
             top: 0;
             z-index: 100;
+            box-shadow: var(--shadow-heavy);
         }
 
         .logo {
@@ -71,47 +86,53 @@
             gap: 12px;
             text-transform: uppercase;
         }
-
         .logo-icon {
             width: 32px;
             height: 32px;
-            background-color: var(--green);
-            border: var(--border);
+            background: var(--mario-green);
+            border: var(--border-pixel);
             border-radius: 4px;
-            position: relative;
+            box-shadow: 3px 3px 0px var(--black);
         }
 
+        /* progress bar — arcade moving gradient */
         .life-bar-wrapper {
             display: flex;
             align-items: center;
             gap: 15px;
         }
-
         .life-label {
             font-weight: 800;
             font-size: 0.9rem;
         }
-
         .life-bar-container {
             width: 200px;
             height: 24px;
-            background-color: var(--white);
-            border: var(--border);
+            background: var(--white);
+            border: var(--border-pixel);
             border-radius: 4px;
             padding: 3px;
             box-shadow: 4px 4px 0px var(--black);
             overflow: hidden;
+            position: relative;
         }
-
         .life-fill {
             width: 70%;
             height: 100%;
-            background-color: var(--green);
-            border-right: var(--border);
-            transition: width 0.5s ease;
+            background: linear-gradient(90deg, 
+                var(--mario-green) 0%, 
+                #4ade80 40%, 
+                var(--mario-green) 80%);
+            background-size: 200% 100%;
+            border-right: var(--border-pixel);
+            animation: scanLoad 2.5s linear infinite;
+        }
+        @keyframes scanLoad {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
 
-        /* Hero Section */
+        /* ---------- HERO ---------- */
         .hero {
             padding: 4rem 2rem;
             max-width: 1200px;
@@ -121,32 +142,36 @@
             align-items: center;
             text-align: center;
         }
-
         .level-badge {
-            background-color: var(--black);
+            background: var(--black);
             color: var(--white);
             padding: 0.5rem 1rem;
-            border-radius: 0;
             margin-bottom: 1.5rem;
             display: inline-block;
             transform: rotate(-1deg);
+            box-shadow: 5px 5px 0px var(--mario-yellow);
         }
-
         h1 {
             font-size: 4rem;
             font-weight: 800;
             margin-bottom: 1rem;
             line-height: 1;
+            text-shadow: 5px 5px 0px var(--black);
+            color: var(--mario-yellow);
+            -webkit-text-stroke: 2px var(--black);
         }
-
         .hero-desc {
             font-size: 1.25rem;
             font-weight: 600;
             max-width: 700px;
             margin-bottom: 3rem;
+            background: var(--white);
+            padding: 1rem 2rem;
+            border: var(--border-pixel);
+            box-shadow: var(--shadow-heavy);
         }
 
-        /* Pipe Turbines Illustration */
+        /* pipe turbines (identiche ma con ombre) */
         .illustration-area {
             display: flex;
             align-items: flex-end;
@@ -154,62 +179,29 @@
             height: 240px;
             margin-top: 2rem;
         }
-
         .turbine-pipe {
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative;
         }
-
         .pipe-head {
             width: 100px;
             height: 30px;
-            background-color: var(--green);
-            border: var(--border);
+            background: var(--mario-green);
+            border: var(--border-pixel);
             border-radius: 4px;
-            z-index: 2;
+            box-shadow: 4px 4px 0px var(--black);
         }
-
         .pipe-stem {
             width: 80px;
             height: 100px;
-            background-color: var(--green);
-            border-left: var(--border);
-            border-right: var(--border);
-            z-index: 1;
+            background: var(--mario-green);
+            border-left: var(--border-pixel);
+            border-right: var(--border-pixel);
+            box-shadow: 4px 4px 0px var(--black);
         }
 
-        .blades-container {
-            position: absolute;
-            top: -60px;
-            width: 120px;
-            height: 120px;
-            animation: spin 3s linear infinite;
-        }
-
-        .blade {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 60px;
-            height: 10px;
-            background-color: var(--white);
-            border: 2px solid var(--black);
-            transform-origin: 0 50%;
-            border-radius: 20px;
-        }
-
-        .blade:nth-child(1) { transform: rotate(0deg); }
-        .blade:nth-child(2) { transform: rotate(120deg); }
-        .blade:nth-child(3) { transform: rotate(240deg); }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        /* Cards Section */
+        /* ---------- CARD GRID ---------- */
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -219,30 +211,47 @@
             margin: 0 auto;
         }
 
-        /* Lucky Block Style Cards */
+        /* 3D LUCKY BLOCKS with floating + bounce hover (testi originali) */
         .lucky-card {
-            background-color: var(--yellow);
-            border: var(--border);
+            background: var(--mario-yellow);
+            border: var(--border-pixel);
             padding: 2.5rem;
             position: relative;
-            box-shadow: var(--shadow);
-            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: var(--shadow-3d);
+            transition: all 0.2s var(--bounce);
             display: flex;
             flex-direction: column;
             min-height: 400px;
-            cursor: pointer;
+            animation: float 4s ease-in-out infinite;
+            transform-origin: center;
+        }
+
+        .lucky-card:nth-child(1) { animation-delay: 0s; }
+        .lucky-card:nth-child(2) { animation-delay: 0.6s; }
+        .lucky-card:nth-child(3) { animation-delay: 1.2s; }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-6px) rotate(0.2deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
         }
 
         .lucky-card:hover {
-            transform: translate(-4px, -4px);
-            box-shadow: var(--shadow-hover);
+            animation: bouncePop 0.3s var(--bounce) forwards;
+            box-shadow: 0 16px 0 0 var(--black), 0 24px 20px -8px black;
+        }
+
+        @keyframes bouncePop {
+            0% { transform: scale(1) translateY(0); }
+            40% { transform: scale(1.02) translateY(-8px); }
+            100% { transform: scale(1.01) translateY(-4px); }
         }
 
         .rivet {
             position: absolute;
             width: 12px;
             height: 12px;
-            background-color: var(--black);
+            background: var(--black);
             opacity: 0.2;
             border-radius: 2px;
         }
@@ -259,10 +268,11 @@
             top: 10px;
             right: 20px;
             user-select: none;
+            font-family: 'Press Start 2P', cursive;
         }
 
         .card-tag {
-            background-color: var(--white);
+            background: var(--white);
             border: 2px solid var(--black);
             padding: 4px 10px;
             font-weight: 800;
@@ -272,6 +282,7 @@
             margin-bottom: 1.5rem;
             width: fit-content;
             box-shadow: 2px 2px 0px var(--black);
+            font-family: 'Press Start 2P', cursive;
         }
 
         .lucky-card h2 {
@@ -290,6 +301,9 @@
             background: rgba(255,255,255,0.3);
             padding: 1rem;
             border-radius: 4px;
+            border: 2px solid var(--black);
+            box-shadow: 3px 3px 0px var(--black);
+            backdrop-filter: blur(2px);
         }
 
         .card-footer {
@@ -301,33 +315,224 @@
         }
 
         .btn-card {
-            background-color: var(--white);
-            border: var(--border);
-            padding: 0.75rem;
+            background: var(--white);
+            border: var(--border-pixel);
+            padding: 0.75rem 1.5rem;
             font-weight: 800;
             text-transform: uppercase;
             box-shadow: 4px 4px 0px var(--black);
-            transition: 0.1s;        }
-        .lucky-card:hover .btn-card {
-            background-color: var(--black);
+            transition: 0.1s var(--bounce);
+            cursor: pointer;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-card:hover {
+            background: var(--black);
             color: var(--white);
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px var(--black);
+        }
+        .btn-card a {
+            text-decoration: none;
+            color: inherit;
+        }
+        /* micro‑interazione: pixel dust */
+        .btn-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.8) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+        .btn-card:active::after {
+            opacity: 0.5;
+            animation: pixelPop 0.15s;
+        }
+        @keyframes pixelPop {
+            0% { transform: scale(0.5); opacity: 0.8; }
+            100% { transform: scale(2); opacity: 0; }
         }
 
-        /* Color Variations */
-        .card-green { background-color: var(--green); }
-        .card-blue { background-color: var(--blue); }
-        .card-yellow { background-color: var(--yellow); }
+        .card-green { background: var(--mario-green); }
+        .card-blue { background: var(--mario-blue); }
+        .card-yellow { background: var(--mario-yellow); }
 
-        /* Pixel icons */
-        .icon-pixel {
-            width: 40px;
-            height: 40px;
-            image-rendering: pixelated;
+        /* ---------- MODALE PROFESSIONALE DUE COLONNE (GLASS + ELASTIC) ---------- */
+        .approfondimento-modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px) brightness(0.9);
+            -webkit-backdrop-filter: blur(10px) brightness(0.9);
+            padding: 20px;
+            z-index: 200;
+            transition: backdrop-filter 0.2s;
+        }
+        .approfondimento-modal[data-open="true"] {
+            display: flex;
         }
 
-        @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .illustration-area { display: none; }
+        .approfondimento-box {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: var(--border-pixel);
+            max-width: 1000px;
+            width: 100%;
+            padding: 2.5rem;
+            box-shadow: var(--glass-shadow), 10px 10px 0px var(--black);
+            max-height: 85vh;
+            overflow: auto;
+            position: relative;
+            animation: elasticScale 0.4s var(--elastic) forwards;
+            transform-origin: center;
+            display: grid;
+            grid-template-columns: 1fr 1.8fr;
+            gap: 2rem;
+            color: var(--black);
+        }
+
+        @keyframes elasticScale {
+            0% { opacity: 0; transform: scale(0.3); }
+            40% { opacity: 1; transform: scale(1.08); }
+            70% { transform: scale(0.98); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* colonna sinistra decorativa / icon */
+        .modal-left {
+            border-right: 3px dashed var(--black);
+            padding-right: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+        .pixel-icon-large {
+            font-size: 5rem;
+            font-family: 'Press Start 2P', cursive;
+            background: var(--mario-yellow);
+            border: var(--border-pixel);
+            box-shadow: 12px 12px 0px var(--black);
+            padding: 1.5rem;
+            text-align: center;
+            transform: rotate(-2deg);
+        }
+        .modal-left h4 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            background: var(--white);
+            border: 3px solid black;
+            padding: 0.8rem;
+            box-shadow: 5px 5px 0px black;
+            text-align: center;
+        }
+
+        .modal-right {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .modal-right h3 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            line-height: 1.1;
+            text-transform: uppercase;
+            background: var(--black);
+            color: white;
+            padding: 0.5rem 1rem;
+            box-shadow: 8px 8px 0px var(--mario-yellow);
+            word-break: break-word;
+        }
+        .modal-body-text {
+            font-size: 1.1rem;
+            background: rgba(255,255,255,0.5);
+            padding: 1.5rem;
+            border: 2px solid black;
+            box-shadow: 5px 5px 0px black;
+        }
+        .modal-body-text h4 {
+            font-size: 1.4rem;
+            margin: 1rem 0 0.5rem;
+            font-weight: 800;
+            border-left: 6px solid black;
+            padding-left: 0.8rem;
+        }
+        .modal-body-text ul {
+            list-style: none;
+            margin-top: 0.8rem;
+        }
+        .modal-body-text li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.8rem;
+            position: relative;
+            font-weight: 600;
+        }
+        .modal-body-text li::before {
+            content: "►";
+            position: absolute;
+            left: 0;
+            color: var(--black);
+            font-size: 1rem;
+        }
+        .modal-body-text p {
+            margin-bottom: 0.8rem;
+        }
+
+        .approfondimento-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: var(--white);
+            border: 3px solid black;
+            font-size: 2.2rem;
+            cursor: pointer;
+            width: 54px;
+            height: 54px;
+            box-shadow: 5px 5px 0px black;
+            transition: 0.1s;
+            font-weight: 800;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        .approfondimento-close:hover {
+            background: black;
+            color: white;
+            transform: translate(-3px, -3px);
+            box-shadow: 8px 8px 0px black;
+        }
+
+        /* responsive */
+        @media (max-width: 720px) {
+            .approfondimento-box {
+                grid-template-columns: 1fr;
+                padding: 1.5rem;
+            }
+            .modal-left {
+                border-right: none;
+                border-bottom: 3px dashed black;
+                padding-right: 0;
+                padding-bottom: 1.5rem;
+            }
+            h1 { font-size: 3rem; }
+        }
+
+        @media (max-width: 480px) {
+            .illustration-area { gap: 20px; }
+            .pipe-head { width: 70px; }
+            .pipe-stem { width: 55px; }
+            .life-bar-container { width: 140px; }
+            nav { flex-wrap: wrap; gap: 1rem; }
         }
     </style>
 </head>
@@ -347,35 +552,20 @@
     </nav>
 
     <header class="hero">
-        <div class="level-badge pixel-font">LIVELLO 10: COMPETENZA EDUCAZIONE CIVICA</div>
+        <div class="level-badge pixel-font">LIVELLO 10: CITTADINANZA DIGITALE</div>
         <h1>Navigazione Consapevole</h1>
         <p class="hero-desc">Benvenuto nella tua missione digitale. Impara a padroneggiare le regole della rete per diventare un cittadino del futuro critico, sicuro e responsabile.</p>
         
         <div class="illustration-area">
             <div class="turbine-pipe">
-                <div class="blades-container">
-                    <div class="blade"></div>
-                    <div class="blade"></div>
-                    <div class="blade"></div>
-                </div>
                 <div class="pipe-head"></div>
                 <div class="pipe-stem" style="height: 140px;"></div>
             </div>
             <div class="turbine-pipe">
-                <div class="blades-container" style="animation-duration: 2s;">
-                    <div class="blade"></div>
-                    <div class="blade"></div>
-                    <div class="blade"></div>
-                </div>
                 <div class="pipe-head"></div>
                 <div class="pipe-stem" style="height: 90px;"></div>
             </div>
             <div class="turbine-pipe">
-                <div class="blades-container" style="animation-duration: 4s;">
-                    <div class="blade"></div>
-                    <div class="blade"></div>
-                    <div class="blade"></div>
-                </div>
                 <div class="pipe-head"></div>
                 <div class="pipe-stem" style="height: 120px;"></div>
             </div>
@@ -384,7 +574,7 @@
 
     <main class="dashboard-grid">
         
-        <!-- Economia Circolare -->
+        <!-- Card 1: testi originali -->
         <div class="lucky-card card-green">
             <div class="rivet r-tl"></div>
             <div class="rivet r-tr"></div>
@@ -399,37 +589,124 @@
             </div>
         </div>
 
-        <!-- Energie Rinnovabili -->
+        <!-- Card 2: testi originali -->
         <div class="lucky-card card-yellow">
             <div class="rivet r-tl"></div>
             <div class="rivet r-tr"></div>
             <div class="rivet r-bl"></div>
             <div class="rivet r-br"></div>
             <div class="question-mark pixel-font">?</div>
-            <div class="card-tag">Energia</div>
-            <h2>Energie Rinnovabili</h2>
-            <p>Sole, vento e acqua sono le chiavi della nostra indipendenza. Scopri come le tecnologie pulite stanno sostituendo i combustibili fossili.</p>
+            <div class="card-tag">Netiquette</div>
+            <h2>Diritti e Doveri</h2>
+            <p>Navigare non significa solo cliccare. Scopri le regole della Netiquette, l'importanza del Copyright e come proteggere la tua Privacy nel web.</p>
             <div class="card-footer">
-                <button class="btn-card">Attiva</button>
+                <button class="btn-card open-approfondimento" data-topic="rights">Scopri</button>
             </div>
         </div>
 
-        <!-- Equità Sociale -->
+        <!-- Card 3: testi originali -->
         <div class="lucky-card card-blue">
             <div class="rivet r-tl"></div>
             <div class="rivet r-tr"></div>
             <div class="rivet r-bl"></div>
             <div class="rivet r-br"></div>
             <div class="question-mark pixel-font">?</div>
-            <div class="card-tag">Persone</div>
-            <h2>Equità Sociale</h2>
-            <p>La sostenibilità non è solo ambiente. È giustizia, parità di genere e diritti per tutti. Nessuno deve essere lasciato indietro nella sfida globale.</p>
+            <div class="card-tag">Identità</div>
+            <h2>E-Reputation</h2>
+            <p>La tua impronta digitale parla di te. Analizza casi reali di cyberbullismo, l'uso dei deepfake e come gli influencer gestiscono la loro immagine.</p>
             <div class="card-footer">
-                <button class="btn-card">Unisciti</button>
+                <button class="btn-card open-approfondimento" data-topic="identity">Scopri</button>
             </div>
         </div>
 
     </main>
 
+    <!-- MODALE PROFESSIONALE DUE COLONNE (GLASS + ELASTIC) con testi originali -->
+    <div id="approfondimento-modal" class="approfondimento-modal" aria-hidden="true" data-open="false">
+        <div class="approfondimento-box">
+            <button class="approfondimento-close" aria-label="Chiudi">×</button>
+            <!-- colonna sinistra grafica dinamica -->
+            <div class="modal-left">
+                <div class="pixel-icon-large" id="modal-icon">?</div>
+                <h4 id="modal-sub">approfondimento</h4>
+            </div>
+            <!-- colonna destra con testi originali -->
+            <div class="modal-right">
+                <h3 id="approfondimento-title"></h3>
+                <div class="modal-body-text" id="approfondimento-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Testi originali completi, identici alla prima versione
+        const approfondimenti = {
+            rights: {
+                title: "Diritti e Doveri Online: le regole della cittadinanza",
+                body: `
+                    <p>Essere cittadini digitali significa conoscere i limiti e le libertà del mondo virtuale. Non tutto ciò che è tecnicamente possibile è eticamente o legalmente corretto.</p>
+                    <h4>Punti chiave</h4>
+                    <ul>
+                        <li><strong>Privacy:</strong> Gestione dei propri dati personali e consenso informato.</li>
+                        <li><strong>Copyright:</strong> Rispetto della proprietà intellettuale (immagini, musica, testi).</li>
+                        <li><strong>Netiquette:</strong> Il galateo della rete per comunicare in modo civile.</li>
+                    </ul>
+                    <h4>Attività suggerite</h4>
+                    <ul>
+                        <li>Analizza i "Termini e Condizioni" di un social network comune.</li>
+                        <li>Crea un decalogo della Netiquette per il tuo gruppo classe.</li>
+                    </ul>
+                `,
+                icon: "⚖️"
+            },
+            identity: {
+                title: "Identità digitale e analisi dei rischi",
+                body: `
+                    <p>L'identità digitale è l'insieme di informazioni che ti rappresentano online. Proteggerla è fondamentale per evitare rischi come il furto d'identità o danni alla reputazione.</p>
+                    <h4>Casi Reali</h4>
+                    <ul>
+                        <li><strong>Influencer:</strong> Come la reputazione si trasforma in valore economico.</li>
+                        <li><strong>Cyberbullismo:</strong> Riconoscere i segnali e intervenire correttamente.</li>
+                        <li><strong>Deepfake:</strong> Come l'IA può manipolare la realtà e come difendersi dalle fake news.</li>
+                    </ul>
+                    <h4>Attività suggerite</h4>
+                    <ul>
+                        <li>"Ego-Surfing": prova a cercare te stesso online e analizza cosa vede il mondo.</li>
+                        <li>Workshop: impara a distinguere un video reale da un deepfake.</li>
+                    </ul>
+                `,
+                icon: "👾"
+            }
+        };
+
+        function openModal(key) {
+            const modal = document.getElementById('approfondimento-modal');
+            const data = approfondimenti[key];
+            if (!data) return;
+            document.getElementById('approfondimento-title').innerText = data.title;
+            document.getElementById('approfondimento-body').innerHTML = data.body;
+            document.getElementById('modal-icon').innerText = data.icon || '?';
+            document.getElementById('modal-sub').innerText = key === 'rights' ? 'netiquette' : 'reputation';
+            modal.setAttribute('data-open', 'true');
+            modal.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('approfondimento-modal');
+            modal.setAttribute('data-open', 'false');
+            modal.setAttribute('aria-hidden', 'true');
+        }
+
+        document.querySelectorAll('.open-approfondimento').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const key = btn.dataset.topic;
+                openModal(key);
+            });
+        });
+
+        document.querySelectorAll('.approfondimento-close').forEach(b => b.addEventListener('click', closeModal));
+
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+    </script>
 </body>
 </html>
