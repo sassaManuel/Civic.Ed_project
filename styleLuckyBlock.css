@@ -1,10 +1,6 @@
  :root {
-            --matrix-green: #00ff41;
-            --matrix-dark: #003b00;
             --lucky-gold: #ffd700;
             --lucky-glow: #ffb347;
-            --neon-blue: #00f3ff;
-            --neon-blue-dark: #0066ff;
             --bg-deep: #0a0f0f;
             --bg-matrix: #0f1f1f;
             --border-glow: 0 0 15px currentColor;
@@ -91,7 +87,7 @@
             padding: 40px 30px;
             position: relative;
             line-height: 1.5;
-            text-shadow: 0 0 5px var(--matrix-green);
+            text-shadow: 0 0 5px var(--lucky-gold);
         }
 
         .container {
@@ -194,24 +190,24 @@
         .lucky-card:hover {
             transform: translate(-5px, -5px) scale(1.02);
             box-shadow: 0 0 40px var(--lucky-gold), 20px 20px 0 rgba(255, 215, 0, 0.7);
-            border-color: var(--matrix-green);
+            border-color: var(--lucky-glow);
         }
 
         /* MATRIX ACCENTS */
-        .matrix-green-accent {
+        /* .matrix-green-accent {
             border-left: 10px solid var(--matrix-green);
-            background: linear-gradient(90deg, rgba(0, 255, 65, 0.1), transparent);
+            background: linear-gradient(90deg, rgba(255, 215, 0, 0.7), transparent);
         }
 
         .matrix-blue-accent {
             border-left: 10px solid var(--neon-blue);
-            background: linear-gradient(90deg, rgba(0, 243, 255, 0.1), transparent);
-        }
+            background: linear-gradient(90deg, rgba(255, 215, 0, 0.7), transparent);
+        } */
 
-        .gold-accent {
+        /* .gold-accent {
             border-top: 10px solid var(--lucky-gold);
             background: linear-gradient(180deg, rgba(255, 215, 0, 0.1), transparent);
-        }
+        } */
 
         .full-width {
             grid-column: 1 / -1;
@@ -229,7 +225,7 @@
             font-size: 1rem;
             border: 3px solid #000;
             border-radius: 15px;
-            box-shadow: 5px 5px 0 var(--matrix-green), 0 0 20px var(--lucky-gold);
+            box-shadow: 5px 5px 0 var(--lucky-gold), 0 0 20px var(--lucky-gold);
             font-family: 'Press Start 2P', cursive;
             font-size: 0.7rem;
             z-index: 20;
@@ -268,14 +264,14 @@
         }
 
         .threat-cell {
-            background: rgba(0, 255, 65, 0.1);
-            border: 3px solid var(--matrix-green);
+            background: #000000;
+            border: 3px solid var(--lucky-gold);
             border-radius: 15px;
             padding: 25px 15px;
             text-align: center;
             transition: all 0.3s;
             backdrop-filter: blur(5px);
-            box-shadow: 0 0 15px var(--matrix-green);
+            box-shadow: 0 0 15px var(--lucky-gold);
             position: relative;
             overflow: hidden;
         }
@@ -286,14 +282,14 @@
             bottom: -10px;
             right: -10px;
             font-size: 1.5rem;
-            color: rgba(0, 255, 65, 0.2);
+            color: #000000;
             font-family: monospace;
             transform: rotate(-10deg);
         }
 
         .threat-cell:hover {
             transform: scale(1.05);
-            background: rgba(0, 255, 65, 0.2);
+            background: black;
             border-color: var(--lucky-gold);
             box-shadow: 0 0 30px var(--lucky-gold);
         }
@@ -302,15 +298,15 @@
             font-size: 2.8rem;
             display: block;
             margin-bottom: 12px;
-            filter: drop-shadow(0 0 5px var(--matrix-green));
+            filter: drop-shadow(0 0 5px var(--lucky-glow));
         }
 
         .threat-cell strong {
             font-size: 1.3rem;
-            color: var(--matrix-green);
+            color: var(--lucky-gold);
             display: block;
             margin-bottom: 8px;
-            text-shadow: 0 0 8px var(--matrix-green);
+            text-shadow: 0 0 8px var(--lucky-glow);
         }
 
         /* LAB GRID LUCKY BLOCK */

@@ -8,7 +8,9 @@
 </head>
 <body>
 
-    <div id="mario"></div>
+    <div id="mario">
+        <img src="sassamanuel.png" alt="" width="64px" height="92px">
+    </div>
 <div class="sun"></div>
     <div class="lucky-block" id="luckyBlock">?</div>
     <div class="goomba" id="goomba"></div>
@@ -82,10 +84,10 @@
                 nextY = 0; velY = 0; onGround = true;
             }
 
-            let marioRect = { x: nextX, y: groundHeight + nextY, w: 40, h: 60 };
+            let marioRect = { x: nextX, y: groundHeight + nextY, w: 40, h: 100 };
 
             // 1. LUCKY BLOCK
-            const luckyRect = { x: luckyBlock.offsetLeft, y: 350, w: 50, h: 50 };
+            const luckyRect = { x: luckyBlock.offsetLeft-15, y: 350, w: 50, h: 50 };
             if (collide(marioRect, luckyRect)) {
                 if (velY > 0 && (marioRect.y + 45) < luckyRect.y) {
                     goToPage('lucky.html');
@@ -113,7 +115,7 @@
             ];
 
             pipes.forEach(p => {
-                const pRect = { x: p.el.offsetLeft, y: groundHeight, w: 80, h: 120 };
+                const pRect = { x: p.el.offsetLeft-15, y: groundHeight, w: 80, h: 118 };
                 if (collide(marioRect, pRect)) {
                     const pTop = pRect.y + pRect.h;
                     if (velY <= 0 && marioRect.y >= pTop - 20) {
