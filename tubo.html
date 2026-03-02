@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Competenza Civica 10: Cittadinanza Digitale</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Font mix: Press Start 2P (micro) + Plus Jakarta Sans (bold readable) -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         /* ---------- RESET & VARIABLES ---------- */
@@ -639,9 +636,8 @@
     </div>
 
     <script>
-        // Testi originali completi, identici alla prima versione
-        const approfondimenti = {
-            rights: {
+        const approfondimenti ={
+            rights:{
                 title: "Diritti e Doveri Online: le regole della cittadinanza",
                 body: `
                     <p>Essere cittadini digitali significa conoscere i limiti e le libertà del mondo virtuale. Non tutto ciò che è tecnicamente possibile è eticamente o legalmente corretto.</p>
@@ -653,13 +649,13 @@
                     </ul>
                     <h4>Attività suggerite</h4>
                     <ul>
-                        <li>Analizza i "Termini e Condizioni" di un social network comune.</li>
-                        <li>Crea un decalogo della Netiquette per il tuo gruppo classe.</li>
+                        <li>Analizza i "<strong>Termini e Condizioni</strong>" di un social network comune.</li>
+                        <li>Crea un decalogo della <strong>Netiquette</strong> per il tuo gruppo classe.</li>
                     </ul>
                 `,
-                icon: "⚖️"
-            },
-            identity: {
+              
+},
+            identity:{
                 title: "Identità digitale e analisi dei rischi",
                 body: `
                     <p>L'identità digitale è l'insieme di informazioni che ti rappresentano online. Proteggerla è fondamentale per evitare rischi come il furto d'identità o danni alla reputazione.</p>
@@ -671,13 +667,12 @@
                     </ul>
                     <h4>Attività suggerite</h4>
                     <ul>
-                        <li>"Ego-Surfing": prova a cercare te stesso online e analizza cosa vede il mondo.</li>
-                        <li>Workshop: impara a distinguere un video reale da un deepfake.</li>
+                        <li>"<strong>Ego-Surfing</strong>": Prova a cercare te stesso online e analizza cosa vede il mondo.</li>
+                        <li><strong>Workshop</strong>: impara a distinguere un video reale da un deepfake.</li>
                     </ul>
-                `,
-                icon: "👾"
-            }
-        };
+                `
+}
+};
 
         function openModal(key) {
             const modal = document.getElementById('approfondimento-modal');
@@ -686,7 +681,7 @@
             document.getElementById('approfondimento-title').innerText = data.title;
             document.getElementById('approfondimento-body').innerHTML = data.body;
             document.getElementById('modal-icon').innerText = data.icon || '?';
-            document.getElementById('modal-sub').innerText = key === 'rights' ? 'netiquette' : 'reputation';
+            document.getElementById('modal-sub').innerText = key === 'rights' ? 'netiquette' : 'reputazione';
             modal.setAttribute('data-open', 'true');
             modal.setAttribute('aria-hidden', 'false');
         }
@@ -703,10 +698,7 @@
                 openModal(key);
             });
         });
-
         document.querySelectorAll('.approfondimento-close').forEach(b => b.addEventListener('click', closeModal));
-
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
     </script>
 </body>
 </html>
