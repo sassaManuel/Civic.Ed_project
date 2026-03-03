@@ -5,56 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LUCKY BLOCK █ MATRIX CYBER</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Press+Start+2P&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styleLuckyBlock.css">
+    <link rel="stylesheet" href="styleLuckyBlock.css">
 </head>
 <body>
-    <div class="lucky-grid"></div>
+    <!-- Elementi decorativi fluttuanti -->
     <div class="floating-coin">🪙</div>
     <div class="floating-coin">⭐</div>
     <div class="floating-coin">?</div>
 
     <div class="container">
-        <!-- HEADER LUCKY BLOCK × MATRIX -->
+        <!-- HEADER -->
         <header class="lucky-header">
-            <h1>⚡ LUCKY BLOCK<br><span style="font-size: 0.9rem; color: var(--matrix-yellow);">MATRIX CYBER 2026</span></h1>
+            <h1>⚡ LUCKY BLOCK<br><span>MATRIX CYBER 2026</span></h1>
             <div class="matrix-badge">
                 <span>MATRIX</span>
-                <span style="color: var(--lucky-gold);">⚡</span>
+                <span class="bolt">⚡</span>
                 <span>LUCKY</span>
             </div>
         </header>
 
         <!-- GRIGLIA LUCKY BLOCKS -->
         <div class="blocks-grid">
-            <!-- MODULO 1: COMUNICAZIONE (MATRIX GREEN) -->
-            <div class="lucky-card matrix-yellow-accent">
+            <!-- MODULO 1: COMUNICAZIONE -->
+            <div class="lucky-card">
+                <div class="rivet r-tl"></div>
+                <div class="rivet r-tr"></div>
+                <div class="rivet r-bl"></div>
+                <div class="rivet r-br"></div>
+                <div class="question-mark">?</div>
+                
                 <div class="block-tag">MODULO 1</div>
                 <h2><span class="matrix-icon">📡</span> COMUNICAZIONE</h2>
-                <p style="font-size: 1.1rem; margin-bottom: 25px; background: rgba(255, 215, 0, 0.7); padding: 18px; border-radius: 15px; border-left: 5px solid var(--matrix-green);">
+                
+                <p class="highlight-text">
                     Individuare forme di comunicazione adeguate, rispettando le regole comportamentali (Netiquette) proprie di ciascun contesto.
                 </p>
                 
-                <h3 style="color: var(--lucky-gold);">🔄 CONTEXT-SWITCHING</h3>
-                <ul style="list-style: none; padding: 0;">
-                    <li style="padding: 12px 0; border-bottom: 2px solid rgba(255, 215, 0, 0.7); display: flex; gap: 10px;">
-                        <span style="color: var(--lucky-gold);">⏺</span> Email per contesti formali
-                    </li>
-                    <li style="padding: 12px 0; border-bottom: 2px solid rgba(255, 215, 0, 0.7); display: flex; gap: 10px;">
-                        <span style="color: var(--lucky-gold);">⏺</span> Chat per coordinamento rapido
-                    </li>
-                    <li style="padding: 12px 0; border-bottom: 2px solid rgba(255, 215, 0, 0.7); display: flex; gap: 10px;">
-                        <span style="color: var(--lucky-gold);">⏺</span> Videochiamate per riunioni
-                    </li>
+                <h3 class="section-title">🔄 CONTEXT-SWITCHING</h3>
+                <ul class="mario-list">
+                    <li><span>⏺</span> Email per contesti formali</li>
+                    <li><span>⏺</span> Chat per coordinamento rapido</li>
+                    <li><span>⏺</span> Videochiamate per riunioni</li>
                 </ul>
             </div>
 
-            <!-- MODULO 2: SICUREZZA (MIX BLUE/GREEN) -->
-            <div class="lucky-card matrix-blue-accent">
+            <!-- MODULO 2: SICUREZZA -->
+            <div class="lucky-card">
+                <div class="rivet r-tl"></div>
+                <div class="rivet r-tr"></div>
+                <div class="rivet r-bl"></div>
+                <div class="rivet r-br"></div>
+                <div class="question-mark">?</div>
+                
                 <div class="block-tag">MODULO 2</div>
                 <h2><span class="matrix-icon">🛡️</span> SICUREZZA</h2>
-                <p style="margin-bottom: 20px;">Protezione dei dati personali e riconoscimento minacce</p>
+                
+                <p class="highlight-text">Protezione dei dati personali e riconoscimento minacce</p>
 
-                <!-- MINACCE IN STILE MATRIX -->
+                <!-- MINACCE -->
                 <div class="threat-matrix">
                     <div class="threat-cell">
                         <span class="matrix-emoji">🎣</span>
@@ -73,101 +81,81 @@
                     </div>
                 </div>
 
-                <h3 style="color: var(--neon-blue); margin: 25px 0 15px;">🔐 SICUREZZA SOCIAL</h3>
+                <h3 class="section-title blue">🔐 SICUREZZA SOCIAL</h3>
+                
                 <div class="power-double">
                     <div class="power-item green-neon">
                         <span class="power-icon">🔑</span>
                         <strong>PASSWORD</strong>
-                        <p style="font-size: 0.9rem;">Min 12 caratteri, misti</p>
+                        <p>Min 12 caratteri, misti</p>
                     </div>
                     <div class="power-item blue-neon">
                         <span class="power-icon">🌐</span>
                         <strong>VPN</strong>
-                        <p style="font-size: 0.9rem;">Crittografia IP</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MODULO 3: LABORATORIO (FULL WIDTH - LUCKY BLOCK GOLD) -->
-            <div class="lucky-card gold-accent full-width">
-                <div class="block-tag">MODULO 3 ⭐</div>
-                <h2><span class="matrix-icon">⚡</span> LABORATORIO PRATICO <span class="timer-block">2h • II Quadrimestre</span></h2>
-                
-                <div class="lab-lucky">
-                    <div class="lab-powerup">
-                        <span class="powerup-icon">🎮</span>
-                        <h4>SIMULAZIONE ATTACCHI</h4>
-                        <p>Scenari guidati phishing</p>
-                        <div class="timer-block">LUCKY!</div>
-                    </div>
-                    <div class="lab-powerup">
-                        <span class="powerup-icon">🔐</span>
-                        <h4>PASSWORD FORTI</h4>
-                        <p>Generator + MFA</p>
-                        <div class="timer-block">POWER UP</div>
-                    </div>
-                    <div class="lab-powerup">
-                        <span class="powerup-icon">🕵️</span>
-                        <h4>EMAIL SOSPETTE</h4>
-                        <p>Riconoscimento pratico</p>
-                        <div class="timer-block">1UP</div>
-                    </div>
-                </div>
-
-                <div style="background: rgba(0,0,0,0.5); padding: 30px; border-radius: 18px; border: 3px solid var(--lucky-gold); margin-top: 20px;">
-                    <p style="font-size: 1.3rem; font-weight: 700; color: var(--lucky-gold);">✨ SIMULAZIONE ATTACCHI INFORMATICI ✨</p>
-                    <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
-                        <span style="background: var(--matrix-green); color: #000; padding: 10px 25px; border-radius: 30px; font-weight: 800;">CREARE PASSWORD SICURE</span>
-                        <span style="background: var(--neon-blue); color: #000; padding: 10px 25px; border-radius: 30px; font-weight: 800;">USARE VPN</span>
-                        <span style="background: var(--lucky-gold); color: #000; padding: 10px 25px; border-radius: 30px; font-weight: 800;">RICONOSCERE EMAIL</span>
+                        <p>Crittografia IP</p>
                     </div>
                 </div>
             </div>
 
             <!-- EXTRA: MATRIX TIPS -->
-            <div class="lucky-card" style="border-left: 10px solid var(--matrix-green);">
+            <div class="lucky-card">
+                <div class="rivet r-tl"></div>
+                <div class="rivet r-tr"></div>
+                <div class="rivet r-bl"></div>
+                <div class="rivet r-br"></div>
+                <div class="question-mark">?</div>
+                
                 <div class="block-tag">EXTRA</div>
                 <h2><span class="matrix-icon">💊</span> MATRIX TIPS</h2>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                    <div style="background: rgba(0, 255, 65, 0.15); padding: 20px; border-radius: 15px; border: 2px solid var(--matrix-green);">
-                        <span style="font-size: 2.5rem;">🔒</span>
+                
+                <div class="tips-grid">
+                    <div class="tip-item">
+                        <span class="tip-icon">🔒</span>
                         <p><strong>2FA</strong><br>Doppia protezione</p>
                     </div>
-                    <div style="background: rgba(0, 255, 65, 0.15); padding: 20px; border-radius: 15px; border: 2px solid var(--matrix-green);">
-                        <span style="font-size: 2.5rem;">📱</span>
+                    <div class="tip-item">
+                        <span class="tip-icon">📱</span>
                         <p><strong>APP SICURE</strong><br>Solo store ufficiali</p>
                     </div>
                 </div>
-                <div style="margin-top: 20px; background: #000; padding: 15px; border-radius: 12px; border: 2px solid var(--matrix-green);">
-                    <code style="color: var(--matrix-green);">> REDPILL_LOADED.EXE</code>
+                
+                <div class="code-block">
+                    <code>> REDPILL_LOADED.EXE</code>
                 </div>
             </div>
 
             <!-- EXTRA: LUCKY ALERT -->
-            <div class="lucky-card" style="border-left: 10px solid var(--lucky-gold);">
+            <div class="lucky-card">
+                <div class="rivet r-tl"></div>
+                <div class="rivet r-tr"></div>
+                <div class="rivet r-bl"></div>
+                <div class="rivet r-br"></div>
+                <div class="question-mark">?</div>
+                
                 <div class="block-tag">ALERT</div>
                 <h2><span class="matrix-icon">⚠️</span> LUCKY ALERT</h2>
-                <div style="background: rgba(255, 215, 0, 0.2); padding: 25px; border-radius: 15px; border: 3px solid var(--lucky-gold);">
-                    <p style="font-weight: 700; color: var(--lucky-gold);">🚨 NUOVE MINACCE PHISHING</p>
-                    <p style="margin-top: 10px;">Attenzione a messaggi sospetti su WhatsApp</p>
-                    <div style="margin-top: 15px; display: flex; gap: 10px;">
-                        <span style="background: var(--matrix-green); color: #000; padding: 5px 15px; border-radius: 20px;">VERIFICA</span>
-                        <span style="background: var(--neon-blue); color: #000; padding: 5px 15px; border-radius: 20px;">PROTEZIONE</span>
+                
+                <div class="alert-content">
+                    <p class="alert-title">🚨 NUOVE MINACCE PHISHING</p>
+                    <p>Attenzione a messaggi sospetti su WhatsApp</p>
+                    <div class="alert-tags">
+                        <span class="alert-tag green">VERIFICA</span>
+                        <span class="alert-tag rose">PROTEZIONE</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- FOOTER MATRIX LUCKY -->
+        <!-- FOOTER -->
         <footer class="matrix-footer">
             <div class="footer-lucky">⭐ LUCKY BLOCK × MATRIX ⭐</div>
-            <p style="margin: 15px 0;">SICUREZZA • COMUNICAZIONE • LAB</p>
+            <p class="footer-text">SICUREZZA • COMUNICAZIONE • TIPS</p>
             <div class="controller">
                 <span>⬆️⬇️⬅️➡️</span>
-                <span style="color: var(--lucky-gold);">START</span>
-                <span style="color: var(--neon-blue);">SELECT</span>
+                <span class="start">START</span>
+                <span class="select">SELECT</span>
             </div>
-            <p style="margin-top: 20px; font-size: 0.6rem; opacity: 0.7;">01010100 01101000 01100101 00100000 01001101 01100001 01110100 01110010 01101001 01111000</p>
+            <p class="binary-code">01010100 01101000 01100101 00100000 01001101 01100001 01110100 01110010 01101001 01111000</p>
         </footer>
     </div>
 </body>
