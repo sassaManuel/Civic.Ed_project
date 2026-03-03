@@ -28,38 +28,52 @@
         const mario = document.getElementById("mario");
         const luckyBlock = document.getElementById("luckyBlock");
         const goomba = document.getElementById("goomba");
-        const pipe1 = document.getElementById("pipe1");
-        const pipe2 = document.getElementById("pipe2");
 
         const GROUND_Y = 112;
         const MARIO_W = 64;
         const MARIO_H = 92;
-        const HITBOX_W = 48; // Hitbox più stretta per un gameplay più giusto
+        const HITBOX = { x: 12, y: 5, w: 40, h: 82 };
 
-        let posX = 100, posY = 0, velY = 0;
-        const gravity = 0.8;
-        const jumpPower = 17;
-        const moveSpeed = 7;
+        let posX = 100, posY = 0;
+        let velX = 0, velY = 0;
+
+        // FISICA POTENZIATA (Gioco più scattante)
+        const gravity = 1.0;
+        const jumpPower = 22.0;
+        const accel = 1.2;
+        const friction = 0.85;
+        const maxSpeed = 12.0;
 
         let goombaX = 1000;
         let goombaDir = -1;
-        const goombaSpeed = 2;
-        const goombaRange = { min: 940, max: 1240 };
+        const goombaSpeed = 2.5;
+        const goombaRange = { min: 940, max: 1200 };
 
         let keys = {};
         let onGround = true;
         let isRedirecting = false;
 
         document.addEventListener("keydown", e => {
-            keys[e.key.toLowerCase()] = true;
-            if (["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(e.code) > -1) e.preventDefault();
+            const k = e.key.toLowerCase();
+            keys[k] = true;
+            if ([" ", "arrowup", "arrowdown", "arrowleft", "arrowright", "w", "a", "s", "d"].includes(k)) {
+                if (!isRedirecting) e.preventDefault();
+            }
         });
         document.addEventListener("keyup", e => keys[e.key.toLowerCase()] = false);
 
+        const pipes = [
+            { x: 850, url: 'tubo.html' },
+            { x: 1250, url: 'tubo2.html' }
+        ];
+        const luckyRect = { x: 250, y: 350, w: 52, h: 52 };
+
+        function getMarioRect(x, y) {
+            return { x: x + HITBOX.x, y: GROUND_Y + y + HITBOX.y, w: HITBOX.w, h: HITBOX.h };
+        }
         function collide(r1, r2) {
             return r1.x < r2.x + r2.w && r1.x + r1.w > r2.x && r1.y < r2.y + r2.h && r1.y + r1.h > r2.y;
         }
-
         function goToPage(url) {
             if (!isRedirecting) {
                 isRedirecting = true;
@@ -67,112 +81,97 @@
             }
         }
 
-        function gameLoop() {
-            // --- MOVIMENTO GOOMBA ---
-            goombaX += goombaSpeed * goombaDir;
+        let lastTime = performance.now();
+        function update(dt) {
+            // Normalizzazione Delta Time (60fps target)
+            const d = dt / (1000 / 60);
+            if (d > 3) return; // Salta frame se il tab torna in focus dopo molto tempo
+
+            // --- GOOMBA ---
+            goombaX += (goombaSpeed * goombaDir) * d;
             if (goombaX >= goombaRange.max || goombaX <= goombaRange.min) {
                 goombaDir *= -1;
             }
-            goomba.style.left = goombaX + "px";
 
-            // --- MOVIMENTO MARIO ---
-            let nextX = posX;
+            // --- MARIO ---
+            if (keys["arrowright"] || keys["d"]) velX += accel * d;
+            else if (keys["arrowleft"] || keys["a"]) velX -= accel * d;
+            else velX *= Math.pow(friction, d);
 
-            if (keys["arrowright"] || keys["d"]) nextX += moveSpeed;
-            if (keys["arrowleft"] || keys["a"]) nextX -= moveSpeed;
-            if (nextX < 0) nextX = 0;
-            if (nextX > window.innerWidth - MARIO_W) nextX = window.innerWidth - MARIO_W;
+            if (velX > maxSpeed) velX = maxSpeed;
+            if (velX < -maxSpeed) velX = -maxSpeed;
+            if (Math.abs(velX) < 0.1) velX = 0;
+
+            posX += velX * d;
+
+            if (posX < 0) { posX = 0; velX = 0; }
+            if (posX > window.innerWidth - MARIO_W) { posX = window.innerWidth - MARIO_W; velX = 0; }
 
             if ((keys[" "] || keys["w"] || keys["arrowup"]) && onGround) {
                 velY = jumpPower;
                 onGround = false;
             }
 
-            velY -= gravity;
-            posY += velY;
+            velY -= gravity * d;
+            posY += velY * d;
 
-            // Assumiamo che non sia a terra finché non lo verifichiamo
             onGround = false;
-
             if (posY <= 0) {
-                posY = 0;
-                velY = 0;
-                onGround = true;
+                posY = 0; velY = 0; onGround = true;
             }
 
-            let marioRect = {
-                x: nextX + (MARIO_W - HITBOX_W) / 2,
-                y: GROUND_Y + posY,
-                w: HITBOX_W,
-                h: MARIO_H
-            };
+            let mRect = getMarioRect(posX, posY);
 
-            // 1. LUCKY BLOCK
-            const luckyRect = { x: 250, y: 350, w: 52, h: 52, url: 'lucky.html' };
-            if (collide(marioRect, luckyRect)) {
-                // Colpito dal basso (Testa)
-                if (velY > 0 && (marioRect.y + MARIO_H) >= luckyRect.y && (marioRect.y + MARIO_H) <= luckyRect.y + 25) {
-                    goToPage(luckyRect.url);
-                }
-                // Atterra sopra
-                else if (velY <= 0 && marioRect.y >= luckyRect.y + luckyRect.h - 15) {
-                    posY = luckyRect.y + luckyRect.h - GROUND_Y;
-                    velY = 0;
-                    onGround = true;
-                }
-                // Collisione laterale
-                else {
-                    if (posX < luckyRect.x) nextX = luckyRect.x - MARIO_W + (MARIO_W - HITBOX_W) / 2;
-                    else nextX = luckyRect.x + luckyRect.w - (MARIO_W - HITBOX_W) / 2;
+            // COLLISIONI
+            if (collide(mRect, luckyRect)) {
+                if (velY > 0 && (mRect.y + mRect.h) >= luckyRect.y && (mRect.y + mRect.h) <= luckyRect.y + 30) {
+                    goToPage('lucky.html');
+                } else if (velY <= 0 && mRect.y >= luckyRect.y + luckyRect.h - 20) {
+                    posY = luckyRect.y + luckyRect.h - GROUND_Y - HITBOX.y;
+                    velY = 0; onGround = true;
+                } else {
+                    if (posX + MARIO_W / 2 < luckyRect.x + luckyRect.w / 2) posX = luckyRect.x - HITBOX.x - HITBOX.w;
+                    else posX = luckyRect.x + luckyRect.w - HITBOX.x;
+                    velX = 0;
                 }
             }
 
-            // 2. GOOMBA
-            const goombaRect = { x: goombaX, y: GROUND_Y, w: 44, h: 40 };
-            if (collide(marioRect, goombaRect)) {
-                // Salto sopra (Schiacciato)
-                if (velY < 0 && (marioRect.y + 15) > (goombaRect.y + goombaRect.h)) {
+            const gRect = { x: goombaX, y: GROUND_Y, w: 44, h: 40 };
+            if (collide(mRect, gRect)) {
+                if (velY < 0 && mRect.y > (gRect.y + 10)) {
                     goToPage('goomba.html');
                 } else {
-                    // Colpito - Reset
-                    nextX = 100;
-                    posY = 0;
-                    velY = 0;
-                    onGround = true;
+                    posX = 100; posY = 0; velX = 0; velY = 0; onGround = true;
                 }
             }
-
-            // 3. PIPES
-            const pipes = [
-                { x: 850, url: 'tubo.html' },
-                { x: 1250, url: 'tubo2.html' }
-            ];
 
             pipes.forEach(p => {
                 const pRect = { x: p.x, y: GROUND_Y, w: 80, h: 105 };
-                if (collide(marioRect, pRect)) {
-                    // Sopra il tubo
-                    if (velY <= 0 && marioRect.y >= pRect.y + pRect.h - 15) {
-                        posY = pRect.h;
-                        velY = 0;
-                        onGround = true;
+                if (collide(mRect, pRect)) {
+                    if (velY <= 0 && mRect.y >= pRect.y + pRect.h - 20) {
+                        posY = pRect.h - HITBOX.y;
+                        velY = 0; onGround = true;
                         if (keys["s"] || keys["arrowdown"]) goToPage(p.url);
                     } else {
-                        // Muro del tubo
-                        if (posX < pRect.x) nextX = pRect.x - MARIO_W + (MARIO_W - HITBOX_W) / 2;
-                        else nextX = pRect.x + pRect.w - (MARIO_W - HITBOX_W) / 2;
+                        if (posX + MARIO_W / 2 < pRect.x + pRect.w / 2) posX = pRect.x - HITBOX.x - HITBOX.w;
+                        else posX = pRect.x + pRect.w - HITBOX.x;
+                        velX = 0;
                     }
                 }
             });
 
-            posX = nextX;
-            mario.style.left = posX + "px";
-            mario.style.bottom = (GROUND_Y + posY) + "px";
+            mario.style.transform = `translate3d(${posX}px, ${-posY}px, 0)`;
+            goomba.style.transform = `translate3d(${goombaX}px, 0, 0)`;
+        }
 
+        function gameLoop(timestamp) {
+            const dt = timestamp - lastTime;
+            lastTime = timestamp;
+            update(dt);
             requestAnimationFrame(gameLoop);
         }
 
-        gameLoop();
+        requestAnimationFrame(gameLoop);
     </script>
 </body>
 

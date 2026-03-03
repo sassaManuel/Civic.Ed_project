@@ -16,7 +16,7 @@ body {
         radial-gradient(circle at 40% 100%, #3e8e3e 180px, transparent 181px),
         radial-gradient(circle at 75% 100%, #4aaf4a 140px, transparent 141px);
     opacity: 0.85;
-    z-index: 0;
+    z-index: -2; /* Spostato dietro tutto */
 }
 
 .ground {
@@ -26,15 +26,17 @@ body {
     height: 112px;
     background: #8b4513;
     border-top: 14px solid #55e010;
-    z-index: 2;
+    z-index: -1; /* Spostato dietro gli elementi del gioco ma sopra le montagne */
 }
 
 #mario {
     position: absolute;
     width: 64px;
     height: 92px;
+    left: 0;
+    bottom: 112px;
     z-index: 5;
-    filter: drop-shadow(2px 4px 3px rgba(0,0,0,0.4));
+    will-change: transform;
 }
 
 .cloud {
@@ -44,7 +46,8 @@ body {
     opacity: 0.95;
     z-index: 1;
     animation: cloudMove 25s linear infinite;
-    box-shadow: 0 0 0 12px white, 25px -12px 0 6px white, -25px -12px 0 6px white;
+    box-shadow: 10px 10px 0 rgba(255,255,255,0.2);
+    will-change: transform;
 }
 
 @keyframes cloudMove {
@@ -62,16 +65,14 @@ body {
     width: 68px; height: 68px;
     background: radial-gradient(circle, #ffe566 50%, #ffa500 100%);
     border-radius: 50%;
-    box-shadow:
-        0 0 0 6px rgba(255, 220, 60, 0.35),
-        0 0 30px 10px rgba(255, 200, 30, 0.4);
+    box-shadow: 0 0 20px rgba(255, 200, 30, 0.3);
     z-index: 1;
     animation: sunPulse 3s ease-in-out infinite;
 }
 
 @keyframes sunPulse {
-    0%, 100% { box-shadow: 0 0 0 6px rgba(255,220,60,0.35), 0 0 30px 10px rgba(255,200,30,0.4); }
-    50%       { box-shadow: 0 0 0 12px rgba(255,220,60,0.2), 0 0 50px 20px rgba(255,200,30,0.2); }
+    0%, 100% { transform: scale(1); }
+    50%       { transform: scale(1.05); }
 }
 
 /* --- LUCKY BLOCK --- */
@@ -88,7 +89,7 @@ body {
     font-size: 26px;
     font-family: 'Arial Black', Impact, sans-serif;
     text-shadow: 1px 1px 0 #5a3000;
-    box-shadow: 3px 3px 0 #5a3000, inset 0 2px 4px rgba(255,255,255,0.5);
+    box-shadow: 3px 3px 0 #5a3000;
     z-index: 3;
 }
 
@@ -96,8 +97,10 @@ body {
 .goomba {
     position: absolute;
     width: 44px; height: 40px;
-    bottom: 120px;
+    bottom: 112px;
+    left: 0;
     z-index: 3;
+    will-change: transform;
     /* corpo marrone tondo */
     background: radial-gradient(ellipse at 50% 38%, #c96b2a 55%, #7a3500 100%);
     border-radius: 55% 55% 30% 30%;
@@ -141,20 +144,21 @@ body {
     border: 3px solid #004400;
     border-top: none;
     border-radius: 0 0 4px 4px;
-    z-index: 3;
+    /* Rimosso z-index dal parent per non creare un nuovo stacking context */
     box-shadow: 4px 0 0 #004400;
 }
 
-/* cappello del pipe */
+/* cappello del pipe - DAVANTI A MARIO */
 .pipe::before {
     content: "";
     position: absolute;
-    top: -22px; left: -12px;
-    width: 102px; height: 26px;
+    top: -26px; left: -10px;
+    width: 100px; height: 30px;
     background: linear-gradient(90deg, #00cc44 5%, #00aa00 40%, #007730 95%);
     border: 3px solid #004400;
-    border-radius: 5px 5px 0 0;
+    border-radius: 4px;
     box-shadow: 4px 0 0 #004400;
+    z-index: 10; /* Molto alto per coprire sicuramente Mario (che è 5) */
 }
 
 #pipe1 { left: 850px; }
