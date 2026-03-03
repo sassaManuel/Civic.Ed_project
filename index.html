@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mario gay</title>
+    <title>Super Mario World - Civic Ed</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <div id="mario">
-        <img src="sassamanuel.png" alt="" width="64px" height="92px">
+        <img src="sassamanuel.png" alt="Mario" width="64" height="92">
     </div>
-<div class="sun"></div>
+    <div class="sun"></div>
     <div class="lucky-block" id="luckyBlock">?</div>
     <div class="goomba" id="goomba"></div>
     <div class="pipe" id="pipe1"></div>
@@ -28,23 +31,29 @@
         const pipe1 = document.getElementById("pipe1");
         const pipe2 = document.getElementById("pipe2");
 
-        let x = 50, y = 0, velY = 0;
-        const gravity = 0.65;      
-        const jumpPower = 18;    
-        const speed = 6;        
-        const groundHeight = 120
+        const GROUND_Y = 112;
+        const MARIO_W = 64;
+        const MARIO_H = 92;
+        const HITBOX_W = 48; // Hitbox più stretta per un gameplay più giusto
 
-        // Parametri Goomba
+        let posX = 100, posY = 0, velY = 0;
+        const gravity = 0.8;
+        const jumpPower = 17;
+        const moveSpeed = 7;
+
         let goombaX = 1000;
-        let goombaDir = 1; // 1 = destra, -1 = sinistra
+        let goombaDir = -1;
         const goombaSpeed = 2;
-        const goombaRange = { min: 945, max: 1200 }; // Limiti di pattugliamento
+        const goombaRange = { min: 940, max: 1240 };
 
         let keys = {};
         let onGround = true;
         let isRedirecting = false;
 
-        document.addEventListener("keydown", e => keys[e.key.toLowerCase()] = true);
+        document.addEventListener("keydown", e => {
+            keys[e.key.toLowerCase()] = true;
+            if (["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(e.code) > -1) e.preventDefault();
+        });
         document.addEventListener("keyup", e => keys[e.key.toLowerCase()] = false);
 
         function collide(r1, r2) {
@@ -59,81 +68,106 @@
         }
 
         function gameLoop() {
-            let nextX = x;
-            let nextY = y;
-
             // --- MOVIMENTO GOOMBA ---
             goombaX += goombaSpeed * goombaDir;
             if (goombaX >= goombaRange.max || goombaX <= goombaRange.min) {
-                goombaDir *= -1; // Inverte la direzione quando tocca i limiti
+                goombaDir *= -1;
             }
             goomba.style.left = goombaX + "px";
 
             // --- MOVIMENTO MARIO ---
-            if (keys["arrowright"] || keys["d"]) nextX += speed;
-            if (keys["arrowleft"] || keys["a"]) nextX -= speed;
+            let nextX = posX;
+
+            if (keys["arrowright"] || keys["d"]) nextX += moveSpeed;
+            if (keys["arrowleft"] || keys["a"]) nextX -= moveSpeed;
+            if (nextX < 0) nextX = 0;
+            if (nextX > window.innerWidth - MARIO_W) nextX = window.innerWidth - MARIO_W;
+
             if ((keys[" "] || keys["w"] || keys["arrowup"]) && onGround) {
                 velY = jumpPower;
                 onGround = false;
             }
 
             velY -= gravity;
-            nextY += velY;
+            posY += velY;
 
-            if (nextY <= 0) {
-                nextY = 0; velY = 0; onGround = true;
+            // Assumiamo che non sia a terra finché non lo verifichiamo
+            onGround = false;
+
+            if (posY <= 0) {
+                posY = 0;
+                velY = 0;
+                onGround = true;
             }
 
-            let marioRect = { x: nextX, y: groundHeight + nextY, w: 40, h: 100 };
+            let marioRect = {
+                x: nextX + (MARIO_W - HITBOX_W) / 2,
+                y: GROUND_Y + posY,
+                w: HITBOX_W,
+                h: MARIO_H
+            };
 
             // 1. LUCKY BLOCK
-            const luckyRect = { x: luckyBlock.offsetLeft-15, y: 350, w: 50, h: 50 };
+            const luckyRect = { x: 250, y: 350, w: 52, h: 52, url: 'lucky.html' };
             if (collide(marioRect, luckyRect)) {
-                if (velY > 0 && (marioRect.y + 45) < luckyRect.y) {
-                    goToPage('lucky.html');
-                } else {
-                    if (x < luckyRect.x) nextX = luckyRect.x - 40;
-                    else nextX = luckyRect.x + luckyRect.w;
+                // Colpito dal basso (Testa)
+                if (velY > 0 && (marioRect.y + MARIO_H) >= luckyRect.y && (marioRect.y + MARIO_H) <= luckyRect.y + 25) {
+                    goToPage(luckyRect.url);
+                }
+                // Atterra sopra
+                else if (velY <= 0 && marioRect.y >= luckyRect.y + luckyRect.h - 15) {
+                    posY = luckyRect.y + luckyRect.h - GROUND_Y;
+                    velY = 0;
+                    onGround = true;
+                }
+                // Collisione laterale
+                else {
+                    if (posX < luckyRect.x) nextX = luckyRect.x - MARIO_W + (MARIO_W - HITBOX_W) / 2;
+                    else nextX = luckyRect.x + luckyRect.w - (MARIO_W - HITBOX_W) / 2;
                 }
             }
 
-            // 2. COLLISIONE GOOMBA (dinamica con goombaX)
-            const goombaRect = { x: goombaX, y: groundHeight, w: 40, h: 40 };
+            // 2. GOOMBA
+            const goombaRect = { x: goombaX, y: GROUND_Y, w: 44, h: 40 };
             if (collide(marioRect, goombaRect)) {
-                if (velY < 0 && marioRect.y > (goombaRect.y + 10)) {
-                    goToPage('goomba.html'); // Uccisione -> Pagina
+                // Salto sopra (Schiacciato)
+                if (velY < 0 && (marioRect.y + 15) > (goombaRect.y + goombaRect.h)) {
+                    goToPage('goomba.html');
                 } else {
-                    nextX = 50; // Mario viene colpito e resetta
-                    nextY = 0;
+                    // Colpito - Reset
+                    nextX = 100;
+                    posY = 0;
+                    velY = 0;
+                    onGround = true;
                 }
             }
 
-            // 3. LOGICA TUBI
+            // 3. PIPES
             const pipes = [
-                { el: pipe1, url: 'tubo.html' },
-                { el: pipe2, url: 'tubo2.html' }
+                { x: 850, url: 'tubo.html' },
+                { x: 1250, url: 'tubo2.html' }
             ];
 
             pipes.forEach(p => {
-                const pRect = { x: p.el.offsetLeft-15, y: groundHeight, w: 80, h: 118 };
+                const pRect = { x: p.x, y: GROUND_Y, w: 80, h: 105 };
                 if (collide(marioRect, pRect)) {
-                    const pTop = pRect.y + pRect.h;
-                    if (velY <= 0 && marioRect.y >= pTop - 20) {
-                        nextY = pRect.h;
+                    // Sopra il tubo
+                    if (velY <= 0 && marioRect.y >= pRect.y + pRect.h - 15) {
+                        posY = pRect.h;
                         velY = 0;
                         onGround = true;
                         if (keys["s"] || keys["arrowdown"]) goToPage(p.url);
                     } else {
-                        if (marioRect.x < pRect.x) nextX = pRect.x - 40;
-                        else nextX = pRect.x + pRect.w;
+                        // Muro del tubo
+                        if (posX < pRect.x) nextX = pRect.x - MARIO_W + (MARIO_W - HITBOX_W) / 2;
+                        else nextX = pRect.x + pRect.w - (MARIO_W - HITBOX_W) / 2;
                     }
                 }
             });
 
-            x = nextX;
-            y = nextY;
-            mario.style.left = x + "px";
-            mario.style.bottom = (groundHeight + y) + "px";
+            posX = nextX;
+            mario.style.left = posX + "px";
+            mario.style.bottom = (GROUND_Y + posY) + "px";
 
             requestAnimationFrame(gameLoop);
         }
@@ -141,4 +175,5 @@
         gameLoop();
     </script>
 </body>
+
 </html>
