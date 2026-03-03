@@ -568,4 +568,81 @@ body::after {
     .feature-goomba {
         grid-template-columns: 1fr;
     }
+}/* BOTTONE TORNA AL GIOCO - Stile Goomba */
+.back-to-game {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--goomba-brown);
+    color: var(--white);
+    padding: 15px 25px;
+    border: var(--border-goomba);
+    border-radius: 50px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.7rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 8px 8px 0px var(--goomba-darker);
+    z-index: 1000;
+    transition: all 0.2s var(--bounce);
+    animation: floatButton 3s ease-in-out infinite;
+    border-bottom: 6px solid var(--goomba-darker);
+}
+
+.back-to-game:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 12px 12px 0px var(--goomba-darker);
+    background: var(--goomba-dark);
+}
+
+.back-to-game:active {
+    transform: translate(2px, 2px);
+    box-shadow: 4px 4px 0px var(--goomba-darker);
+}
+
+.back-icon {
+    font-size: 1.5rem;
+    filter: drop-shadow(2px 2px 0 var(--goomba-darker));
+}
+
+.back-text {
+    letter-spacing: 1px;
+}
+
+@keyframes floatButton {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* Responsive per il bottone */
+@media (max-width: 768px) {
+    .back-to-game {
+        bottom: 20px;
+        right: 20px;
+        padding: 12px 20px;
+        font-size: 0.6rem;
+        gap: 10px;
+    }
+    
+    .back-icon {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .back-to-game {
+        bottom: 15px;
+        right: 15px;
+        padding: 10px 15px;
+    }
+    
+    .back-text {
+        display: none; /* Nasconde il testo su mobile, mostra solo le icone */
+    }
+    
+    .back-to-game {
+        gap: 5px;
+    }
 }

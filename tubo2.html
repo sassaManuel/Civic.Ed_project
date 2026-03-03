@@ -523,6 +523,139 @@ body::before {
             font-size: 2rem;
         }
 
+        /* BOTTONE TORNA AL GIOCO - STILE TUBO VERDE */
+        .back-to-game {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--mario-green);
+            color: var(--white);
+            padding: 18px 28px;
+            border: var(--border-pixel);
+            border-radius: 30px 30px 60px 60px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: var(--shadow-3d);
+            z-index: 1000;
+            transition: all 0.2s var(--bounce);
+            animation: floatPipe 3s ease-in-out infinite;
+            border-bottom: 12px solid #1b5e20;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-left: 6px solid #1b5e20;
+            border-right: 6px solid #1b5e20;
+        }
+
+        .back-to-game::before {
+            content: "⬇️";
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            filter: drop-shadow(0 4px 0 #1b5e20);
+            opacity: 0.7;
+        }
+
+        .back-to-game::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 10px;
+            background: #1b5e20;
+            border-radius: 10px;
+            border: 2px solid var(--black);
+        }
+
+        .back-to-game:hover {
+            transform: translate(-4px, -4px) scale(1.02);
+            box-shadow: 0 20px 0 0 #1b5e20, 0 25px 20px -8px black;
+            background: #5cb85c;
+        }
+
+        .back-to-game:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0 8px 0 0 #1b5e20, 0 15px 20px -8px black;
+        }
+
+        .back-icon {
+            font-size: 1.5rem;
+            filter: drop-shadow(2px 2px 0 #1b5e20);
+            position: relative;
+            z-index: 2;
+        }
+
+        .back-text {
+            letter-spacing: 2px;
+            font-weight: 800;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes floatPipe {
+            0%, 100% { 
+                transform: translateY(0) rotate(0deg); 
+            }
+            50% { 
+                transform: translateY(-10px) rotate(0.5deg); 
+            }
+        }
+
+        /* Responsive per il bottone */
+        @media (max-width: 768px) {
+            .back-to-game {
+                bottom: 20px;
+                right: 20px;
+                padding: 15px 22px;
+                font-size: 0.6rem;
+                gap: 10px;
+            }
+            
+            .back-icon {
+                font-size: 1.2rem;
+            }
+            
+            .back-to-game::before {
+                font-size: 1.2rem;
+                top: -15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .back-to-game {
+                bottom: 15px;
+                right: 15px;
+                padding: 12px 18px;
+                border-bottom: 8px solid #1b5e20;
+            }
+            
+            .back-text {
+                display: none; /* Nasconde il testo su mobile, mostra solo le icone */
+            }
+            
+            .back-to-game {
+                gap: 5px;
+                border-radius: 50%; /* Diventa circolare su mobile */
+            }
+            
+            .back-to-game::before {
+                display: none;
+            }
+            
+            .back-to-game::after {
+                width: 30px;
+                height: 8px;
+                bottom: -8px;
+            }
+        }
+
         /* RESPONSIVE */
         @media (max-width: 968px) {
             h1 { font-size: 3rem; }
@@ -544,6 +677,13 @@ body::before {
 <body>
     <!-- ELEMENTI DI SFONDO -->
     <div class="hole-grid"></div>
+
+    <!-- BOTTONE PER TORNARE AL GIOCO (stile Tubo Verde) -->
+    <a href="index.html" class="back-to-game">
+        <span class="back-icon">🎮</span>
+        <span class="back-text">TORNA AL GIOCO</span>
+        <span class="back-icon">🌿</span>
+    </a>
 
     <!-- NAVIGATION -->
     <nav>
