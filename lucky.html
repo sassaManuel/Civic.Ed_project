@@ -1,29 +1,40 @@
+<!-- 
+    PAGINA LUCKY BLOCK: Sicurezza e Comunicazione Digitale
+    Questa pagina è dedicata alla simulazione di un "Lucky Block" a tema Matrix,
+    contenente moduli didattici sulla sicurezza informatica e la comunicazione.
+-->
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LUCKY BLOCK █ MATRIX CYBER</title>
+    <!-- Font di Google combinati: un font moderno per i testi e uno stile pixel per i titoli/bottoni -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <!-- Foglio di stile specifico per la pagina Lucky Block -->
     <link rel="stylesheet" href="styleLuckyBlock.css">
 </head>
 <body>
-    <!-- Elementi decorativi fluttuanti -->
+    <!-- ELEMENTI DECORATIVI FLUTTUANTI sullo sfondo (monete e blocchi) -->
     <div class="floating-coin">🪙</div>
     <div class="floating-coin">⭐</div>
     <div class="floating-coin">?</div>
 
-    <!-- BOTTONE PER TORNARE AL GIOCO (stile Lucky Block) -->
+    <!-- BOTTONE PER TORNARE AL GIOCO PRINCIPALE (index.html) -->
     <a href="index.html" class="back-to-game">
         <span class="back-icon">🎮</span>
         <span class="back-text">TORNA AL GIOCO</span>
         <span class="back-icon">❓</span>
     </a>
 
+    <!-- CONTENITORE PRINCIPALE dei contenuti -->
     <div class="container">
-        <!-- HEADER -->
+        <!-- HEADER DELLA PAGINA -->
         <header class="lucky-header">
+            <!-- Titolo principale con animazioni CSS -->
             <h1>⚡ LUCKY BLOCK<br><span>MATRIX CYBER 2026</span></h1>
+            
+            <!-- Etichetta stile "Matrix" stilizzata -->
             <div class="matrix-badge">
                 <span>MATRIX</span>
                 <span class="bolt">⚡</span>
@@ -31,14 +42,17 @@
             </div>
         </header>
 
-        <!-- GRIGLIA LUCKY BLOCKS -->
+        <!-- GRIGLIA DEI CONTENUTI (Le diverse "carte" o moduli) -->
         <div class="blocks-grid">
+            
             <!-- MODULO 1: COMUNICAZIONE -->
             <div class="lucky-card">
+                <!-- Decorazioni "bulloni" agli angoli della card -->
                 <div class="rivet r-tl"></div>
                 <div class="rivet r-tr"></div>
                 <div class="rivet r-bl"></div>
                 <div class="rivet r-br"></div>
+                <!-- Simbolo del punto interrogativo in stile pixel -->
                 <div class="question-mark">?</div>
                 
                 <div class="block-tag">MODULO 1</div>
@@ -49,6 +63,7 @@
                 </p>
                 
                 <h3 class="section-title">🔄 CONTEXT-SWITCHING</h3>
+                <!-- Lista stilizzata per i mezzi di comunicazione -->
                 <ul class="mario-list">
                     <li><span>⏺</span> Email per contesti formali</li>
                     <li><span>⏺</span> Chat per coordinamento rapido</li>
@@ -56,7 +71,7 @@
                 </ul>
             </div>
 
-            <!-- MODULO 2: SICUREZZA -->
+            <!-- MODULO 2: SICUREZZA E MINACCE -->
             <div class="lucky-card">
                 <div class="rivet r-tl"></div>
                 <div class="rivet r-tr"></div>
@@ -69,7 +84,7 @@
                 
                 <p class="highlight-text">Protezione dei dati personali e riconoscimento minacce</p>
 
-                <!-- MINACCE -->
+                <!-- MINACCE INFORMATICHE: Strutturate a griglia orizzontale -->
                 <div class="threat-matrix">
                     <div class="threat-cell">
                         <span class="matrix-emoji">🎣</span>
@@ -90,6 +105,7 @@
 
                 <h3 class="section-title blue">🔐 SICUREZZA SOCIAL</h3>
                 
+                <!-- Box informativi su Password e VPN -->
                 <div class="power-double">
                     <div class="power-item green-neon">
                         <span class="power-icon">🔑</span>
@@ -126,11 +142,13 @@
                     </div>
                 </div>
                 
+                <!-- Simulazione di un terminale informatico -->
                 <div class="code-block">
                     <code>> REDPILL_LOADED.EXE</code>
                 </div>
             </div>
-            <!-- EXTRA: LUCKY ALERT -->
+            
+            <!-- EXTRA: LUCKY ALERT (Notizie o avvisi flash) -->
             <div class="lucky-card">
                 <div class="rivet r-tl"></div>
                 <div class="rivet r-tr"></div>
@@ -141,6 +159,7 @@
                 <div class="block-tag">ALERT</div>
                 <h2><span class="matrix-icon">⚠️</span> LUCKY ALERT</h2>
                 
+                <!-- Box stile avviso di minaccia -->
                 <div class="alert-content">
                     <p class="alert-title">🚨 NUOVE MINACCE PHISHING</p>
                     <p>Attenzione a messaggi sospetti su WhatsApp</p>
@@ -152,15 +171,19 @@
             </div>
         </div>
 
-        <!-- FOOTER -->
+        <!-- FOOTER: Piè di pagina decorato in stile codice binario / retro gaming -->
         <footer class="matrix-footer">
             <div class="footer-lucky">⭐ LUCKY BLOCK × MATRIX ⭐</div>
             <p class="footer-text">SICUREZZA • COMUNICAZIONE • TIPS</p>
+            
+            <!-- Riproduzione in stile testo dei tasti direzionali di un controller -->
             <div class="controller">
                 <span>⬆️⬇️⬅️➡️</span>
                 <span class="start">START</span>
                 <span class="select">SELECT</span>
             </div>
+            
+            <!-- "The Matrix" scritto in codice binario -->
             <p class="binary-code">01010100 01101000 01100101 00100000 01001101 01100001 01110100 01110010 01101001 01111000</p>
         </footer>
     </div>

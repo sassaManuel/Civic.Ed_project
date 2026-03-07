@@ -1,14 +1,22 @@
+<!-- 
+    PAGINA COMPETENZA CIVICA 10: Cittadinanza Digitale
+    Questa pagina è dedicata all'insegnamento delle regole della rete,
+    della sicurezza online e dell'identità digitale.
+-->
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Competenza Civica 10: Cittadinanza Digitale</title>
+    <!-- Font di Google simili al mondo retro e moderno -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <!-- CSS specifico per la pagina "Tubo" -->
     <link rel="stylesheet" href="styleTubo.css">
 </head>
 <body>
 
+    <!-- NAVIGAZIONE PRINCIPALE: Mostra il livello e la barra della vita/progresso -->
     <nav>
         <div class="logo">
             <div class="logo-icon"></div>
@@ -22,11 +30,13 @@
         </div>
     </nav>
 
+    <!-- HEADER/HERO SECTION: Titolo grande e introduzione all'argomento -->
     <header class="hero">
         <div class="level-badge pixel-font">LIVELLO 10: CITTADINANZA DIGITALE</div>
         <h1>Navigazione Consapevole</h1>
         <p class="hero-desc">Benvenuto nella tua missione digitale. Impara a padroneggiare le regole della rete per diventare un cittadino del futuro critico, sicuro e responsabile.</p>
         
+        <!-- Elementi grafici decorativi a forma di tubi (Turbine) -->
         <div class="illustration-area">
             <div class="turbine-pipe">
                 <div class="pipe-head"></div>
@@ -43,9 +53,10 @@
         </div>
     </header>
 
+    <!-- GRIGLIA PRINCIPALE (DASHBOARD): Contiene le diverse cards interattive -->
     <main class="dashboard-grid">
         
-        <!-- Card 1: testi originali -->
+        <!-- CARD 1: Link per tornare alla pagina principale (index.html) -->
         <div class="lucky-card card-green">
             <div class="rivet r-tl"></div>
             <div class="rivet r-tr"></div>
@@ -60,7 +71,7 @@
             </div>
         </div>
 
-        <!-- Card 2: testi originali -->
+        <!-- CARD 2: Argomento Netiquette (Diritti e Doveri) -->
         <div class="lucky-card card-blue">
             <div class="rivet r-tl"></div>
             <div class="rivet r-tr"></div>
@@ -71,11 +82,12 @@
             <h2>Diritti e Doveri</h2>
             <p>Navigare non significa solo cliccare. Scopri le regole della Netiquette, l'importanza del Copyright e come proteggere la tua Privacy nel web.</p>
             <div class="card-footer">
+                <!-- Bottone che apre il modale con data-topic="rights" -->
                 <button class="btn-card open-approfondimento" data-topic="rights">Scopri</button>
             </div>
         </div>
 
-        <!-- Card 3: testi originali -->
+        <!-- CARD 3: Argomento Identità Digitale (E-Reputation) -->
         <div class="lucky-card card-yellow">
             <div class="rivet r-tl"></div>
             <div class="rivet r-tr"></div>
@@ -86,22 +98,24 @@
             <h2>E-Reputation</h2>
             <p>La tua impronta digitale parla di te. Analizza casi reali di cyberbullismo, l'uso dei deepfake e come gli influencer gestiscono la loro immagine.</p>
             <div class="card-footer">
+                <!-- Bottone che apre il modale con data-topic="identity" -->
                 <button class="btn-card open-approfondimento" data-topic="identity">Scopri</button>
             </div>
         </div>
 
     </main>
 
-    <!-- MODALE PROFESSIONALE DUE COLONNE (GLASS + ELASTIC) con testi originali -->
+    <!-- FINESTRA MODALE (POP-UP) PER GLI APPROFONDIMENTI -->
+    <!-- Questo elemento è nascosto di default (aria-hidden="true") -->
     <div id="approfondimento-modal" class="approfondimento-modal" aria-hidden="true" data-open="false">
         <div class="approfondimento-box">
             <button class="approfondimento-close" aria-label="Chiudi">×</button>
-            <!-- colonna sinistra grafica dinamica -->
+            <!-- colonna sinistra: Icona dinamica e sottotitolo -->
             <div class="modal-left">
                 <div class="pixel-icon-large" id="modal-icon">?</div>
                 <h4 id="modal-sub">approfondimento</h4>
             </div>
-            <!-- colonna destra con testi originali -->
+            <!-- colonna destra: Titolo e corpo del testo dinamico -->
             <div class="modal-right">
                 <h3 id="approfondimento-title"></h3>
                 <div class="modal-body-text" id="approfondimento-body"></div>
@@ -109,7 +123,9 @@
         </div>
     </div>
 
+    <!-- SCRIPT JAVASCRIPT: Gestisce l'apertura/chiusura del modale e l'inserimento dei contenuti -->
     <script>
+        // Oggetto contenente i testi degli approfondimenti associati alle chiavi (topic)
         const approfondimenti ={
             rights:{
                 title: "Diritti e Doveri Online: le regole della cittadinanza",
@@ -128,7 +144,7 @@
                     </ul>
                 `,
               
-},
+            },
             identity:{
                 title: "Identità digitale e analisi dei rischi",
                 body: `
@@ -145,33 +161,42 @@
                         <li><strong>Workshop</strong>: impara a distinguere un video reale da un deepfake.</li>
                     </ul>
                 `
-}
-};
+            }
+        };
 
+        // Funzione per aprire il modale
         function openModal(key) {
             const modal = document.getElementById('approfondimento-modal');
-            const data = approfondimenti[key];
-            if (!data) return;
+            const data = approfondimenti[key]; // Cerca i dati in base alla chiave (es. "rights")
+            if (!data) return; // Se la chiave non esiste, esce
+            
+            // Inserisce i dati nel DOM
             document.getElementById('approfondimento-title').innerText = data.title;
             document.getElementById('approfondimento-body').innerHTML = data.body;
             document.getElementById('modal-icon').innerText = data.icon || '?';
             document.getElementById('modal-sub').innerText = key === 'rights' ? 'netiquette' : 'reputazione';
+            
+            // Mostra il modale
             modal.setAttribute('data-open', 'true');
             modal.setAttribute('aria-hidden', 'false');
         }
 
+        // Funzione per chiudere il modale
         function closeModal() {
             const modal = document.getElementById('approfondimento-modal');
             modal.setAttribute('data-open', 'false');
             modal.setAttribute('aria-hidden', 'true');
         }
 
+        // Assegna l'evento click a tutti i bottoni con classe .open-approfondimento
         document.querySelectorAll('.open-approfondimento').forEach(btn => {
             btn.addEventListener('click', () => {
-                const key = btn.dataset.topic;
+                const key = btn.dataset.topic; // Recupera la chiave impostata su data-topic="..."
                 openModal(key);
             });
         });
+        
+        // Assegna l'evento click ai bottoni di chiusura (la 'X')
         document.querySelectorAll('.approfondimento-close').forEach(b => b.addEventListener('click', closeModal));
     </script>
 </body>

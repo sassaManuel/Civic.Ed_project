@@ -1,3 +1,10 @@
+<!-- 
+    PAGINA PRINCIPALE: "Super Mario World - Civic Ed"
+    Questa è la pagina di ingresso del progetto. Funziona come un hub interattivo 
+    dove l'utente controlla un personaggio (Mario) in un ambiente ispirato ai videogiochi.
+    L'obiettivo è navigare nel mondo e interagire con diversi elementi che portano
+    a moduli didattici di Educazione Civica.
+-->
 <!DOCTYPE html>
 <html lang="it">
 
@@ -5,75 +12,114 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Super Mario World - Civic Ed</title>
+    <!-- Caricamento del font "pixelato" per richiamare lo stile dei videogiochi retro -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <!-- Collegamento al file CSS esterno per gli stili grafici e le animazioni -->
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+    <!-- 
+        ELEMENTI DEL GIOCO:
+        Div e immagini che rappresentano gli oggetti nel mondo di gioco.
+        Tutti questi elementi verranno manipolati via JavaScript o CSS.
+    -->
     <div id="mario">
+        <!-- L'immagine di Mario (sassamanuel.png) -->
         <img src="sassamanuel.png" alt="Mario" width="64" height="92">
     </div>
+    
+    <!-- Elementi ambientali -->
     <div class="sun"></div>
+    <!-- Blocco fortunato: porta alla pagina lucky.html -->
     <div class="lucky-block" id="luckyBlock">?</div>
+    <!-- Nemico Goomba: se colpito di lato resetta, se colpito dall'alto porta a goomba.html -->
     <div class="goomba" id="goomba"></div>
+    <!-- Tubi verdi: se ci si preme "S" o "Freccia Giù" portano ad altre pagine -->
     <div class="pipe" id="pipe1"></div>
     <div class="pipe" id="pipe2"></div>
+    
+    <!-- Sfondi e decorazioni -->
     <div class="ground"></div>
     <div class="bg-mountains"></div>
     <div class="cloud" id="cloud1"></div>
     <div class="cloud" id="cloud2"></div>
 
     <script>
+        /**
+         * LOGICA DEL GIOCO (JAVASCRIPT)
+         * Gestisce il movimento di Mario, la fisica, le collisioni e la navigazione tra le pagine.
+         */
+
+        // Riferimenti agli elementi DOM
         const mario = document.getElementById("mario");
         const luckyBlock = document.getElementById("luckyBlock");
         const goomba = document.getElementById("goomba");
 
-        const GROUND_Y = 112;
-        const MARIO_W = 64;
-        const MARIO_H = 92;
-        const HITBOX = { x: 12, y: 5, w: 40, h: 82 };
+        // Costanti di gioco: dimensioni e parametri fisici
+        const GROUND_Y = 112; // Altezza del terreno dal fondo
+        const MARIO_W = 64;   // Larghezza di Mario
+        const MARIO_H = 92;   // Altezza di Mario
+        const HITBOX = { x: 12, y: 5, w: 40, h: 82 }; // Area di collisione reale (più piccola dell'immagine)
 
+        // Stato di Mario: posizione e velocità
         let posX = 100, posY = 0;
         let velX = 0, velY = 0;
 
-        // FISICA POTENZIATA (Gioco più scattante)
-        const gravity = 1.0;
-        const jumpPower = 22.0;
-        const accel = 1.2;
-        const friction = 0.85;
-        const maxSpeed = 12.0;
+        // PARAMETRI FISICI: Regolano come Mario si muove (salto, gravità, attrito)
+        const gravity = 1.0;      // Forza che spinge Mario verso il basso
+        const jumpPower = 22.0;   // Forza iniziale del salto
+        const accel = 1.2;        // Accelerazione laterale
+        const friction = 0.85;    // Attrito che rallenta Mario quando non si premono tasti
+        const maxSpeed = 12.0;    // Velocità massima raggiungibile
 
+        // Stato del Goomba (il nemico che cammina)
         let goombaX = 1000;
         let goombaDir = -1;
         const goombaSpeed = 2.5;
-        const goombaRange = { min: 940, max: 1200 };
+        const goombaRange = { min: 940, max: 1200 }; // Area in cui il Goomba pattuglia
 
+        // Input dell'utente
         let keys = {};
-        let onGround = true;
-        let isRedirecting = false;
+        let onGround = true;      // Indica se Mario sta toccando terra
+        let isRedirecting = false; // Impedisce molteplici redirect contemporanei
 
+        // Gestione degli eventi da tastiera
         document.addEventListener("keydown", e => {
             const k = e.key.toLowerCase();
             keys[k] = true;
+            // Preveniamo lo scrolling della pagina con i tasti freccia/spazio
             if ([" ", "arrowup", "arrowdown", "arrowleft", "arrowright", "w", "a", "s", "d"].includes(k)) {
                 if (!isRedirecting) e.preventDefault();
             }
         });
         document.addEventListener("keyup", e => keys[e.key.toLowerCase()] = false);
 
+        // Mappatura dei tubi e delle loro destinazioni
         const pipes = [
             { x: 850, url: 'tubo.html' },
             { x: 1250, url: 'tubo2.html' }
         ];
+        
+        // Posizione del blocco fortunato (?)
         const luckyRect = { x: 250, y: 350, w: 52, h: 52 };
 
+        /**
+         * FUNZIONI DI UTILITÀ
+         */
+        
+        // Calcola il rettangolo di collisione di Mario in base alla sua posizione corrente
         function getMarioRect(x, y) {
             return { x: x + HITBOX.x, y: GROUND_Y + y + HITBOX.y, w: HITBOX.w, h: HITBOX.h };
         }
+
+        // Determina se due rettangoli si sovrappongono (collisione AABB)
         function collide(r1, r2) {
             return r1.x < r2.x + r2.w && r1.x + r1.w > r2.x && r1.y < r2.y + r2.h && r1.y + r1.h > r2.y;
         }
+
+        // Gestisce il cambio di pagina verso i moduli di Educazione Civica
         function goToPage(url) {
             if (!isRedirecting) {
                 isRedirecting = true;
@@ -81,78 +127,98 @@
             }
         }
 
+        /**
+         * CICLO DI AGGIORNAMENTO (UPDATE)
+         * Questa funzione viene chiamata ad ogni frame per calcolare i movimenti.
+         */
         let lastTime = performance.now();
         function update(dt) {
-            // Normalizzazione Delta Time (60fps target)
+            // Normalizzazione Delta Time per garantire la stessa velocità su monitor con diverse frequenze
             const d = dt / (1000 / 60);
-            if (d > 3) return; // Salta frame se il tab torna in focus dopo molto tempo
+            if (d > 3) return; // Protezione se il computer subisce un forte rallentamento
 
-            // --- GOOMBA ---
+            // --- AGGIORNAMENTO GOOMBA ---
             goombaX += (goombaSpeed * goombaDir) * d;
             if (goombaX >= goombaRange.max || goombaX <= goombaRange.min) {
-                goombaDir *= -1;
+                goombaDir *= -1; // Cambia direzione se raggiunge i limiti del percorso
             }
 
-            // --- MARIO ---
+            // --- MOVIMENTO ORIZZONTALE MARIO ---
             if (keys["arrowright"] || keys["d"]) velX += accel * d;
             else if (keys["arrowleft"] || keys["a"]) velX -= accel * d;
-            else velX *= Math.pow(friction, d);
+            else velX *= Math.pow(friction, d); // Applica attrito
 
+            // Limita la velocità massima
             if (velX > maxSpeed) velX = maxSpeed;
             if (velX < -maxSpeed) velX = -maxSpeed;
             if (Math.abs(velX) < 0.1) velX = 0;
 
             posX += velX * d;
 
+            // Limiti laterali della finestra (Mario non può uscire dallo schermo)
             if (posX < 0) { posX = 0; velX = 0; }
             if (posX > window.innerWidth - MARIO_W) { posX = window.innerWidth - MARIO_W; velX = 0; }
 
+            // --- SALTO ---
             if ((keys[" "] || keys["w"] || keys["arrowup"]) && onGround) {
                 velY = jumpPower;
                 onGround = false;
             }
 
+            // --- GRAVITÀ ---
             velY -= gravity * d;
             posY += velY * d;
 
+            // Collisione con il terreno
             onGround = false;
             if (posY <= 0) {
                 posY = 0; velY = 0; onGround = true;
             }
 
+            // Calcolo del rettangolo attuale di Mario per le collisioni con gli oggetti
             let mRect = getMarioRect(posX, posY);
 
-            // COLLISIONI
+            // --- COLLISIONE CON LUCKY BLOCK ---
             if (collide(mRect, luckyRect)) {
+                // Se Mario colpisce il blocco dal basso (velY > 0)
                 if (velY > 0 && (mRect.y + mRect.h) >= luckyRect.y && (mRect.y + mRect.h) <= luckyRect.y + 30) {
-                    goToPage('lucky.html');
+                    goToPage('lucky.html'); // Vai alla pagina della sicurezza digitale
                 } else if (velY <= 0 && mRect.y >= luckyRect.y + luckyRect.h - 20) {
+                    // Mario ci atterra sopra
                     posY = luckyRect.y + luckyRect.h - GROUND_Y - HITBOX.y;
                     velY = 0; onGround = true;
                 } else {
+                    // Collisione laterale
                     if (posX + MARIO_W / 2 < luckyRect.x + luckyRect.w / 2) posX = luckyRect.x - HITBOX.x - HITBOX.w;
                     else posX = luckyRect.x + luckyRect.w - HITBOX.x;
                     velX = 0;
                 }
             }
 
+            // --- COLLISIONE CON IL GOOMBA ---
             const gRect = { x: goombaX, y: GROUND_Y, w: 44, h: 40 };
             if (collide(mRect, gRect)) {
+                // Se Mario salta sopra il Goomba (uccidendolo/interagendo)
                 if (velY < 0 && mRect.y > (gRect.y + 10)) {
-                    goToPage('goomba.html');
+                    goToPage('goomba.html'); // Vai alla pagina dell'economia e responsabilità
                 } else {
+                    // Se Mario tocca il Goomba lateralmente, il gioco si resetta
                     posX = 100; posY = 0; velX = 0; velY = 0; onGround = true;
                 }
             }
 
+            // --- COLLISIONE CON I TUBI ---
             pipes.forEach(p => {
                 const pRect = { x: p.x, y: GROUND_Y, w: 80, h: 105 };
                 if (collide(mRect, pRect)) {
                     if (velY <= 0 && mRect.y >= pRect.y + pRect.h - 20) {
+                        // Se Mario è sopra il tubo
                         posY = pRect.h - HITBOX.y;
                         velY = 0; onGround = true;
+                        // Premendo GIÙ si entra nel tubo
                         if (keys["s"] || keys["arrowdown"]) goToPage(p.url);
                     } else {
+                        // Collisione laterale con il tubo (funge da muro)
                         if (posX + MARIO_W / 2 < pRect.x + pRect.w / 2) posX = pRect.x - HITBOX.x - HITBOX.w;
                         else posX = pRect.x + pRect.w - HITBOX.x;
                         velX = 0;
@@ -160,10 +226,16 @@
                 }
             });
 
+            // --- APPLICAZIONE TRASFORMAZIONI GRAFICHE ---
+            // Usiamo translate3d per attivare l'accelerazione hardware della GPU
             mario.style.transform = `translate3d(${posX}px, ${-posY}px, 0)`;
             goomba.style.transform = `translate3d(${goombaX}px, 0, 0)`;
         }
 
+        /**
+         * LOOP PRINCIPALE
+         * requestAnimationFrame ottimizza le prestazioni sincronizzandosi con il refresh rate del monitor.
+         */
         function gameLoop(timestamp) {
             const dt = timestamp - lastTime;
             lastTime = timestamp;
@@ -171,8 +243,9 @@
             requestAnimationFrame(gameLoop);
         }
 
+        // Avvio del gioco
         requestAnimationFrame(gameLoop);
     </script>
 </body>
 
-</html>
+</html>
