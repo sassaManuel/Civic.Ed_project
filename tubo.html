@@ -1,14 +1,10 @@
 <!DOCTYPE html>
-<html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Competenza Civica 10: Cittadinanza Digitale</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styleTubo.css">
 </head>
 <body>
-
     <nav>
         <div class="logo">
             <div class="logo-icon"></div>
@@ -21,12 +17,10 @@
             </div>
         </div>
     </nav>
-
     <header class="hero">
         <div class="level-badge pixel-font">LIVELLO 10: CITTADINANZA DIGITALE</div>
         <h1>Navigazione Consapevole</h1>
         <p class="hero-desc">Benvenuto nella tua missione digitale. Impara a padroneggiare le regole della rete per diventare un cittadino del futuro critico, sicuro e responsabile.</p>
-        
         <div class="illustration-area">
             <div class="turbine-pipe">
                 <div class="pipe-head"></div>
@@ -42,10 +36,8 @@
             </div>
         </div>
     </header>
-
     <main class="dashboard-grid">
-        
-        <!-- Card 1: testi originali -->
+        <!-- Card 1 -->
         <div class="lucky-card card-green">
             <div class="rivet r-tl"></div>
             <div class="rivet r-tr"></div>
@@ -59,8 +51,7 @@
                 <button class="btn-card"><a href="index.html">Torna a giocare</a></button>
             </div>
         </div>
-
-        <!-- Card 2: testi originali -->
+        <!-- Card 2 -->
         <div class="lucky-card card-blue">
             <div class="rivet r-tl"></div>
             <div class="rivet r-tr"></div>
@@ -74,8 +65,7 @@
                 <button class="btn-card open-approfondimento" data-topic="rights">Scopri</button>
             </div>
         </div>
-
-        <!-- Card 3: testi originali -->
+        <!-- Card 3 -->
         <div class="lucky-card card-yellow">
             <div class="rivet r-tl"></div>
             <div class="rivet r-tr"></div>
@@ -89,10 +79,8 @@
                 <button class="btn-card open-approfondimento" data-topic="identity">Scopri</button>
             </div>
         </div>
-
     </main>
-
-    <!-- MODALE PROFESSIONALE DUE COLONNE (GLASS + ELASTIC) con testi originali -->
+    <!-- MODALE DUE COLONNE -->
     <div id="approfondimento-modal" class="approfondimento-modal" aria-hidden="true" data-open="false">
         <div class="approfondimento-box">
             <button class="approfondimento-close" aria-label="Chiudi">×</button>
@@ -108,9 +96,9 @@
             </div>
         </div>
     </div>
-
+     <!-- TESTI MODALI -->
     <script>
-        const approfondimenti ={
+        const approfondimenti={
             rights:{
                 title: "Diritti e Doveri Online: le regole della cittadinanza",
                 body: `
@@ -148,7 +136,7 @@
 }
 };
 
-        function openModal(key) {
+        function openModal(key){
             const modal = document.getElementById('approfondimento-modal');
             const data = approfondimenti[key];
             if (!data) return;
@@ -158,14 +146,12 @@
             document.getElementById('modal-sub').innerText = key === 'rights' ? 'netiquette' : 'reputazione';
             modal.setAttribute('data-open', 'true');
             modal.setAttribute('aria-hidden', 'false');
-        }
-
-        function closeModal() {
+}
+        function closeModal(){
             const modal = document.getElementById('approfondimento-modal');
             modal.setAttribute('data-open', 'false');
             modal.setAttribute('aria-hidden', 'true');
-        }
-
+}
         document.querySelectorAll('.open-approfondimento').forEach(btn => {
             btn.addEventListener('click', () => {
                 const key = btn.dataset.topic;
