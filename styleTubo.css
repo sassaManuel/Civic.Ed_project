@@ -5,28 +5,28 @@
         }
 
         :root {
-            /* Mario core palette (identica all'originale) */
-            --mario-yellow: #facc15;
-            --mario-green: #10b981;
-            --mario-blue: #38bdf8;
+            /* Palette di colori tema Super Mario*/
+            --yellow: #facc15;
+            --green: #10b981;
+            --blue: #38bdf8;
             --black: #000000;
             --white: #ffffff;
             --bg-grid: #f1f5f9;
 
-            /* neo‑brutalist shadows — multiple layers */
+            /* Stile ombre */
             --shadow-solid: 4px 4px 0px 0px var(--black);
             --shadow-heavy: 8px 8px 0px 0px var(--black);
             --shadow-3d: 0 12px 0 0 rgba(0,0,0,0.9), 0 18px 16px -6px rgba(0,0,0,0.4);
 
-            /* glassmorphism */
+            /* Effetto trasparenza(simile al vetro) */
             --glass-bg: rgba(255, 255, 255, 0.8);
             --glass-border: 3px solid var(--black);
             --glass-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
 
-            /* border */
+            /* Bordi */
             --border-pixel: 3px solid var(--black);
 
-            /* transitions */
+            /* Animazioni */
             --bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
             --elastic: cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
@@ -50,7 +50,7 @@
             letter-spacing: 0.02em;
         }
 
-        /* ---------- NAV (sticky glass) ---------- */
+        /* ---------- NAV ---------- */
         nav {
             display: flex;
             justify-content: space-between;
@@ -77,13 +77,13 @@
         .logo-icon {
             width: 32px;
             height: 32px;
-            background: var(--mario-green);
+            background: var(--green);
             border: var(--border-pixel);
             border-radius: 4px;
             box-shadow: 3px 3px 0px var(--black);
         }
 
-        /* progress bar — arcade moving gradient */
+        /* Barra della vita*/
         .life-bar-wrapper {
             display: flex;
             align-items: center;
@@ -107,20 +107,17 @@
         .life-fill {
             width: 70%;
             height: 100%;
-            background: linear-gradient(90deg, 
-                var(--mario-green) 0%, 
-                #4ade80 40%, 
-                var(--mario-green) 80%);
+            background: linear-gradient(90deg, var(--green) 0%, #4ade80 40%, var(--green) 80%);
             background-size: 200% 100%;
             border-right: var(--border-pixel);
             animation: scanLoad 2.5s linear infinite;
         }
         @keyframes scanLoad {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
+            0% { background-position: 200%; }
+            100% { background-position: -200%; }
         }
 
-        /* ---------- HERO ---------- */
+        /* ---------- Classi HERO(Chiamate HERO per indicare il tema SuperMario), usate per gestire design iniziale(Titolo grande, Livello 10: ...) ---------- */
         .hero {
             padding: 4rem 2rem;
             max-width: 1200px;
@@ -137,7 +134,7 @@
             margin-bottom: 1.5rem;
             display: inline-block;
             transform: rotate(-1deg);
-            box-shadow: 5px 5px 0px var(--mario-yellow);
+            box-shadow: 5px 5px 0px var(--yellow);
         }
         h1 {
             font-size: 4rem;
@@ -145,7 +142,7 @@
             margin-bottom: 1rem;
             line-height: 1;
             text-shadow: 5px 5px 0px var(--black);
-            color: var(--mario-yellow);
+            color: var(--yellow);
             -webkit-text-stroke: 2px var(--black);
         }
         .hero-desc {
@@ -159,7 +156,7 @@
             box-shadow: var(--shadow-heavy);
         }
 
-        /* pipe turbines (identiche ma con ombre) */
+        /* Tubi Super Mario */
         .illustration-area {
             display: flex;
             align-items: flex-end;
@@ -175,7 +172,7 @@
         .pipe-head {
             width: 100px;
             height: 30px;
-            background: var(--mario-green);
+            background: var(--green);
             border: var(--border-pixel);
             border-radius: 4px;
             box-shadow: 4px 4px 0px var(--black);
@@ -183,13 +180,13 @@
         .pipe-stem {
             width: 80px;
             height: 100px;
-            background: var(--mario-green);
+            background: var(--green);
             border-left: var(--border-pixel);
             border-right: var(--border-pixel);
             box-shadow: 4px 4px 0px var(--black);
         }
 
-        /* ---------- CARD GRID ---------- */
+        /* ---------- Griglia Card--------- */
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -199,9 +196,9 @@
             margin: 0 auto;
         }
 
-        /* 3D LUCKY BLOCKS with floating + bounce hover (testi originali) */
+        /* Card a tema con effetti */
         .lucky-card {
-            background: var(--mario-yellow);
+            background: var(--yellow);
             border: var(--border-pixel);
             padding: 2.5rem;
             position: relative;
@@ -325,30 +322,13 @@
             text-decoration: none;
             color: inherit;
         }
-        /* micro‑interazione: pixel dust */
-        .btn-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.8) 0%, transparent 60%);
-            opacity: 0;
-            transition: opacity 0.2s;
-            pointer-events: none;
-        }
-        .btn-card:active::after {
-            opacity: 0.5;
-            animation: pixelPop 0.15s;
-        }
-        @keyframes pixelPop {
-            0% { transform: scale(0.5); opacity: 0.8; }
-            100% { transform: scale(2); opacity: 0; }
-        }
 
-        .card-green { background: var(--mario-green); }
-        .card-blue { background: var(--mario-blue); }
-        .card-yellow { background: var(--mario-yellow); }
+        /* Colori card */
+        .card-green { background: var(--green); }
+        .card-blue { background: var(--blue); }
+        .card-yellow { background: var(--yellow); }
 
-        /* ---------- MODALE PROFESSIONALE DUE COLONNE (GLASS + ELASTIC) ---------- */
+        /* ---------- MODALE - DUE COLONNE ---------- */
         .approfondimento-modal {
             position: fixed;
             inset: 0;
@@ -393,7 +373,7 @@
             100% { opacity: 1; transform: scale(1); }
         }
 
-        /* colonna sinistra decorativa / icon */
+        /* Colonna sinistra decorativa / icon */
         .modal-left {
             border-right: 3px dashed var(--black);
             padding-right: 2rem;
@@ -405,7 +385,7 @@
         .pixel-icon-large {
             font-size: 5rem;
             font-family: 'Press Start 2P', cursive;
-            background: var(--mario-yellow);
+            background: var(--yellow);
             border: var(--border-pixel);
             box-shadow: 12px 12px 0px var(--black);
             padding: 1.5rem;
@@ -436,7 +416,7 @@
             background: var(--black);
             color: white;
             padding: 0.5rem 1rem;
-            box-shadow: 8px 8px 0px var(--mario-yellow);
+            box-shadow: 8px 8px 0px var(--yellow);
             word-break: break-word;
         }
         .modal-body-text {
@@ -487,37 +467,13 @@
             box-shadow: 5px 5px 0px black;
             transition: 0.1s;
             font-weight: 800;
-            line-height: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 10;
         }
         .approfondimento-close:hover {
             background: black;
             color: white;
             transform: translate(-3px, -3px);
             box-shadow: 8px 8px 0px black;
-        }
-
-        /* responsive */
-        @media (max-width: 720px) {
-            .approfondimento-box {
-                grid-template-columns: 1fr;
-                padding: 1.5rem;
-            }
-            .modal-left {
-                border-right: none;
-                border-bottom: 3px dashed black;
-                padding-right: 0;
-                padding-bottom: 1.5rem;
-            }
-            h1 { font-size: 3rem; }
-        }
-        @media (max-width: 480px) {
-            .illustration-area { gap: 20px; }
-            .pipe-head { width: 70px; }
-            .pipe-stem { width: 55px; }
-            .life-bar-container { width: 140px; }
-            nav { flex-wrap: wrap; gap: 1rem; }
-        }
+        }       
