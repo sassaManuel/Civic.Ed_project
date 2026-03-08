@@ -90,10 +90,10 @@
         </div>
     </main>
     <!-- MODALE DUE COLONNE -->
-    <div id="approfondimento-modal" class="approfondimento-modal" aria-hidden="true" data-open="false">
+    <div id="approfondimento-modal" class="approfondimento-modal" data-open="false">
         <div class="approfondimento-box">
-            <button class="approfondimento-close" aria-label="Chiudi">×</button>
-            <!-- colonna sinistra: Icona dinamica e sottotitolo -->
+            <button class="approfondimento-close">×</button>
+            <!-- colonna sinistra grafica dinamica -->
             <div class="modal-left">
                 <div class="pixel-icon-large" id="modal-icon">?</div>
                 <h4 id="modal-sub">approfondimento</h4>
@@ -158,22 +158,19 @@
             
             // Mostra il modale
             modal.setAttribute('data-open', 'true');
-            modal.setAttribute('aria-hidden', 'false');
 }
-        function closeModal(){
-            const modal = document.getElementById('approfondimento-modal');
-            modal.setAttribute('data-open', 'false');
-            modal.setAttribute('aria-hidden', 'true');
-}
-        document.querySelectorAll('.open-approfondimento').forEach(btn => {
+ document.querySelectorAll('.open-approfondimento').forEach(btn => {
             btn.addEventListener('click', () => {
                 const key = btn.dataset.topic; // Recupera la chiave impostata su data-topic="..."
                 openModal(key);
             });
         });
-        
-        // Assegna l'evento click ai bottoni di chiusura (la 'X')
-        document.querySelectorAll('.approfondimento-close').forEach(b => b.addEventListener('click', closeModal));
+
+        function closeModal(){
+            const modal = document.getElementById('approfondimento-modal');
+            modal.setAttribute('data-open', 'false');
+}
+ document.querySelectorAll('.approfondimento-close').forEach(b => b.addEventListener('click', closeModal));
     </script>
 </body>
 </html>
