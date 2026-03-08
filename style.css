@@ -1,34 +1,54 @@
+/* 
+    STILI GLOBALI E AMBIENTALI (GIOCO)
+    Questo file definisce l'aspetto visivo del "mondo" di Mario, inclusi sfondi,
+    personaggi, ostacoli e animazioni atmosferiche.
+*/
+
 /* --- AMBIENTE E SFONDO --- */
 body {
     margin: 0;
-    overflow: hidden;
+    overflow: hidden; /* Impedisce la comparsa delle barre di scorrimento */
+    /* Gradiente che simula un cielo che sfuma dall'azzurro intenso al chiaro */
     background: linear-gradient(to bottom, #1a6fc4 0%, #4b9fe1 40%, #87ceeb 100%);
     height: 100vh;
 }
 
+/* Container di tutto il mondo di gioco per supportare la telecamera scorrevole */
+#game-world {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    will-change: transform;
+}
+
+/* Montagne stilizzate create con gradienti radiali */
 .bg-mountains {
     position: absolute;
     bottom: 112px;
-    width: 100%;
+    width: 4000px; /* Lunga quanto il livello per evitare vuoti laterali */
     height: 250px;
     background-image: 
         radial-gradient(circle at 15% 100%, #4aaf4a 120px, transparent 121px),
         radial-gradient(circle at 40% 100%, #3e8e3e 180px, transparent 181px),
         radial-gradient(circle at 75% 100%, #4aaf4a 140px, transparent 141px);
     opacity: 0.85;
-    z-index: -2; /* Spostato dietro tutto */
+    z-index: -2; /* Posizionate dietro tutto lo scenario */
 }
 
+/* Il terreno su cui poggiano Mario, i tubi e i nemici */
 .ground {
     position: absolute;
     bottom: 0;
-    width: 100%;
+    width: 4000px; /* Lunghezza estesa */
     height: 112px;
-    background: #8b4513;
-    border-top: 14px solid #55e010;
-    z-index: -1; /* Spostato dietro gli elementi del gioco ma sopra le montagne */
+    background: #8b4513; /* Colore terra */
+    border-top: 14px solid #55e010; /* Prato superiore verde */
+    z-index: -1;
 }
 
+/* Contenitore di Mario */
 #mario {
     position: absolute;
     width: 64px;
@@ -36,9 +56,10 @@ body {
     left: 0;
     bottom: 112px;
     z-index: 5;
-    will-change: transform;
+    will-change: transform; /* Ottimizza le prestazioni per il movimento fluido */
 }
 
+/* Nuvole animate che scorrono continuamente lo schermo */
 .cloud {
     position: absolute;
     background: white;
@@ -50,6 +71,7 @@ body {
     will-change: transform;
 }
 
+/* Animazione delle nuvole: da fuori schermo a sinistra a fuori schermo a destra */
 @keyframes cloudMove {
     from { transform: translateX(-250px); }
     to   { transform: translateX(110vw);  }
@@ -67,7 +89,7 @@ body {
     border-radius: 50%;
     box-shadow: 0 0 20px rgba(255, 200, 30, 0.3);
     z-index: 1;
-    animation: sunPulse 3s ease-in-out infinite;
+    animation: sunPulse 3s ease-in-out infinite; /* Effetto pulsante delicato */
 }
 
 @keyframes sunPulse {
@@ -75,7 +97,9 @@ body {
     50%       { transform: scale(1.05); }
 }
 
-/* --- LUCKY BLOCK --- */
+/* --- LUCKY BLOCK (?) --- 
+   Il blocco che porta alla pagina della sicurezza digitale. 
+*/
 .lucky-block {
     position: absolute;
     width: 52px; height: 52px;
@@ -93,7 +117,7 @@ body {
     z-index: 3;
 }
 
-/* --- GOOMBA (gioco) --- */
+/* --- GOOMBA (Disegnato interamente con i CSS) --- */
 .goomba {
     position: absolute;
     width: 44px; height: 40px;
@@ -101,14 +125,14 @@ body {
     left: 0;
     z-index: 3;
     will-change: transform;
-    /* corpo marrone tondo */
+    /* Corpo principale tondo e marrone */
     background: radial-gradient(ellipse at 50% 38%, #c96b2a 55%, #7a3500 100%);
     border-radius: 55% 55% 30% 30%;
     border: 2px solid #3d1a00;
     box-shadow: 2px 3px 0 #3d1a00;
 }
 
-/* occhi bianchi + pupille */
+/* Occhi del Goomba creati con pseudo-elementi e box-shadow multiple */
 .goomba::before {
     content: '';
     position: absolute;
@@ -118,13 +142,13 @@ body {
     border-radius: 50%;
     border: 1.5px solid #222;
     box-shadow:
-        19px 0 0 white,
-        19px 0 0 1.5px #222,
-        4px  3px 0 4px #222,
-        23px 3px 0 4px #222;
+        19px 0 0 white,             /* Secondo occhio */
+        19px 0 0 1.5px #222,        /* Bordo secondo occhio */
+        4px  3px 0 4px #222,        /* Pupilla sinistra */
+        23px 3px 0 4px #222;        /* Pupilla destra */
 }
 
-/* piedi */
+/* Piedi del Goomba */
 .goomba::after {
     content: '';
     position: absolute;
@@ -132,10 +156,10 @@ body {
     width: 17px; height: 9px;
     background: #3d1a00;
     border-radius: 40% 40% 55% 55%;
-    box-shadow: 25px 0 0 #3d1a00;
+    box-shadow: 25px 0 0 #3d1a00; /* Secondo piede */
 }
 
-/* --- PIPE --- */
+/* --- TUBI DI WARP (PIPE) --- */
 .pipe {
     position: absolute;
     width: 80px; height: 105px;
@@ -144,11 +168,10 @@ body {
     border: 3px solid #004400;
     border-top: none;
     border-radius: 0 0 4px 4px;
-    /* Rimosso z-index dal parent per non creare un nuovo stacking context */
     box-shadow: 4px 0 0 #004400;
 }
 
-/* cappello del pipe - DAVANTI A MARIO */
+/* La parte superiore sporgente del tubo */
 .pipe::before {
     content: "";
     position: absolute;
@@ -158,8 +181,53 @@ body {
     border: 3px solid #004400;
     border-radius: 4px;
     box-shadow: 4px 0 0 #004400;
-    z-index: 10; /* Molto alto per coprire sicuramente Mario (che è 5) */
+    z-index: 10; /* Z-index alto per "nascondere" Mario quando entra o esce */
 }
 
+/* Posizionamento specifico dei due tubi */
 #pipe1 { left: 850px; }
 #pipe2 { left: 1250px; }
+
+/* --- BANDIERA FINE LIVELLO --- */
+.flagpole {
+    position: absolute;
+    width: 6px; 
+    height: 350px;
+    background: #c0c0c0;
+    bottom: 112px;
+    left: 3800px;
+    z-index: 2;
+    border-radius: 4px;
+    box-shadow: 2px 0 0 #555;
+}
+
+.flagpole::before {
+    content: '';
+    position: absolute;
+    top: -12px; left: -6px;
+    width: 18px; height: 18px;
+    background: #ffd700;
+    border-radius: 50%;
+    box-shadow: inset -3px -3px 0 #b8860b;
+}
+
+.flag {
+    position: absolute;
+    bottom: 320px; /* La bandiera parte dall'alto */
+    left: -32px;
+    width: 32px;
+    height: 32px;
+    background: #ff0000;
+    clip-path: polygon(100% 0%, 0% 50%, 100% 100%);
+    z-index: 3;
+}
+
+/* --- SCALINATA DI FINE LIVELLO --- */
+.stair {
+    position: absolute;
+    bottom: 112px;
+    background: #c96b2a; /* Colore mattone */
+    border: 3px solid #7a3500;
+    box-sizing: border-box;
+    box-shadow: inset 2px 2px 0px rgba(255,255,255,0.2), inset -2px -2px 0px rgba(0,0,0,0.3);
+}

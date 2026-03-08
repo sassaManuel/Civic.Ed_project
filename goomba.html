@@ -1,28 +1,40 @@
+<!-- 
+    PAGINA GOOMBA ECONOMY
+    Questa pagina affronta temi legati allo sviluppo economico, alla responsabilità
+    individuale, al lavoro e all'impatto ambientale, ispirandosi all'ambientazione del Goomba.
+-->
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GOOMBA ECONOMY █ SVILUPPO & RESPONSABILITÀ</title>
+    <!-- CSS specifico per la pagina Goomba -->
     <link rel="stylesheet" href="goomba.css">
+    <!-- Font moderni e stile pixel per richiamare il tema -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Sfondo a griglia animato -->
     <div class="goomba-grid"></div>
+    
+    <!-- Elementi grafici fluttuanti (Emoji a tema) -->
     <div class="floating-goomba">👾</div>
     <div class="floating-goomba">🍄</div>
     <div class="floating-goomba">👣</div>
     <div class="floating-goomba">🌱</div>
 
 
+    <!-- Pulsante per tornare al gioco principale (index.html) -->
     <a href="index.html" class="back-to-game">
         <span class="back-icon"></span>
         <span class="back-text">TORNA AL GIOCO</span>
         <span class="back-icon"></span>
     </a>
 
+    <!-- Contenitore principale dei contenuti -->
     <div class="container">
-        <!-- HEADER GOOMBA ECONOMY -->
+        <!-- HEADER GOOMBA ECONOMY: Titolo principale e "badge" descrittivi -->
         <header class="goomba-header">
             <h1>👣 GOOMBA ECONOMY<br><span style="font-size: 0.8rem; color: #2c1e0e;">SVILUPPO & RESPONSABILITÀ</span></h1>
             <div class="goomba-badge">
@@ -32,9 +44,9 @@
             </div>
         </header>
 
-        <!-- GRIGLIA GOOMBA -->
+        <!-- GRIGLIA GOOMBA: Disposizione a griglia per le card dei vari argomenti -->
         <div class="goomba-grid-container">
-            <!-- CRESCITA ECONOMICA -->
+            <!-- CARD 1: Sviluppo e crescita economica -->
             <div class="goomba-card goomba-brown-accent">
                 <div class="goomba-tag">CRESCITA</div>
                 <h2><span class="goomba-icon">📈</span> SVILUPPO ECONOMICO</h2>
@@ -44,6 +56,7 @@
                     <li><strong>Impatto sociale:</strong> Maggiori opportunità, coesione sociale, benessere diffuso</li>
                 </ul>
                 
+                <!-- Box con caratteristiche salienti (PIL, Innovazione) -->
                 <div class="feature-goomba">
                     <div class="feature-item">
                         <span class="feature-icon">📊</span>
@@ -58,7 +71,7 @@
                 </div>
             </div>
 
-            <!-- CULTURA DEL LAVORO -->
+            <!-- CARD 2: Cultura del lavoro e impegno -->
             <div class="goomba-card goomba-green-accent">
                 <div class="goomba-tag">VALORI</div>
                 <h2><span class="goomba-icon">💪</span> CULTURA & IMPEGNO</h2>
@@ -68,6 +81,7 @@
                     <li><strong>Impegno civico:</strong> Partecipazione attiva alla comunità e allo sviluppo locale</li>
                 </ul>
 
+                <!-- Citazione evidenziata -->
                 <div style="background: rgba(88, 129, 87, 0.2); padding: 20px; border-radius: 20px; margin-top: 20px; border: 3px dashed var(--grass-green);">
                     <p style="font-weight: 700; display: flex; gap: 10px; align-items: center;">
                         <span>🌟</span> "Il lavoro dignitoso è la chiave per lo sviluppo sostenibile"
@@ -75,12 +89,13 @@
                 </div>
             </div>
 
-            <!-- PECULIARITÀ DEI TERRITORI -->
+            <!-- CARD 3: Valorizzazione delle risorse locali -->
             <div class="goomba-card goomba-brown-accent">
                 <div class="goomba-tag">TERRITORI</div>
                 <h2><span class="goomba-icon">🗺️</span> RISORSE LOCALI</h2>
                 <p style="margin-bottom: 20px; font-size: 1.1rem;">Ogni territorio contribuisce con le proprie peculiarità:</p>
                 
+                <!-- Griglia interna per mostrare i 4 tipi di territori -->
                 <div class="territory-grid">
                     <div class="territory-item">
                         <span style="font-size: 2rem;">🏔️</span>
@@ -104,16 +119,18 @@
                     </div>
                 </div>
 
+                <!-- Strategie territoriali -->
                 <p style="margin-top: 20px; background: rgba(0,0,0,0.1); padding: 15px; border-radius: 15px;">
                     <strong>Strategie territoriali:</strong> Valorizzare le risorse locali, creare reti di imprese, promuovere l'eccellenza
                 </p>
             </div>
 
-            <!-- STILE DI VITA E IMPATTO AMBIENTALE -->
+            <!-- CARD 4: Stile di vita sostenibile e impatto ambientale -->
             <div class="goomba-card goomba-green-accent">
                 <div class="goomba-tag">AMBIENTE</div>
                 <h2><span class="goomba-icon">🌱</span> IMPATTO ECOLOGICO</h2>
                 
+                <!-- Lista di "badge" per le strategie di riduzione impatto -->
                 <div class="impact-meter">
                     <p style="font-weight: 700; margin-bottom: 15px;">Misure per ridurre l'impatto:</p>
                     <div style="display: flex; flex-wrap: wrap; gap: 10px;">
@@ -126,6 +143,7 @@
                     </div>
                 </div>
 
+                <!-- Dati statistici di esempio in due colonne -->
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <div style="background: #f0e6d2; padding: 20px; border-radius: 20px; border: 3px solid #3d2b1a;">
                         <span style="font-size: 2rem;">⬇️</span>
@@ -140,7 +158,7 @@
                 </div>
             </div>           
 
-            <!-- APPROFONDIMENTI -->
+            <!-- CARD 5: Strategie e misure (approfondimenti) -->
             <div class="goomba-card goomba-brown-accent">
                 <div class="goomba-tag">APPROF.</div>
                 <h2><span class="goomba-icon">📚</span> STRATEGIE & MISURE</h2>
@@ -154,7 +172,7 @@
             </div>
         </div>
 
-        <!-- FOOTER GOOMBA -->
+        <!-- FOOTER GOOMBA: Chiusura della pagina -->
         <footer class="goomba-footer">
             <div class="footer-quote">🌍 SVILUPPO ECONOMICO • RESPONSABILITÀ • SOSTENIBILITÀ 🌍</div>
             <p>LIBERTÀ E RESPONSABILITÀ ECOLOGICA • DIBATTITO IN CLASSE</p>

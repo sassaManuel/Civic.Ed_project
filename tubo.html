@@ -1,7 +1,14 @@
+<!-- 
+    PAGINA COMPETENZA CIVICA 10: Cittadinanza Digitale
+    Questa pagina è dedicata all'insegnamento delle regole della rete,
+    della sicurezza online e dell'identità digitale.
+-->
 <!DOCTYPE html>
 <head>
     <title>Competenza Civica 10: Cittadinanza Digitale</title>
+    <!-- Font di Google simili al mondo retro e moderno -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <!-- CSS specifico per la pagina "Tubo" -->
     <link rel="stylesheet" href="styleTubo.css">
 </head>
 <body>
@@ -62,6 +69,7 @@
             <h2>Diritti e Doveri</h2>
             <p>Navigare non significa solo cliccare. Scopri le regole della Netiquette, l'importanza del Copyright e come proteggere la tua Privacy nel web.</p>
             <div class="card-footer">
+                <!-- Bottone che apre il modale con data-topic="rights" -->
                 <button class="btn-card open-approfondimento" data-topic="rights">Scopri</button>
             </div>
         </div>
@@ -76,6 +84,7 @@
             <h2>E-Reputation</h2>
             <p>La tua impronta digitale parla di te. Analizza casi reali di cyberbullismo, l'uso dei deepfake e come gli influencer gestiscono la loro immagine.</p>
             <div class="card-footer">
+                <!-- Bottone che apre il modale con data-topic="identity" -->
                 <button class="btn-card open-approfondimento" data-topic="identity">Scopri</button>
             </div>
         </div>
@@ -89,7 +98,7 @@
                 <div class="pixel-icon-large" id="modal-icon">?</div>
                 <h4 id="modal-sub">approfondimento</h4>
             </div>
-            <!-- colonna destra con testi originali -->
+            <!-- colonna destra: Titolo e corpo del testo dinamico -->
             <div class="modal-right">
                 <h3 id="approfondimento-title"></h3>
                 <div class="modal-body-text" id="approfondimento-body"></div>
@@ -116,7 +125,7 @@
                     </ul>
                 `,
               
-},
+            },
             identity:{
                 title: "Identità digitale e analisi dei rischi",
                 body: `
@@ -133,22 +142,26 @@
                         <li><strong>Workshop</strong>: impara a distinguere un video reale da un deepfake.</li>
                     </ul>
                 `
-}
-};
+            }
+        };
 
         function openModal(key){
             const modal = document.getElementById('approfondimento-modal');
-            const data = approfondimenti[key];
-            if (!data) return;
+            const data = approfondimenti[key]; // Cerca i dati in base alla chiave (es. "rights")
+            if (!data) return; // Se la chiave non esiste, esce
+            
+            // Inserisce i dati nel DOM
             document.getElementById('approfondimento-title').innerText = data.title;
             document.getElementById('approfondimento-body').innerHTML = data.body;
             document.getElementById('modal-icon').innerText = data.icon || '?';
             document.getElementById('modal-sub').innerText = key === 'rights' ? 'netiquette' : 'reputazione';
+            
+            // Mostra il modale
             modal.setAttribute('data-open', 'true');
 }
  document.querySelectorAll('.open-approfondimento').forEach(btn => {
             btn.addEventListener('click', () => {
-                const key = btn.dataset.topic;
+                const key = btn.dataset.topic; // Recupera la chiave impostata su data-topic="..."
                 openModal(key);
             });
         });
