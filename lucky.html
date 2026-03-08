@@ -1,23 +1,28 @@
-
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LUCKY BLOCK █ MATRIX CYBER</title>
     <!-- Font di Google combinati: un font moderno per i testi e uno stile pixel per i titoli/bottoni -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Press+Start+2P&display=swap"
+        rel="stylesheet">
     <!-- Foglio di stile specifico per la pagina Lucky Block -->
     <link rel="stylesheet" href="styleLuckyBlock.css">
 </head>
+
 <body>
     <!-- ELEMENTI DECORATIVI FLUTTUANTI sullo sfondo (monete e blocchi) -->
-    <div class="floating-coin">🪙</div>
-    <div class="floating-coin">⭐</div>
+    <div class="floating-coin"><img
+            src="https://cdn.discordapp.com/attachments/1186011055982383135/1480310705839149056/immagine-removebg-preview.png?ex=69af3647&is=69ade4c7&hm=b9c9b4b4a825c97099fc680bc6c83ede6ae53337d338a52ea371be534932c8ab&"
+            alt="" width="150px" height="150px"></div>
+    <div class="floating-coin">⭐🪙</div>
     <div class="floating-coin">?</div>
 
-    <!-- BOTTONE PER TORNARE AL GIOCO PRINCIPALE (index.html) -->
-    <a href="index.html" class="back-to-game">
+    <!-- BOTTONE PER TORNARE AL GIOCO PRINCIPALE (game.html) -->
+    <a href="#" onclick="window.parent.postMessage({type:'backToGame'}, '*'); return false;" class="back-to-game">
         <span class="back-icon">🎮</span>
         <span class="back-text">TORNA AL GIOCO</span>
         <span class="back-icon">❓</span>
@@ -29,7 +34,7 @@
         <header class="lucky-header">
             <!-- Titolo principale con animazioni CSS -->
             <h1>⚡ LUCKY BLOCK<br><span>MATRIX CYBER 2026</span></h1>
-            
+
             <!-- Etichetta stile "Matrix" stilizzata -->
             <div class="matrix-badge">
                 <span>MATRIX</span>
@@ -40,7 +45,7 @@
 
         <!-- GRIGLIA DEI CONTENUTI (Le diverse "carte" o moduli) -->
         <div class="blocks-grid">
-            
+
             <!-- MODULO 1: COMUNICAZIONE -->
             <div class="lucky-card">
                 <!-- Decorazioni "bulloni" agli angoli della card -->
@@ -50,14 +55,15 @@
                 <div class="rivet r-br"></div>
                 <!-- Simbolo del punto interrogativo in stile pixel -->
                 <div class="question-mark">?</div>
-                
+
                 <div class="block-tag">MODULO 1</div>
                 <h2><span class="matrix-icon">📡</span> COMUNICAZIONE</h2>
-                
+
                 <p class="highlight-text">
-                    Individuare forme di comunicazione adeguate, rispettando le regole comportamentali (Netiquette) proprie di ciascun contesto.
+                    Individuare forme di comunicazione adeguate, rispettando le regole comportamentali (Netiquette)
+                    proprie di ciascun contesto.
                 </p>
-                
+
                 <h3 class="section-title">🔄 CONTEXT-SWITCHING</h3>
                 <!-- Lista stilizzata per i mezzi di comunicazione -->
                 <ul class="mario-list">
@@ -74,10 +80,10 @@
                 <div class="rivet r-bl"></div>
                 <div class="rivet r-br"></div>
                 <div class="question-mark">?</div>
-                
+
                 <div class="block-tag">MODULO 2</div>
                 <h2><span class="matrix-icon">🛡️</span> SICUREZZA</h2>
-                
+
                 <p class="highlight-text">Protezione dei dati personali e riconoscimento minacce</p>
 
                 <!-- MINACCE INFORMATICHE: Strutturate a griglia orizzontale -->
@@ -100,7 +106,7 @@
                 </div>
 
                 <h3 class="section-title blue">🔐 SICUREZZA SOCIAL</h3>
-                
+
                 <!-- Box informativi su Password e VPN -->
                 <div class="power-double">
                     <div class="power-item green-neon">
@@ -123,10 +129,10 @@
                 <div class="rivet r-bl"></div>
                 <div class="rivet r-br"></div>
                 <div class="question-mark">?</div>
-                
+
                 <div class="block-tag">EXTRA</div>
                 <h2><span class="matrix-icon">💊</span> MATRIX TIPS</h2>
-                
+
                 <div class="tips-grid">
                     <div class="tip-item">
                         <span class="tip-icon">🔒</span>
@@ -137,13 +143,13 @@
                         <p><strong>APP SICURE</strong><br>Solo store ufficiali</p>
                     </div>
                 </div>
-                
+
                 <!-- Simulazione di un terminale informatico -->
                 <div class="code-block">
                     <code>> REDPILL_LOADED.EXE</code>
                 </div>
             </div>
-            
+
             <!-- EXTRA: LUCKY ALERT (Notizie o avvisi flash) -->
             <div class="lucky-card">
                 <div class="rivet r-tl"></div>
@@ -151,10 +157,10 @@
                 <div class="rivet r-bl"></div>
                 <div class="rivet r-br"></div>
                 <div class="question-mark">?</div>
-                
+
                 <div class="block-tag">ALERT</div>
                 <h2><span class="matrix-icon">⚠️</span> LUCKY ALERT</h2>
-                
+
                 <!-- Box stile avviso di minaccia -->
                 <div class="alert-content">
                     <p class="alert-title">🚨 NUOVE MINACCE PHISHING</p>
@@ -171,17 +177,19 @@
         <footer class="matrix-footer">
             <div class="footer-lucky">⭐ LUCKY BLOCK × MATRIX ⭐</div>
             <p class="footer-text">SICUREZZA • COMUNICAZIONE • TIPS</p>
-            
+
             <!-- Riproduzione in stile testo dei tasti direzionali di un controller -->
             <div class="controller">
                 <span>⬆️⬇️⬅️➡️</span>
                 <span class="start">START</span>
                 <span class="select">SELECT</span>
             </div>
-            
+
             <!-- "The Matrix" scritto in codice binario -->
-            <p class="binary-code">01010100 01101000 01100101 00100000 01001101 01100001 01110100 01110010 01101001 01111000</p>
+            <p class="binary-code">01010100 01101000 01100101 00100000 01001101 01100001 01110100 01110010 01101001
+                01111000</p>
         </footer>
     </div>
 </body>
+
 </html>

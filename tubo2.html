@@ -681,7 +681,7 @@ body::before {
     <div class="hole-grid"></div>
 
     <!-- BOTTONE PER TORNARE AL GIOCO (stile Tubo Verde) -->
-    <a href="index.html" class="back-to-game">
+    <a href="#" onclick="window.parent.postMessage({type:'backToGame'}, '*'); return false;" class="back-to-game">
         <span class="back-icon">🎮</span>
         <span class="back-text">TORNA AL GIOCO</span>
         <span class="back-icon">🌿</span>

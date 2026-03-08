@@ -1,377 +1,526 @@
-
 <!DOCTYPE html>
 <html lang="it">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Super Mario World - Civic Ed</title>
-    <!-- Caricamento del font "pixelato" per richiamare lo stile dei videogiochi retro -->
+    <title>Arcade Machine - Super Mario Civic Ed</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <!-- Collegamento al file CSS esterno per gli stili grafici e le animazioni -->
-    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --cabinet-dark: #111;
+            --cabinet-red: #c00;
+            --cabinet-red-dark: #900;
+            --cabinet-border: #444;
+            --glow: #ffcc00;
+            --btn-red: #ff3333;
+            --btn-blue: #3333ff;
+            --stick: #ddd;
+            --ball: #ff0000;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0a0a0a; /* Sfondo scuro per il locale arcade */
+            display: flex; /* cambiato da justify-content per permettere scrolling laterale finto */
+            height: 100vh;
+            font-family: 'Press Start 2P', cursive;
+            overflow: hidden;
+        }
+
+        /* Contenitore principale che scorre a destra/sinistra */
+        .room {
+            display: flex;
+            width: 200vw;
+            height: 100vh;
+            transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Quando diamo questa classe al body, la visuale si sposta a destra */
+        body.look-right .room {
+            transform: translateX(-100vw);
+        }
+
+        /* --- SCENA 1: IL CABINATO ARCADE --- */
+        .scene-arcade {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end; /* Lo poggia in basso */
+            background: radial-gradient(circle at center 40%, #2a2a3a 0%, #0a0a1a 80%);
+        }
+
+        /* ARCADE CABINET - Ingrandito a grandezza uomo */
+        .arcade-cabinet {
+            width: 1100px;
+            height: 100vh; /* Occupa tutta l'altezza dello schermo */
+            max-height: none; /* Rimosso limite di altezza */
+            background: linear-gradient(to right, var(--cabinet-dark) 0%, #222 50%, var(--cabinet-dark) 100%);
+            border: 4px solid var(--cabinet-border);
+            border-top: none;
+            border-bottom: none;
+            border-radius: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 0 100px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        /* SIDE PANELS (FAKE 3D) */
+        .arcade-cabinet::before,
+        .arcade-cabinet::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 40px;
+            background: var(--cabinet-red-dark);
+        }
+        .arcade-cabinet::before {
+            left: -40px;
+            transform-origin: right;
+            transform: perspective(1000px) rotateY(-80deg);
+        }
+        .arcade-cabinet::after {
+            right: -40px;
+            transform-origin: left;
+            transform: perspective(1000px) rotateY(80deg);
+        }
+
+        /* MARQUEE (Top Sign) */
+        .marquee {
+            width: 92%;
+            height: 90px;
+            margin-top: 5px; /* Alzato verso il soffitto */
+            background: #000;
+            border: 6px solid #222;
+            border-radius: 12px;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px var(--glow), inset 0 0 30px var(--glow);
+        }
+        .marquee h1 {
+            color: #fff;
+            text-shadow: 0 0 10px var(--glow), 0 0 20px var(--glow), 0 0 40px #f00;
+            font-size: 30px;
+            text-align: center;
+            line-height: 1.5;
+            z-index: 2;
+        }
+        /* Marquee reflection */
+        .marquee::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, transparent 50%);
+            transform: rotate(30deg);
+            z-index: 1;
+        }
+
+        /* SCREEN BEZEL */
+        .screen-bezel {
+            width: 90%;
+            flex: 1; /* Prende lo spazio rimanente */
+            margin: 15px 0;
+            background: #111;
+            border: 18px solid #222;
+            border-radius: 25px;
+            border-top-color: #333;
+            border-bottom-color: #0a0a0a;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: inset 0 0 40px #000;
+        }
+
+        /* THE ACTUAL IFRAME SCREEN */
+        .game-screen {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #000;
+            border-radius: 15px;
+            /* CRT EFFECT */
+            box-shadow: inset 0 0 25px rgba(0,0,0,0.9);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* CRT SCANLINES & GLARE */
+        .screen-bezel::after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 20;
+            background-size: 100% 5px, 6px 100%;
+            pointer-events: none;
+        }
+        
+        .screen-glass {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 15px;
+            box-shadow: inset 0 0 60px rgba(255,255,255,0.1);
+            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 40%, rgba(255,255,255,0.05) 100%);
+            pointer-events: none;
+            z-index: 25;
+        }
+
+        /* CONTROL PANEL (Slanted) */
+        .control-panel {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(to bottom, var(--cabinet-red) 0%, var(--cabinet-red-dark) 100%);
+            border-top: 6px solid #ff4444;
+            transform-origin: top;
+            transform: perspective(800px) rotateX(20deg);
+            position: relative;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -15px 30px rgba(0,0,0,0.6);
+            z-index: 50;
+            flex-shrink: 0;
+        }
+
+        /* JOYSTICK BASE AND STICK */
+        .joystick-container {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 50; /* Forza sopra tutto */
+        }
+        .joystick-base {
+            width: 90px;
+            height: 90px;
+            background: radial-gradient(circle at center, #444 0%, #111 100%);
+            border-radius: 50%;
+            border: 5px solid #222;
+            position: absolute;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.8);
+        }
+        .joystick-stick-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.1s ease-out;
+        }
+        .joystick-stick {
+            width: 24px;
+            height: 70px;
+            background: linear-gradient(to right, #ccc 0%, #fff 50%, #999 100%);
+            position: absolute;
+            bottom: 50%;
+            border-radius: 12px;
+            z-index: 5;
+            transform-origin: bottom center;
+        }
+        .joystick-ball {
+            width: 45px;
+            height: 45px;
+            background: radial-gradient(circle at 30% 30%, #ff8888 0%, var(--ball) 60%, #800 100%);
+            border-radius: 50%;
+            position: absolute;
+            top: -45px;
+            left: -10px;
+            box-shadow: inset -6px -6px 18px rgba(0,0,0,0.5), 0 12px 12px rgba(0,0,0,0.4);
+            z-index: 6;
+        }
+
+        /* JOYSTICK POSITIONS */
+        .joystick-left { transform: rotate(-25deg); }
+        .joystick-right { transform: rotate(25deg); }
+        .joystick-up { transform: rotateX(30deg) translateY(-20px); }
+
+        /* ACTION BUTTONS */
+        .buttons-container {
+            display: flex;
+            gap: 40px;
+            position: relative;
+            top: -20px;
+            transform: rotate(-10deg);
+            z-index: 50; /* Forza sopra tutto */
+        }
+        .arcade-btn-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        .arcade-btn-base {
+            width: 80px;
+            height: 80px;
+            background: #222;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.8), inset 0 2px 6px rgba(255,255,255,0.2);
+            position: relative;
+        }
+        .arcade-btn {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            box-shadow: inset -2px -6px 12px rgba(0,0,0,0.3), 0 6px 6px rgba(0,0,0,0.5);
+            transition: all 0.05s ease;
+        }
+        .arcade-btn.red { background: radial-gradient(circle at 30% 30%, #ff8888 0%, var(--btn-red) 60%, #a00 100%); }
+        .arcade-btn.blue { background: radial-gradient(circle at 30% 30%, #8888ff 0%, var(--btn-blue) 60%, #00a 100%); }
+        
+        /* PRESSED STATE */
+        .arcade-btn.pressed {
+            top: 10px;
+            box-shadow: inset -2px -2px 12px rgba(0,0,0,0.5), 0 0px 3px rgba(0,0,0,0.5);
+        }
+
+        .btn-label {
+            color: #fff;
+            font-size: 14px;
+            text-shadow: 0 2px 3px rgba(0,0,0,0.8);
+            letter-spacing: 1px;
+        }
+
+        /* INSTRUCTIONS TEXT OVERLAY */
+        .start-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            text-align: center;
+            z-index: 50;
+            text-shadow: 0 0 12px #000;
+            pointer-events: none;
+            animation: pulse 1s infinite alternate, fadeout 3s forwards;
+            animation-delay: 0s, 3s;
+        }
+        .start-overlay h2 { font-size: 32px; }
+        .start-overlay p { font-size: 18px; }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); text-shadow: 0 0 25px #ff0; }
+        }
+        @keyframes fadeout {
+            to { opacity: 0; visibility: hidden; }
+        }
+
+        /* --- SCENA 2: MAXISCHERMO A DESTRA --- */
+        .scene-bigscreen {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at center, #1a1a2a 0%, #000 100%);
+            position: relative;
+        }
+
+        /* Struttura fisica del maxischermo */
+        .big-screen-frame {
+            width: 95vw;
+            height: 95vh;
+            background: #111;
+            border: 15px solid #222;
+            border-radius: 12px;
+            box-shadow: 0 0 100px rgba(0,255,255,0.1), inset 0 0 30px #000;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        .big-screen-header {
+            height: 50px;
+            background: #151515;
+            border-bottom: 2px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ff3333;
+            font-size: 18px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255,0,0,0.5);
+        }
+
+        .big-screen-iframe {
+            width: 100%;
+            flex: 1;
+            border: none;
+            background: #000;
+            border-radius: 0 0 12px 12px;
+        }
+
+        /* Riflessi maxischermo */
+        .big-screen-frame::after {
+            content: '';
+            position: absolute;
+            top: 50px; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+    </style>
 </head>
 
 <body>
-    <div id="game-world">
-        <!-- 
-            ELEMENTI DEL GIOCO:
-            Div e immagini che rappresentano gli oggetti nel mondo di gioco.
-            Tutti questi elementi verranno manipolati via JavaScript o CSS.
-        -->
-        <div id="mario">
-            <!-- L'immagine di Mario (sassamanuel.png) -->
-            <img src="sassamanuel.png" alt="Mario" width="64" height="92">
+
+    <div class="room">
+        <!-- SCENA DI SINISTRA: L'ARCADE -->
+        <div class="scene-arcade">
+            <div class="arcade-cabinet">
+                
+                <div class="marquee">
+                    <h1>SUPER MARIO<br>CIVIC ED.</h1>
+                </div>
+
+                <div class="screen-bezel">
+                    <iframe id="gameIframe" class="game-screen" src="game.html" allowfullscreen></iframe>
+                    <div class="screen-glass"></div>
+                </div>
+
+                <div class="control-panel">
+                    <!-- JOYSTICK -->
+                    <div class="joystick-container">
+                        <div class="joystick-base"></div>
+                        <div class="joystick-stick-wrapper" id="joystick">
+                            <div class="joystick-stick">
+                                <div class="joystick-ball"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BUTTONS -->
+                    <div class="buttons-container">
+                        <div class="arcade-btn-wrapper">
+                            <div class="arcade-btn-base">
+                                <div class="arcade-btn blue" id="btn-action"></div>
+                            </div>
+                            <span class="btn-label">TUBE (S)</span>
+                        </div>
+                        <div class="arcade-btn-wrapper" style="margin-top: -30px;">
+                            <div class="arcade-btn-base">
+                                <div class="arcade-btn red" id="btn-jump"></div>
+                            </div>
+                            <span class="btn-label">JUMP (W)</span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="start-overlay">
+                    <h2>CLICK TO START</h2>
+                    <p>Use W A S D or Arrows</p>
+                </div>
+
+            </div>
         </div>
 
-        <!-- Elementi ambientali -->
-        <div class="sun"></div>
-        <!-- Blocco fortunato: porta alla pagina lucky.html -->
-        <div class="lucky-block" id="luckyBlock">?</div>
-        <!-- Nemico Goomba: se colpito di lato resetta, se colpito dall'alto porta a goomba.html -->
-        <div class="goomba" id="goomba"></div>
-        <!-- Tubi verdi: se ci si preme "S" o "Freccia Giù" portano ad altre pagine -->
-        <div class="pipe" id="pipe1"></div>
-        <div class="pipe" id="pipe2"></div>
-
-        <!-- Blocco scale prima della bandiera -->
-        <div class="stair" style="left: 3450px; width: 50px; height: 50px;"></div>
-        <div class="stair" style="left: 3500px; width: 50px; height: 100px;"></div>
-        <div class="stair" style="left: 3550px; width: 50px; height: 150px;"></div>
-        <div class="stair" style="left: 3600px; width: 50px; height: 200px;"></div>
-
-        <!-- Bandiera di fine livello -->
-        <div class="flagpole" id="flagpole">
-            <div class="flag" id="flag"></div>
+        <!-- SCENA DI DESTRA: IL MAXISCHERMO -->
+        <div class="scene-bigscreen">
+            <div class="big-screen-frame">
+                <div class="big-screen-header">
+                    ▶ MODULO EDUCAZIONE CIVICA IN ESECUZIONE ...
+                </div>
+                <iframe id="bigScreenIframe" class="big-screen-iframe" src="about:blank"></iframe>
+            </div>
         </div>
-
-        <!-- Sfondi e decorazioni -->
-        <div class="ground"></div>
-        <div class="bg-mountains"></div>
-        <div class="cloud" id="cloud1"></div>
-        <div class="cloud" id="cloud2"></div>
     </div>
 
     <script>
-        /**
-         * LOGICA DEL GIOCO (JAVASCRIPT)
-         * Gestisce il movimento di Mario, la fisica, le collisioni e la navigazione tra le pagine.
-         */
+        const joystick = document.getElementById('joystick');
+        const btnJump = document.getElementById('btn-jump');
+        const btnAction = document.getElementById('btn-action');
 
-        // Riferimenti agli elementi DOM
-        const gameWorld = document.getElementById("game-world");
-        const mario = document.getElementById("mario");
-        const luckyBlock = document.getElementById("luckyBlock");
-        const goomba = document.getElementById("goomba");
-        const flag = document.getElementById("flag");
-
-        // Costanti di gioco: dimensioni e parametri fisici
-        const GROUND_Y = 112; // Altezza del terreno dal fondo
-        const MARIO_W = 64;   // Larghezza di Mario
-        const MARIO_H = 92;   // Altezza di Mario
-        const HITBOX = { x: 12, y: 5, w: 40, h: 82 }; // Area di collisione reale (più piccola dell'immagine)
-
-        // Stato di Mario: posizione e velocità
-        let posX = 100, posY = 0;
-        let velX = 0, velY = 0;
-
-        // PARAMETRI FISICI: Regolano come Mario si muove (salto, gravità, attrito)
-        const gravity = 1.0;      // Forza che spinge Mario verso il basso
-        const jumpPower = 22.0;   // Forza iniziale del salto
-        const accel = 1.2;        // Accelerazione laterale
-        const friction = 0.85;    // Attrito che rallenta Mario quando non si premono tasti
-        const maxSpeed = 12.0;    // Velocità massima raggiungibile
-
-        // Stato del Goomba (il nemico che cammina)
-        let goombaX = 1000;
-        let goombaDir = -1;
-        const goombaSpeed = 2.5;
-        const goombaRange = { min: 940, max: 1200 }; // Area in cui il Goomba pattuglia
-
-        // Input dell'utente
-        let keys = {};
-        let onGround = true;      // Indica se Mario sta toccando terra
-        let isRedirecting = false; // Impedisce molteplici redirect contemporanei
-        let marioFacingRight = true; // Lato verso cui guarda Mario
-
-        // Stato della bandiera di fine livello
-        const FLAGPOLE_X = 3800; // Spostata molto più avanti
-        let flagHit = false;
-        let flagY = 320; // Posizione Y della bandiera (parte dall'alto)
-
-        // Posizione delle scale per le collisioni
-        const stairs = [
-            { x: 3450, w: 50, h: 50 },
-            { x: 3500, w: 50, h: 100 },
-            { x: 3550, w: 50, h: 150 },
-            { x: 3600, w: 50, h: 200 }
-        ];
-
-        // Gestione degli eventi da tastiera
-        document.addEventListener("keydown", e => {
-            const k = e.key.toLowerCase();
-            keys[k] = true;
-            // Preveniamo lo scrolling della pagina con i tasti freccia/spazio
-            if ([" ", "arrowup", "arrowdown", "arrowleft", "arrowright", "w", "a", "s", "d"].includes(k)) {
-                if (!isRedirecting) e.preventDefault();
+        // Ascoltatore dei messaggi provenienti dall'iframe (game.html, o i moduli sul maxischermo)
+        window.addEventListener('message', function(e) {
+            if (e.data && e.data.type) {
+                if (e.data.type === 'keydown') {
+                    handleKey(e.data.key, true);
+                } else if (e.data.type === 'keyup') {
+                    handleKey(e.data.key, false);
+                } else if (e.data.type === 'navigate') {
+                    // C'è stata una navigazione (Lucky block, Tubo, Goomba)
+                    // Carichiamo l'URL nel maxischermo a destra
+                    document.getElementById('bigScreenIframe').src = e.data.url;
+                    // Giriamo la visuale a destra
+                    document.body.classList.add('look-right');
+                } else if (e.data.type === 'backToGame') {
+                    // L'utente ha cliccato "Torna al Gioco" nel maxischermo
+                    // Giriamo la visuale a sinistra
+                    document.body.classList.remove('look-right');
+                    // Svuotiamo l'iframe del maxischermo e riavviamo il gioco dopo l'animazione
+                    setTimeout(() => {
+                        document.getElementById('bigScreenIframe').src = 'about:blank';
+                        // Comunichiamo al gioco di resettarsi/sbloccarsi
+                        document.getElementById('gameIframe').contentWindow.postMessage({type: 'resume'}, '*');
+                        document.getElementById('gameIframe').focus();
+                    }, 1200);
+                }
             }
         });
-        document.addEventListener("keyup", e => keys[e.key.toLowerCase()] = false);
 
-        // Mappatura dei tubi e delle loro destinazioni
-        const pipes = [
-            { x: 850, url: 'tubo.html' },
-            { x: 1250, url: 'tubo2.html' }
-        ];
+        // Consenti all'arcade di inoltrare la pressione dei tasti all'iframe 
+        document.addEventListener('keydown', e => {
+            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' ', 'w', 'a', 's', 'd'].includes(e.key) && !e.ctrlKey && !e.altKey && !e.metaKey) {
+                e.preventDefault();
+            }
+            handleKey(e.key.toLowerCase(), true);
+            document.getElementById('gameIframe').focus();
+        });
 
-        // Posizione del blocco fortunato (?)
-        const luckyRect = { x: 250, y: 350, w: 52, h: 52 };
+        document.addEventListener('keyup', e => {
+            handleKey(e.key.toLowerCase(), false);
+        });
 
-        /**
-         * FUNZIONI DI UTILITÀ
-         */
+        // Funzione per animare il joystick e i bottoni
+        function handleKey(key, isDown) {
+            // Mappatura movimenti Joystick (Rimossa la direzione 'GIÙ' o 'S' dal joystick)
+            if (['arrowleft', 'a'].includes(key)) {
+                if (isDown) joystick.className = 'joystick-stick-wrapper joystick-left';
+                else joystick.className = 'joystick-stick-wrapper';
+            } 
+            else if (['arrowright', 'd'].includes(key)) {
+                if (isDown) joystick.className = 'joystick-stick-wrapper joystick-right';
+                else joystick.className = 'joystick-stick-wrapper';
+            }
+            else if (['arrowup', 'w'].includes(key)) {
+                if (isDown) joystick.className = 'joystick-stick-wrapper joystick-up';
+                else joystick.className = 'joystick-stick-wrapper';
+            }
 
-        // Calcola il rettangolo di collisione di Mario in base alla sua posizione corrente
-        function getMarioRect(x, y) {
-            return { x: x + HITBOX.x, y: GROUND_Y + y + HITBOX.y, w: HITBOX.w, h: HITBOX.h };
-        }
-
-        // Determina se due rettangoli si sovrappongono (collisione AABB)
-        function collide(r1, r2) {
-            return r1.x < r2.x + r2.w && r1.x + r1.w > r2.x && r1.y < r2.y + r2.h && r1.y + r1.h > r2.y;
-        }
-
-        // Gestisce il cambio di pagina verso i moduli di Educazione Civica
-        function goToPage(url) {
-            if (!isRedirecting) {
-                isRedirecting = true;
-                window.location.href = url;
+            // Animazione Bottoni
+            // JUMP
+            if ([' ', 'arrowup', 'w'].includes(key)) {
+                isDown ? btnJump.classList.add('pressed') : btnJump.classList.remove('pressed');
+            }
+            // TUBE (Adesso preme solo il bottone, senza inclinare il joystick)
+            if (['s', 'arrowdown'].includes(key)) {
+                isDown ? btnAction.classList.add('pressed') : btnAction.classList.remove('pressed');
             }
         }
-
-        /**
-         * CICLO DI AGGIORNAMENTO (UPDATE)
-         * Questa funzione viene chiamata ad ogni frame per calcolare i movimenti.
-         */
-        let lastTime = performance.now();
-        function update(dt) {
-            // Normalizzazione Delta Time per garantire la stessa velocità su monitor con diverse frequenze
-            const d = dt / (1000 / 60);
-            if (d > 3) return; // Protezione se il computer subisce un forte rallentamento
-
-            // Calcolo cameraX
-            let cameraX = posX - window.innerWidth / 2 + MARIO_W / 2;
-            if (cameraX < 0) cameraX = 0;
-            // limite massimo: dove inizia la bandiera (più o meno)
-            if (cameraX > 4000 - window.innerWidth) cameraX = Math.max(0, 4000 - window.innerWidth);
-
-            if (flagHit) {
-                // Mario si è attaccato al palo
-                if (!onGround) {
-                    posY -= 4 * d; // Scivola giù dal palo
-                    if (posY <= 0) {
-                        posY = 0; onGround = true;
-                    }
-                }
-
-                // La bandiera si abbassa insieme a Mario
-                flagY = posY + 20; // La bandiera segue Mario
-                if (flagY <= 20) {
-                    flagY = 20;
-                }
-
-                if (onGround) {
-                    goToPage('vittoria.html'); // Quando arrivano giù, cambia pagina
-                }
-
-                // Applica animazione bandiera e traslazioni
-                const marioImgElem = document.querySelector("#mario img");
-                let imgTransform = "scaleX(1) ";
-                if (!marioFacingRight) imgTransform = "scaleX(-1) ";
-                let tilt = marioFacingRight ? "-25deg" : "25deg";
-                if(marioImgElem) marioImgElem.style.transform = imgTransform + `translateY(10px) rotate(${tilt})`;
-
-                flag.style.bottom = `${flagY}px`;
-                mario.style.transform = `translate3d(${posX}px, ${-posY}px, 0)`;
-                gameWorld.style.transform = `translate3d(${-cameraX}px, 0, 0)`;
-                return; // Blocchiamo il resto dell'aggiornamento
-            }
-
-            // --- AGGIORNAMENTO GOOMBA ---
-            goombaX += (goombaSpeed * goombaDir) * d;
-            if (goombaX >= goombaRange.max || goombaX <= goombaRange.min) {
-                goombaDir *= -1; // Cambia direzione se raggiunge i limiti del percorso
-            }
-
-            // --- MOVIMENTO ORIZZONTALE MARIO ---
-            if (keys["arrowright"] || keys["d"]) velX += accel * d;
-            else if (keys["arrowleft"] || keys["a"]) velX -= accel * d;
-            else velX *= Math.pow(friction, d); // Applica attrito
-
-            // Limita la velocità massima
-            if (velX > maxSpeed) velX = maxSpeed;
-            if (velX < -maxSpeed) velX = -maxSpeed;
-            if (Math.abs(velX) < 0.1) velX = 0;
-
-            posX += velX * d;
-
-            // Limiti laterali della finestra (Mario non può uscire dallo schermo a sinistra)
-            if (posX < 0) { posX = 0; velX = 0; }
-            if (posX > 4000 - MARIO_W) { posX = 4000 - MARIO_W; velX = 0; }
-
-            // Ricalcolo cameraX dopo il movimento
-            cameraX = posX - window.innerWidth / 2 + MARIO_W / 2;
-            if (cameraX < 0) cameraX = 0;
-            if (cameraX > 4000 - window.innerWidth) cameraX = Math.max(0, 4000 - window.innerWidth);
-
-            // --- SALTO ---
-            if ((keys[" "] || keys["w"] || keys["arrowup"]) && onGround) {
-                velY = jumpPower;
-                onGround = false;
-            }
-
-            // --- GRAVITÀ ---
-            velY -= gravity * d;
-            posY += velY * d;
-
-            // Collisione con il terreno
-            onGround = false;
-            if (posY <= 0) {
-                posY = 0; velY = 0; onGround = true;
-            }
-
-            // Calcolo del rettangolo attuale di Mario per le collisioni con gli oggetti
-            let mRect = getMarioRect(posX, posY);
-
-            // --- COLLISIONE CON LUCKY BLOCK ---
-            if (collide(mRect, luckyRect)) {
-                // Se Mario colpisce il blocco dal basso (velY > 0)
-                if (velY > 0 && (mRect.y + mRect.h) >= luckyRect.y && (mRect.y + mRect.h) <= luckyRect.y + 30) {
-                    goToPage('lucky.html'); // Vai alla pagina della sicurezza digitale
-                } else if (velY <= 0 && mRect.y >= luckyRect.y + luckyRect.h - 20) {
-                    // Mario ci atterra sopra
-                    posY = luckyRect.y + luckyRect.h - GROUND_Y - HITBOX.y;
-                    velY = 0; onGround = true;
-                } else {
-                    // Collisione laterale
-                    if (posX + MARIO_W / 2 < luckyRect.x + luckyRect.w / 2) posX = luckyRect.x - HITBOX.x - HITBOX.w;
-                    else posX = luckyRect.x + luckyRect.w - HITBOX.x;
-                    velX = 0;
-                }
-            }
-
-            // --- COLLISIONE CON IL GOOMBA ---
-            const gRect = { x: goombaX, y: GROUND_Y, w: 44, h: 40 };
-            if (collide(mRect, gRect)) {
-                // Se Mario salta sopra il Goomba (uccidendolo/interagendo)
-                if (velY < 0 && mRect.y > (gRect.y + 10)) {
-                    goToPage('goomba.html'); // Vai alla pagina dell'economia e responsabilità
-                } else {
-                    // Se Mario tocca il Goomba lateralmente, il gioco si resetta
-                    posX = 100; posY = 0; velX = 0; velY = 0; onGround = true;
-                }
-            }
-
-            // --- COLLISIONE CON I TUBI ---
-            pipes.forEach(p => {
-                const pRect = { x: p.x, y: GROUND_Y, w: 80, h: 105 };
-                if (collide(mRect, pRect)) {
-                    if (velY <= 0 && mRect.y >= pRect.y + pRect.h - 20) {
-                        // Se Mario è sopra il tubo
-                        posY = pRect.h - HITBOX.y;
-                        velY = 0; onGround = true;
-                        // Premendo GIÙ si entra nel tubo
-                        if (keys["s"] || keys["arrowdown"]) goToPage(p.url);
-                    } else {
-                        // Collisione laterale con il tubo (funge da muro)
-                        if (posX + MARIO_W / 2 < pRect.x + pRect.w / 2) posX = pRect.x - HITBOX.x - HITBOX.w;
-                        else posX = pRect.x + pRect.w - HITBOX.x;
-                        velX = 0;
-                    }
-                }
-            });
-
-            // --- COLLISIONE CON LE SCALE ---
-            stairs.forEach(s => {
-                const sRect = { x: s.x, y: GROUND_Y, w: s.w, h: s.h };
-                if (collide(mRect, sRect)) {
-                    if (velY <= 0 && mRect.y >= sRect.y + sRect.h - 20) {
-                        posY = sRect.h - HITBOX.y;
-                        velY = 0; onGround = true;
-                    } else {
-                        // Collisione laterale
-                        if (posX + MARIO_W / 2 < sRect.x + sRect.w / 2) posX = sRect.x - HITBOX.x - HITBOX.w;
-                        else posX = sRect.x + sRect.w - HITBOX.x;
-                        velX = 0;
-                    }
-                }
-            });
-
-            // --- COLLISIONE CON FLAGPOLE (Fine Livello) ---
-            const flagpoleRect = { x: FLAGPOLE_X, y: GROUND_Y, w: 20, h: 350 };
-            if (collide(mRect, flagpoleRect) && !flagHit) {
-                flagHit = true;
-                posX = FLAGPOLE_X - MARIO_W + 10;
-                velX = 0;
-                velY = 0;
-            }
-
-            // --- ANIMAZIONI IMMAGINE MARIO (CSS) ---
-            let imgTransform = "";
-            let isMoving = Math.abs(velX) > 0.5;
-
-            // Direzione in base al movimento e tasti
-            if (velX < -0.1 || keys["arrowleft"] || keys["a"]) marioFacingRight = false;
-            else if (velX > 0.1 || keys["arrowright"] || keys["d"]) marioFacingRight = true;
-
-            // Specchia l'immagine se rivolta a sinistra
-            if (!marioFacingRight) imgTransform += "scaleX(-1) ";
-
-            if (flagHit) {
-                // Attaccato alla corda: ruotato come se si stesse stringendo e leggermente traslato
-                let tilt = marioFacingRight ? "-25deg" : "25deg";
-                imgTransform += `translateY(10px) rotate(${tilt}) `;
-            } else if (!onGround) {
-                // Salto: si inclina per simulare lo slancio (considerando il mirror)
-                let tilt = marioFacingRight ? "-15deg" : "15deg";
-                imgTransform += `rotate(${tilt}) `;
-            } else if (isMoving) {
-                // Corsa: movimenti di oscillazione (su/giù e dondolamento) calcolati dinamicamente
-                // usando la funzione seno rispetto alla posizione X, crea un movimento naturalissimo!
-                let bounce = Math.abs(Math.sin(posX * 0.05)) * -8;
-                let tilt = Math.sin(posX * 0.05) * 15;
-                if (!marioFacingRight) tilt = -tilt; // Inverti il dondolio per evitare l'effetto opposto col mirror
-                imgTransform += `translateY(${bounce}px) rotate(${tilt}deg) `;
-            } else {
-                // Fermo
-                imgTransform += "translateY(0) rotate(0deg) ";
-            }
-
-            const marioImgElem = document.querySelector("#mario img");
-            if (marioImgElem) marioImgElem.style.transform = imgTransform;
-
-
-            // --- APPLICAZIONE TRASFORMAZIONI GRAFICHE ---
-            // Usiamo translate3d per attivare l'accelerazione hardware della GPU
-            mario.style.transform = `translate3d(${posX}px, ${-posY}px, 0)`;
-            goomba.style.transform = `translate3d(${goombaX}px, 0, 0)`;
-            gameWorld.style.transform = `translate3d(${-cameraX}px, 0, 0)`;
-        }
-
-        /**
-         * LOOP PRINCIPALE
-         * requestAnimationFrame ottimizza le prestazioni sincronizzandosi con il refresh rate del monitor.
-         */
-        function gameLoop(timestamp) {
-            const dt = timestamp - lastTime;
-            lastTime = timestamp;
-            update(dt);
-            requestAnimationFrame(gameLoop);
-        }
-
-        // Avvio del gioco
-        requestAnimationFrame(gameLoop);
     </script>
 </body>
-
 </html>

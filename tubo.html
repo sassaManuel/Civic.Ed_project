@@ -1,12 +1,15 @@
-
 <!DOCTYPE html>
+
 <head>
     <title>Competenza Civica 10: Cittadinanza Digitale</title>
     <!-- Font di Google simili al mondo retro e moderno -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Press+Start+2P&display=swap"
+        rel="stylesheet">
     <!-- CSS specifico per la pagina "Tubo" -->
     <link rel="stylesheet" href="styleTubo.css">
 </head>
+
 <body>
     <nav>
         <div class="logo">
@@ -23,7 +26,8 @@
     <header class="hero">
         <div class="level-badge pixel-font">LIVELLO 10: CITTADINANZA DIGITALE</div>
         <h1>Navigazione Consapevole</h1>
-        <p class="hero-desc">Benvenuto nella tua missione digitale. Impara a padroneggiare le regole della rete per diventare un cittadino del futuro critico, sicuro e responsabile.</p>
+        <p class="hero-desc">Benvenuto nella tua missione digitale. Impara a padroneggiare le regole della rete per
+            diventare un cittadino del futuro critico, sicuro e responsabile.</p>
         <div class="illustration-area">
             <div class="turbine-pipe">
                 <div class="pipe-head"></div>
@@ -49,9 +53,12 @@
             <div class="question-mark pixel-font">?</div>
             <div class="card-tag">Gioco</div>
             <h2>Livello Precedente</h2>
-            <p>Hai lasciato delle sfide in sospeso nel modulo precedente. Torna indietro per completare il tuo percorso nel mondo di Super Mario e consolidare le tue basi.</p>
+            <p>Hai lasciato delle sfide in sospeso nel modulo precedente. Torna indietro per completare il tuo percorso
+                nel mondo di Super Mario e consolidare le tue basi.</p>
             <div class="card-footer">
-                <button class="btn-card"><a href="index.html">Torna a giocare</a></button>
+                <button class="btn-card"><a href="#"
+                        onclick="window.parent.postMessage({type:'backToGame'}, '*'); return false;">Torna a
+                        giocare</a></button>
             </div>
         </div>
         <!-- Card 2 -->
@@ -63,7 +70,8 @@
             <div class="question-mark pixel-font">?</div>
             <div class="card-tag">Netiquette</div>
             <h2>Diritti e Doveri</h2>
-            <p>Navigare non significa solo cliccare. Scopri le regole della Netiquette, l'importanza del Copyright e come proteggere la tua Privacy nel web.</p>
+            <p>Navigare non significa solo cliccare. Scopri le regole della Netiquette, l'importanza del Copyright e
+                come proteggere la tua Privacy nel web.</p>
             <div class="card-footer">
                 <!-- Bottone che apre il modale con data-topic="rights" -->
                 <button class="btn-card open-approfondimento" data-topic="rights">Scopri</button>
@@ -78,7 +86,8 @@
             <div class="question-mark pixel-font">?</div>
             <div class="card-tag">Identità</div>
             <h2>E-Reputation</h2>
-            <p>La tua impronta digitale parla di te. Analizza casi reali di cyberbullismo, l'uso dei deepfake e come gli influencer gestiscono la loro immagine.</p>
+            <p>La tua impronta digitale parla di te. Analizza casi reali di cyberbullismo, l'uso dei deepfake e come gli
+                influencer gestiscono la loro immagine.</p>
             <div class="card-footer">
                 <!-- Bottone che apre il modale con data-topic="identity" -->
                 <button class="btn-card open-approfondimento" data-topic="identity">Scopri</button>
@@ -101,10 +110,10 @@
             </div>
         </div>
     </div>
-     <!-- TESTI MODALI -->
+    <!-- TESTI MODALI -->
     <script>
-        const approfondimenti={
-            rights:{
+        const approfondimenti = {
+            rights: {
                 title: "Diritti e Doveri Online: le regole della cittadinanza",
                 body: `
                     <p>Essere cittadini digitali significa conoscere i limiti e le libertà del mondo virtuale. Non tutto ciò che è tecnicamente possibile è eticamente o legalmente corretto.</p>
@@ -120,9 +129,9 @@
                         <li>Crea un decalogo della <strong>Netiquette</strong> per il tuo gruppo classe.</li>
                     </ul>
                 `,
-              
+
             },
-            identity:{
+            identity: {
                 title: "Identità digitale e analisi dei rischi",
                 body: `
                     <p>L'identità digitale è l'insieme di informazioni che ti rappresentano online. Proteggerla è fondamentale per evitare rischi come il furto d'identità o danni alla reputazione.</p>
@@ -141,32 +150,33 @@
             }
         };
 
-        function openModal(key){
+        function openModal(key) {
             const modal = document.getElementById('approfondimento-modal');
             const data = approfondimenti[key]; // Cerca i dati in base alla chiave (es. "rights")
             if (!data) return; // Se la chiave non esiste, esce
-            
+
             // Inserisce i dati nel DOM
             document.getElementById('approfondimento-title').innerText = data.title;
             document.getElementById('approfondimento-body').innerHTML = data.body;
             document.getElementById('modal-icon').innerText = data.icon || '?';
             document.getElementById('modal-sub').innerText = key === 'rights' ? 'netiquette' : 'reputazione';
-            
+
             // Mostra il modale
             modal.setAttribute('data-open', 'true');
-}
- document.querySelectorAll('.open-approfondimento').forEach(btn => {
+        }
+        document.querySelectorAll('.open-approfondimento').forEach(btn => {
             btn.addEventListener('click', () => {
                 const key = btn.dataset.topic; // Recupera la chiave impostata su data-topic="..."
                 openModal(key);
             });
         });
 
-        function closeModal(){
+        function closeModal() {
             const modal = document.getElementById('approfondimento-modal');
             modal.setAttribute('data-open', 'false');
-}
- document.querySelectorAll('.approfondimento-close').forEach(b => b.addEventListener('click', closeModal));
+        }
+        document.querySelectorAll('.approfondimento-close').forEach(b => b.addEventListener('click', closeModal));
     </script>
 </body>
+
 </html>
