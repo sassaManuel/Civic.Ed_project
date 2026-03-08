@@ -22,8 +22,10 @@
         body {
             margin: 0;
             padding: 0;
-            background: #0a0a0a; /* Sfondo scuro per il locale arcade */
-            display: flex; /* cambiato da justify-content per permettere scrolling laterale finto */
+            background: #0a0a0a;
+            /* Sfondo scuro per il locale arcade */
+            display: flex;
+            /* cambiato da justify-content per permettere scrolling laterale finto */
             height: 100vh;
             font-family: 'Press Start 2P', cursive;
             overflow: hidden;
@@ -48,7 +50,8 @@
             height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: flex-end; /* Lo poggia in basso */
+            align-items: flex-end;
+            /* Lo poggia in basso */
             background: url('sfondo_cabinato.png') no-repeat center center;
             background-size: cover;
             position: relative;
@@ -58,7 +61,10 @@
         .scene-arcade::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background: rgba(0, 0, 0, 0.4);
             z-index: 0;
         }
@@ -66,8 +72,10 @@
         /* ARCADE CABINET - Ingrandito a grandezza uomo */
         .arcade-cabinet {
             width: 1100px;
-            height: 100vh; /* Occupa tutta l'altezza dello schermo */
-            max-height: none; /* Rimosso limite di altezza */
+            height: 100vh;
+            /* Occupa tutta l'altezza dello schermo */
+            max-height: none;
+            /* Rimosso limite di altezza */
             background: linear-gradient(to right, var(--cabinet-dark) 0%, #222 50%, var(--cabinet-dark) 100%);
             border: 4px solid var(--cabinet-border);
             border-top: none;
@@ -91,11 +99,13 @@
             width: 40px;
             background: var(--cabinet-red-dark);
         }
+
         .arcade-cabinet::before {
             left: -40px;
             transform-origin: right;
             transform: perspective(1000px) rotateY(-80deg);
         }
+
         .arcade-cabinet::after {
             right: -40px;
             transform-origin: left;
@@ -106,7 +116,8 @@
         .marquee {
             width: 92%;
             height: 90px;
-            margin-top: 5px; /* Alzato verso il soffitto */
+            margin-top: 5px;
+            /* Alzato verso il soffitto */
             background: #000;
             border: 6px solid #222;
             border-radius: 12px;
@@ -118,6 +129,7 @@
             overflow: hidden;
             box-shadow: 0 0 30px var(--glow), inset 0 0 30px var(--glow);
         }
+
         .marquee h1 {
             color: #fff;
             text-shadow: 0 0 10px var(--glow), 0 0 20px var(--glow), 0 0 40px #f00;
@@ -126,12 +138,16 @@
             line-height: 1.5;
             z-index: 2;
         }
+
         /* Marquee reflection */
         .marquee::after {
             content: '';
             position: absolute;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, transparent 50%);
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0%, transparent 50%);
             transform: rotate(30deg);
             z-index: 1;
         }
@@ -139,7 +155,8 @@
         /* SCREEN BEZEL */
         .screen-bezel {
             width: 90%;
-            flex: 1; /* Prende lo spazio rimanente */
+            flex: 1;
+            /* Prende lo spazio rimanente */
             margin: 15px 0;
             background: #111;
             border: 18px solid #222;
@@ -161,7 +178,7 @@
             background: #000;
             border-radius: 15px;
             /* CRT EFFECT */
-            box-shadow: inset 0 0 25px rgba(0,0,0,0.9);
+            box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.9);
             position: relative;
             z-index: 10;
         }
@@ -180,13 +197,16 @@
             background-size: 100% 5px, 6px 100%;
             pointer-events: none;
         }
-        
+
         .screen-glass {
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             border-radius: 15px;
-            box-shadow: inset 0 0 60px rgba(255,255,255,0.1);
-            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 40%, rgba(255,255,255,0.05) 100%);
+            box-shadow: inset 0 0 60px rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, transparent 40%, rgba(255, 255, 255, 0.05) 100%);
             pointer-events: none;
             z-index: 25;
         }
@@ -203,7 +223,7 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            box-shadow: 0 -15px 30px rgba(0,0,0,0.6);
+            box-shadow: 0 -15px 30px rgba(0, 0, 0, 0.6);
             z-index: 50;
             flex-shrink: 0;
         }
@@ -216,8 +236,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 50; /* Forza sopra tutto */
+            z-index: 50;
+            /* Forza sopra tutto */
         }
+
         .joystick-base {
             width: 90px;
             height: 90px;
@@ -225,8 +247,9 @@
             border-radius: 50%;
             border: 5px solid #222;
             position: absolute;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.8);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
         }
+
         .joystick-stick-wrapper {
             position: relative;
             width: 100%;
@@ -236,6 +259,7 @@
             align-items: center;
             transition: transform 0.1s ease-out;
         }
+
         .joystick-stick {
             width: 24px;
             height: 70px;
@@ -246,6 +270,7 @@
             z-index: 5;
             transform-origin: bottom center;
         }
+
         .joystick-ball {
             width: 45px;
             height: 45px;
@@ -254,14 +279,22 @@
             position: absolute;
             top: -45px;
             left: -10px;
-            box-shadow: inset -6px -6px 18px rgba(0,0,0,0.5), 0 12px 12px rgba(0,0,0,0.4);
+            box-shadow: inset -6px -6px 18px rgba(0, 0, 0, 0.5), 0 12px 12px rgba(0, 0, 0, 0.4);
             z-index: 6;
         }
 
         /* JOYSTICK POSITIONS */
-        .joystick-left { transform: rotate(-25deg); }
-        .joystick-right { transform: rotate(25deg); }
-        .joystick-up { transform: rotateX(30deg) translateY(-20px); }
+        .joystick-left {
+            transform: rotate(-25deg);
+        }
+
+        .joystick-right {
+            transform: rotate(25deg);
+        }
+
+        .joystick-up {
+            transform: rotateX(30deg) translateY(-20px);
+        }
 
         /* ACTION BUTTONS */
         .buttons-container {
@@ -270,14 +303,17 @@
             position: relative;
             top: -20px;
             transform: rotate(-10deg);
-            z-index: 50; /* Forza sopra tutto */
+            z-index: 50;
+            /* Forza sopra tutto */
         }
+
         .arcade-btn-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 15px;
         }
+
         .arcade-btn-base {
             width: 80px;
             height: 80px;
@@ -286,31 +322,38 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.8), inset 0 2px 6px rgba(255,255,255,0.2);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8), inset 0 2px 6px rgba(255, 255, 255, 0.2);
             position: relative;
         }
+
         .arcade-btn {
             width: 58px;
             height: 58px;
             border-radius: 50%;
             position: absolute;
             top: 2px;
-            box-shadow: inset -2px -6px 12px rgba(0,0,0,0.3), 0 6px 6px rgba(0,0,0,0.5);
+            box-shadow: inset -2px -6px 12px rgba(0, 0, 0, 0.3), 0 6px 6px rgba(0, 0, 0, 0.5);
             transition: all 0.05s ease;
         }
-        .arcade-btn.red { background: radial-gradient(circle at 30% 30%, #ff8888 0%, var(--btn-red) 60%, #a00 100%); }
-        .arcade-btn.blue { background: radial-gradient(circle at 30% 30%, #8888ff 0%, var(--btn-blue) 60%, #00a 100%); }
-        
+
+        .arcade-btn.red {
+            background: radial-gradient(circle at 30% 30%, #ff8888 0%, var(--btn-red) 60%, #a00 100%);
+        }
+
+        .arcade-btn.blue {
+            background: radial-gradient(circle at 30% 30%, #8888ff 0%, var(--btn-blue) 60%, #00a 100%);
+        }
+
         /* PRESSED STATE */
         .arcade-btn.pressed {
             top: 10px;
-            box-shadow: inset -2px -2px 12px rgba(0,0,0,0.5), 0 0px 3px rgba(0,0,0,0.5);
+            box-shadow: inset -2px -2px 12px rgba(0, 0, 0, 0.5), 0 0px 3px rgba(0, 0, 0, 0.5);
         }
 
         .btn-label {
             color: #fff;
             font-size: 14px;
-            text-shadow: 0 2px 3px rgba(0,0,0,0.8);
+            text-shadow: 0 2px 3px rgba(0, 0, 0, 0.8);
             letter-spacing: 1px;
         }
 
@@ -328,15 +371,33 @@
             animation: pulse 1s infinite alternate, fadeout 2s forwards;
             animation-delay: 0s, 2s;
         }
-        .start-overlay h2 { font-size: 32px; }
-        .start-overlay p { font-size: 18px; }
+
+        .start-overlay h2 {
+            font-size: 32px;
+        }
+
+        .start-overlay p {
+            font-size: 18px;
+        }
 
         @keyframes pulse {
-            0% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-            100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); text-shadow: 0 0 25px #ff0; }
+            0% {
+                opacity: 0.5;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.1);
+                text-shadow: 0 0 25px #ff0;
+            }
         }
+
         @keyframes fadeout {
-            to { opacity: 0; visibility: hidden; }
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
         }
 
         /* --- SCENA 2: MAXISCHERMO A DESTRA --- */
@@ -357,12 +418,12 @@
             background: #111;
             border: 15px solid #222;
             border-radius: 12px;
-            box-shadow: 0 0 100px rgba(0,255,255,0.1), inset 0 0 30px #000;
+            box-shadow: 0 0 100px rgba(0, 255, 255, 0.1), inset 0 0 30px #000;
             display: flex;
             flex-direction: column;
             position: relative;
         }
-        
+
         .big-screen-header {
             height: 50px;
             background: #151515;
@@ -373,7 +434,7 @@
             color: #ff3333;
             font-size: 18px;
             letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(255,0,0,0.5);
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
         }
 
         .big-screen-iframe {
@@ -388,11 +449,13 @@
         .big-screen-frame::after {
             content: '';
             position: absolute;
-            top: 50px; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%);
+            top: 50px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
             pointer-events: none;
         }
-
     </style>
 </head>
 
@@ -402,9 +465,9 @@
         <!-- SCENA DI SINISTRA: L'ARCADE -->
         <div class="scene-arcade">
             <div class="arcade-cabinet">
-                
+
                 <div class="marquee">
-                    <h1>SUPER MARIO<br>CIVIC ED.</h1>
+                    <h1>SUPER MARIO<br>EDUCAZIONE CIVICA</h1>
                 </div>
 
                 <div class="screen-bezel">
@@ -429,13 +492,13 @@
                             <div class="arcade-btn-base">
                                 <div class="arcade-btn blue" id="btn-action"></div>
                             </div>
-                            <span class="btn-label">TUBE (S)</span>
+                            <span class="btn-label">TUBO (S/⬇️)</span>
                         </div>
                         <div class="arcade-btn-wrapper" style="margin-top: -3px;">
                             <div class="arcade-btn-base">
                                 <div class="arcade-btn red" id="btn-jump"></div>
                             </div>
-                            <span class="btn-label">JUMP (W)</span>
+                            <span class="btn-label">SALTA (SPACE/W/⬆️)</span>
                         </div>
                     </div>
                 </div>
@@ -453,9 +516,7 @@
         <!-- SCENA DI DESTRA: IL MAXISCHERMO -->
         <div class="scene-bigscreen">
             <div class="big-screen-frame">
-                <div class="big-screen-header">
-                    ▶ MODULO EDUCAZIONE CIVICA IN ESECUZIONE ...
-                </div>
+
                 <iframe id="bigScreenIframe" class="big-screen-iframe" src="about:blank"></iframe>
             </div>
         </div>
@@ -467,7 +528,7 @@
         const btnAction = document.getElementById('btn-action');
 
         // Ascoltatore dei messaggi provenienti dall'iframe (game.html, o i moduli sul maxischermo)
-        window.addEventListener('message', function(e) {
+        window.addEventListener('message', function (e) {
             if (e.data && e.data.type) {
                 if (e.data.type === 'keydown') {
                     handleKey(e.data.key, true);
@@ -487,7 +548,7 @@
                     setTimeout(() => {
                         document.getElementById('bigScreenIframe').src = 'about:blank';
                         // Comunichiamo al gioco di resettarsi/sbloccarsi
-                        document.getElementById('gameIframe').contentWindow.postMessage({type: 'resume'}, '*');
+                        document.getElementById('gameIframe').contentWindow.postMessage({ type: 'resume' }, '*');
                         document.getElementById('gameIframe').focus();
                     }, 1200);
                 }
@@ -513,7 +574,7 @@
             if (['arrowleft', 'a'].includes(key)) {
                 if (isDown) joystick.className = 'joystick-stick-wrapper joystick-left';
                 else joystick.className = 'joystick-stick-wrapper';
-            } 
+            }
             else if (['arrowright', 'd'].includes(key)) {
                 if (isDown) joystick.className = 'joystick-stick-wrapper joystick-right';
                 else joystick.className = 'joystick-stick-wrapper';
@@ -535,4 +596,5 @@
         }
     </script>
 </body>
+
 </html>
