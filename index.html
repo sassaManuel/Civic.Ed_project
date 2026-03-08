@@ -19,32 +19,44 @@
 </head>
 
 <body>
+    <div id="game-world">
+        <!-- 
+            ELEMENTI DEL GIOCO:
+            Div e immagini che rappresentano gli oggetti nel mondo di gioco.
+            Tutti questi elementi verranno manipolati via JavaScript o CSS.
+        -->
+        <div id="mario">
+            <!-- L'immagine di Mario (sassamanuel.png) -->
+            <img src="sassamanuel.png" alt="Mario" width="64" height="92">
+        </div>
 
-    <!-- 
-        ELEMENTI DEL GIOCO:
-        Div e immagini che rappresentano gli oggetti nel mondo di gioco.
-        Tutti questi elementi verranno manipolati via JavaScript o CSS.
-    -->
-    <div id="mario">
-        <!-- L'immagine di Mario (sassamanuel.png) -->
-        <img src="sassamanuel.png" alt="Mario" width="64" height="92">
+        <!-- Elementi ambientali -->
+        <div class="sun"></div>
+        <!-- Blocco fortunato: porta alla pagina lucky.html -->
+        <div class="lucky-block" id="luckyBlock">?</div>
+        <!-- Nemico Goomba: se colpito di lato resetta, se colpito dall'alto porta a goomba.html -->
+        <div class="goomba" id="goomba"></div>
+        <!-- Tubi verdi: se ci si preme "S" o "Freccia Giù" portano ad altre pagine -->
+        <div class="pipe" id="pipe1"></div>
+        <div class="pipe" id="pipe2"></div>
+
+        <!-- Blocco scale prima della bandiera -->
+        <div class="stair" style="left: 3450px; width: 50px; height: 50px;"></div>
+        <div class="stair" style="left: 3500px; width: 50px; height: 100px;"></div>
+        <div class="stair" style="left: 3550px; width: 50px; height: 150px;"></div>
+        <div class="stair" style="left: 3600px; width: 50px; height: 200px;"></div>
+
+        <!-- Bandiera di fine livello -->
+        <div class="flagpole" id="flagpole">
+            <div class="flag" id="flag"></div>
+        </div>
+
+        <!-- Sfondi e decorazioni -->
+        <div class="ground"></div>
+        <div class="bg-mountains"></div>
+        <div class="cloud" id="cloud1"></div>
+        <div class="cloud" id="cloud2"></div>
     </div>
-    
-    <!-- Elementi ambientali -->
-    <div class="sun"></div>
-    <!-- Blocco fortunato: porta alla pagina lucky.html -->
-    <div class="lucky-block" id="luckyBlock">?</div>
-    <!-- Nemico Goomba: se colpito di lato resetta, se colpito dall'alto porta a goomba.html -->
-    <div class="goomba" id="goomba"></div>
-    <!-- Tubi verdi: se ci si preme "S" o "Freccia Giù" portano ad altre pagine -->
-    <div class="pipe" id="pipe1"></div>
-    <div class="pipe" id="pipe2"></div>
-    
-    <!-- Sfondi e decorazioni -->
-    <div class="ground"></div>
-    <div class="bg-mountains"></div>
-    <div class="cloud" id="cloud1"></div>
-    <div class="cloud" id="cloud2"></div>
 
     <script>
         /**
@@ -53,9 +65,11 @@
          */
 
         // Riferimenti agli elementi DOM
+        const gameWorld = document.getElementById("game-world");
         const mario = document.getElementById("mario");
         const luckyBlock = document.getElementById("luckyBlock");
         const goomba = document.getElementById("goomba");
+        const flag = document.getElementById("flag");
 
         // Costanti di gioco: dimensioni e parametri fisici
         const GROUND_Y = 112; // Altezza del terreno dal fondo
@@ -84,6 +98,20 @@
         let keys = {};
         let onGround = true;      // Indica se Mario sta toccando terra
         let isRedirecting = false; // Impedisce molteplici redirect contemporanei
+        let marioFacingRight = true; // Lato verso cui guarda Mario
+
+        // Stato della bandiera di fine livello
+        const FLAGPOLE_X = 3800; // Spostata molto più avanti
+        let flagHit = false;
+        let flagY = 320; // Posizione Y della bandiera (parte dall'alto)
+
+        // Posizione delle scale per le collisioni
+        const stairs = [
+            { x: 3450, w: 50, h: 50 },
+            { x: 3500, w: 50, h: 100 },
+            { x: 3550, w: 50, h: 150 },
+            { x: 3600, w: 50, h: 200 }
+        ];
 
         // Gestione degli eventi da tastiera
         document.addEventListener("keydown", e => {
@@ -101,14 +129,14 @@
             { x: 850, url: 'tubo.html' },
             { x: 1250, url: 'tubo2.html' }
         ];
-        
+
         // Posizione del blocco fortunato (?)
         const luckyRect = { x: 250, y: 350, w: 52, h: 52 };
 
         /**
          * FUNZIONI DI UTILITÀ
          */
-        
+
         // Calcola il rettangolo di collisione di Mario in base alla sua posizione corrente
         function getMarioRect(x, y) {
             return { x: x + HITBOX.x, y: GROUND_Y + y + HITBOX.y, w: HITBOX.w, h: HITBOX.h };
@@ -137,6 +165,44 @@
             const d = dt / (1000 / 60);
             if (d > 3) return; // Protezione se il computer subisce un forte rallentamento
 
+            // Calcolo cameraX
+            let cameraX = posX - window.innerWidth / 2 + MARIO_W / 2;
+            if (cameraX < 0) cameraX = 0;
+            // limite massimo: dove inizia la bandiera (più o meno)
+            if (cameraX > 4000 - window.innerWidth) cameraX = Math.max(0, 4000 - window.innerWidth);
+
+            if (flagHit) {
+                // Mario si è attaccato al palo
+                if (!onGround) {
+                    posY -= 4 * d; // Scivola giù dal palo
+                    if (posY <= 0) {
+                        posY = 0; onGround = true;
+                    }
+                }
+
+                // La bandiera si abbassa insieme a Mario
+                flagY = posY + 20; // La bandiera segue Mario
+                if (flagY <= 20) {
+                    flagY = 20;
+                }
+
+                if (onGround) {
+                    goToPage('vittoria.html'); // Quando arrivano giù, cambia pagina
+                }
+
+                // Applica animazione bandiera e traslazioni
+                const marioImgElem = document.querySelector("#mario img");
+                let imgTransform = "scaleX(1) ";
+                if (!marioFacingRight) imgTransform = "scaleX(-1) ";
+                let tilt = marioFacingRight ? "-25deg" : "25deg";
+                if(marioImgElem) marioImgElem.style.transform = imgTransform + `translateY(10px) rotate(${tilt})`;
+
+                flag.style.bottom = `${flagY}px`;
+                mario.style.transform = `translate3d(${posX}px, ${-posY}px, 0)`;
+                gameWorld.style.transform = `translate3d(${-cameraX}px, 0, 0)`;
+                return; // Blocchiamo il resto dell'aggiornamento
+            }
+
             // --- AGGIORNAMENTO GOOMBA ---
             goombaX += (goombaSpeed * goombaDir) * d;
             if (goombaX >= goombaRange.max || goombaX <= goombaRange.min) {
@@ -155,9 +221,14 @@
 
             posX += velX * d;
 
-            // Limiti laterali della finestra (Mario non può uscire dallo schermo)
+            // Limiti laterali della finestra (Mario non può uscire dallo schermo a sinistra)
             if (posX < 0) { posX = 0; velX = 0; }
-            if (posX > window.innerWidth - MARIO_W) { posX = window.innerWidth - MARIO_W; velX = 0; }
+            if (posX > 4000 - MARIO_W) { posX = 4000 - MARIO_W; velX = 0; }
+
+            // Ricalcolo cameraX dopo il movimento
+            cameraX = posX - window.innerWidth / 2 + MARIO_W / 2;
+            if (cameraX < 0) cameraX = 0;
+            if (cameraX > 4000 - window.innerWidth) cameraX = Math.max(0, 4000 - window.innerWidth);
 
             // --- SALTO ---
             if ((keys[" "] || keys["w"] || keys["arrowup"]) && onGround) {
@@ -226,10 +297,71 @@
                 }
             });
 
+            // --- COLLISIONE CON LE SCALE ---
+            stairs.forEach(s => {
+                const sRect = { x: s.x, y: GROUND_Y, w: s.w, h: s.h };
+                if (collide(mRect, sRect)) {
+                    if (velY <= 0 && mRect.y >= sRect.y + sRect.h - 20) {
+                        posY = sRect.h - HITBOX.y;
+                        velY = 0; onGround = true;
+                    } else {
+                        // Collisione laterale
+                        if (posX + MARIO_W / 2 < sRect.x + sRect.w / 2) posX = sRect.x - HITBOX.x - HITBOX.w;
+                        else posX = sRect.x + sRect.w - HITBOX.x;
+                        velX = 0;
+                    }
+                }
+            });
+
+            // --- COLLISIONE CON FLAGPOLE (Fine Livello) ---
+            const flagpoleRect = { x: FLAGPOLE_X, y: GROUND_Y, w: 20, h: 350 };
+            if (collide(mRect, flagpoleRect) && !flagHit) {
+                flagHit = true;
+                posX = FLAGPOLE_X - MARIO_W + 10;
+                velX = 0;
+                velY = 0;
+            }
+
+            // --- ANIMAZIONI IMMAGINE MARIO (CSS) ---
+            let imgTransform = "";
+            let isMoving = Math.abs(velX) > 0.5;
+
+            // Direzione in base al movimento e tasti
+            if (velX < -0.1 || keys["arrowleft"] || keys["a"]) marioFacingRight = false;
+            else if (velX > 0.1 || keys["arrowright"] || keys["d"]) marioFacingRight = true;
+
+            // Specchia l'immagine se rivolta a sinistra
+            if (!marioFacingRight) imgTransform += "scaleX(-1) ";
+
+            if (flagHit) {
+                // Attaccato alla corda: ruotato come se si stesse stringendo e leggermente traslato
+                let tilt = marioFacingRight ? "-25deg" : "25deg";
+                imgTransform += `translateY(10px) rotate(${tilt}) `;
+            } else if (!onGround) {
+                // Salto: si inclina per simulare lo slancio (considerando il mirror)
+                let tilt = marioFacingRight ? "-15deg" : "15deg";
+                imgTransform += `rotate(${tilt}) `;
+            } else if (isMoving) {
+                // Corsa: movimenti di oscillazione (su/giù e dondolamento) calcolati dinamicamente
+                // usando la funzione seno rispetto alla posizione X, crea un movimento naturalissimo!
+                let bounce = Math.abs(Math.sin(posX * 0.05)) * -8;
+                let tilt = Math.sin(posX * 0.05) * 15;
+                if (!marioFacingRight) tilt = -tilt; // Inverti il dondolio per evitare l'effetto opposto col mirror
+                imgTransform += `translateY(${bounce}px) rotate(${tilt}deg) `;
+            } else {
+                // Fermo
+                imgTransform += "translateY(0) rotate(0deg) ";
+            }
+
+            const marioImgElem = document.querySelector("#mario img");
+            if (marioImgElem) marioImgElem.style.transform = imgTransform;
+
+
             // --- APPLICAZIONE TRASFORMAZIONI GRAFICHE ---
             // Usiamo translate3d per attivare l'accelerazione hardware della GPU
             mario.style.transform = `translate3d(${posX}px, ${-posY}px, 0)`;
             goomba.style.transform = `translate3d(${goombaX}px, 0, 0)`;
+            gameWorld.style.transform = `translate3d(${-cameraX}px, 0, 0)`;
         }
 
         /**
@@ -248,4 +380,4 @@
     </script>
 </body>
 
-</html>
+</html>

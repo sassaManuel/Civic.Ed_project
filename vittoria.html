@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titoli di Coda - Super Mario World - Civic Ed</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            font-family: 'Press Start 2P', monospace;
+        }
+
+        .credits-container {
+            position: absolute;
+            bottom: -150%;
+            width: 100%;
+            text-align: center;
+            animation: scrollCredits 25s linear forwards;
+        }
+
+        h1 {
+            color: #ffd700;
+            font-size: 2.5rem;
+            margin-bottom: 80px;
+            text-shadow: 3px 3px 0 #ff0000;
+            line-height: 1.5;
+        }
+
+        .role {
+            font-size: 1rem;
+            color: #87ceeb;
+            margin-top: 50px;
+            margin-bottom: 10px;
+        }
+
+        .name {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .special-names {
+            font-size: 1.5rem;
+            color: #ff0000;
+            line-height: 2;
+            text-shadow: 2px 2px 0 #fff;
+            margin-top: 20px;
+        }
+
+        @keyframes scrollCredits {
+            0% {
+                bottom: -150%;
+            }
+
+            100% {
+                bottom: 100%;
+            }
+        }
+
+        .btn-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            animation: fadeIn 2s ease-in forwards;
+            animation-delay: 24s;
+            /* Mostriamo il bottone alla fine dello scorrimento */
+            z-index: 10;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            background: #ff0000;
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            border: 3px solid #fff;
+            border-radius: 10px;
+            box-shadow: 4px 4px 0 #555;
+            transition: transform 0.1s;
+        }
+
+        .btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #555;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="credits-container">
+        <h1>LIVELLO<br>COMPLETATO!</h1>
+
+        <div class="role">EXECUTIVE PRODUCER</div>
+        <div class="name">FRASCO LAMARTINOSCHI</div>
+
+        <div class="role">DIRECTOR</div>
+        <div class="name">TAKASHI TEZUKA</div>
+
+        <div class="role">MUSIC COMPOSER</div>
+        <div class="name">KOJI KONDO</div>
+
+        <div class="role">LEVEL DESIGN</div>
+        <div class="name">LUIGI MARIO</div>
+
+        <div class="role">CIVIC EDUCATION CONSULTANT</div>
+        <div class="name">PROF. TOAD</div>
+
+        <div class="role">LEAD DEVELOPER</div>
+        <div class="name">YOSHI D. SAUR</div>
+
+        <div class="role">FRONT END</div>
+        <div class="special-names">
+            ANDREA MARANO<br>
+            FRANCESCO ANDREA PLATANIA<br>
+            MANUEL SPATICCHIA<br>
+            ALESSIO ISAIA
+        </div>
+    </div>
+
+    <div class="btn-container">
+        <a href="index.html" class="btn">TORNA ALL'INIZIO</a>
+    </div>
+</body>
+
+</html>
