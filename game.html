@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="it">
 
@@ -30,6 +29,10 @@
         <div class="lucky-block" id="luckyBlock">?</div>
         <!-- Nemico Goomba: se colpito di lato resetta, se colpito dall'alto porta a goomba.html -->
         <div class="goomba" id="goomba"></div>
+        <!-- Piante Piranha ("Pecorino Bucccianera") -->
+        <div class="piranha-plant" id="piranha1"></div>
+        <div class="piranha-plant" id="piranha2"></div>
+
         <!-- Tubi verdi: se ci si preme "S" o "Freccia Giù" portano ad altre pagine -->
         <div class="pipe" id="pipe1"></div>
         <div class="pipe" id="pipe2"></div>
@@ -129,6 +132,12 @@
             { x: 1250, url: 'tubo2.html' }
         ];
 
+        // Stato e posizione delle Piante Piranha
+        const piranhas = [
+            { id: "piranha1", x: 850, y: 40, timer: 0 },
+            { id: "piranha2", x: 1250, y: 40, timer: 1500 } // sfasata di mezzo ciclo
+        ];
+
         // Posizione del blocco fortunato (?)
         const luckyRect = { x: 250, y: 350, w: 52, h: 52 };
 
@@ -158,7 +167,7 @@
             }
         }
 
-        window.addEventListener('message', function(e) {
+        window.addEventListener('message', function (e) {
             if (e.data && e.data.type === 'resume') {
                 window.location.reload();
             }
@@ -204,7 +213,7 @@
                 let imgTransform = "scaleX(1) ";
                 if (!marioFacingRight) imgTransform = "scaleX(-1) ";
                 let tilt = marioFacingRight ? "-25deg" : "25deg";
-                if(marioImgElem) marioImgElem.style.transform = imgTransform + `translateY(10px) rotate(${tilt})`;
+                if (marioImgElem) marioImgElem.style.transform = imgTransform + `translateY(10px) rotate(${tilt})`;
 
                 flag.style.bottom = `${flagY}px`;
                 mario.style.transform = `translate3d(${posX}px, ${-posY}px, 0)`;
@@ -287,9 +296,36 @@
                 }
             }
 
+            // --- PIRANHA PLANTS (Fisica, Disegno e Collisioni) ---
+            piranhas.forEach(p => {
+                p.timer += dt;
+                const cycle = 3000;
+                const phase = (p.timer % cycle) / cycle;
+                let offsetY = 0;
+
+                // Animazione di uscita dal tubo
+                if (phase < 0.2) offsetY = (phase / 0.2) * 120;
+                else if (phase < 0.5) offsetY = 120;
+                else if (phase < 0.7) offsetY = Math.max(0, (1 - (phase - 0.5) / 0.2) * 120);
+
+                p.y = 10 + offsetY; // da 10 a 130
+
+                const elem = document.getElementById(p.id);
+                if (elem) elem.style.transform = `translate3d(${p.x}px, ${-p.y}px, 0)`;
+
+                // Collisione (se la pianta è abbastanza fuori)
+                if (offsetY > 10) {
+                    const pRect = { x: p.x, y: GROUND_Y + p.y, w: 100, h: 100 };
+                    if (collide(mRect, pRect)) {
+                        // Muore, torna all'inizio
+                        posX = 100; posY = 0; velX = 0; velY = 0; onGround = true;
+                    }
+                }
+            });
+
             // --- COLLISIONE CON I TUBI ---
             pipes.forEach(p => {
-                const pRect = { x: p.x, y: GROUND_Y, w: 80, h: 105 };
+                const pRect = { x: p.x, y: GROUND_Y, w: 100, h: 105 };
                 if (collide(mRect, pRect)) {
                     if (velY <= 0 && mRect.y >= pRect.y + pRect.h - 20) {
                         // Se Mario è sopra il tubo

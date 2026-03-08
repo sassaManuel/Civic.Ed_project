@@ -151,19 +151,43 @@ body {
     width: 17px; height: 9px;
     background: #3d1a00;
     border-radius: 40% 40% 55% 55%;
-    box-shadow: 25px 0 0 #3d1a00; /* Secondo piede */
 }
+/* --- PIRANHA PLANT (PECORINO BUCCCIANERA - IMAGINE PASTA CON IL PESTO) --- */
+.piranha-plant {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    bottom: 112px; /* Stessa base del terreno */
+    left: 0;
+    will-change: transform;
+    z-index: 4; /* Più basso del tubo, così ci scompare dietro */
+}
+
+/* L'immagine del piatto di pasta */
+.piranha-plant::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url('pastaConIlPesto.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    z-index: 2;
+}
+
+
 
 /* --- TUBI DI WARP (PIPE) --- */
 .pipe {
     position: absolute;
-    width: 80px; height: 105px;
+    width: 100px; height: 105px;
     background: linear-gradient(90deg, #00cc44 5%, #00aa00 40%, #007730 95%);
     bottom: 112px;
     border: 3px solid #004400;
     border-top: none;
     border-radius: 0 0 4px 4px;
     box-shadow: 4px 0 0 #004400;
+    z-index: 5; /* Z-index per coprire la pianta quando scende */
 }
 
 /* La parte superiore sporgente del tubo */
@@ -171,7 +195,7 @@ body {
     content: "";
     position: absolute;
     top: -26px; left: -10px;
-    width: 100px; height: 30px;
+    width: 120px; height: 30px;
     background: linear-gradient(90deg, #00cc44 5%, #00aa00 40%, #007730 95%);
     border: 3px solid #004400;
     border-radius: 4px;
