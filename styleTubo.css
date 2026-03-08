@@ -520,7 +520,6 @@
             }
             h1 { font-size: 3rem; }
         }
-
         @media (max-width: 480px) {
             .illustration-area { gap: 20px; }
             .pipe-head { width: 70px; }

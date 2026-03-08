@@ -4,10 +4,7 @@
     della sicurezza online e dell'identità digitale.
 -->
 <!DOCTYPE html>
-<html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Competenza Civica 10: Cittadinanza Digitale</title>
     <!-- Font di Google simili al mondo retro e moderno -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -15,8 +12,6 @@
     <link rel="stylesheet" href="styleTubo.css">
 </head>
 <body>
-
-    <!-- NAVIGAZIONE PRINCIPALE: Mostra il livello e la barra della vita/progresso -->
     <nav>
         <div class="logo">
             <div class="logo-icon"></div>
@@ -29,14 +24,10 @@
             </div>
         </div>
     </nav>
-
-    <!-- HEADER/HERO SECTION: Titolo grande e introduzione all'argomento -->
     <header class="hero">
         <div class="level-badge pixel-font">LIVELLO 10: CITTADINANZA DIGITALE</div>
         <h1>Navigazione Consapevole</h1>
         <p class="hero-desc">Benvenuto nella tua missione digitale. Impara a padroneggiare le regole della rete per diventare un cittadino del futuro critico, sicuro e responsabile.</p>
-        
-        <!-- Elementi grafici decorativi a forma di tubi (Turbine) -->
         <div class="illustration-area">
             <div class="turbine-pipe">
                 <div class="pipe-head"></div>
@@ -52,11 +43,8 @@
             </div>
         </div>
     </header>
-
-    <!-- GRIGLIA PRINCIPALE (DASHBOARD): Contiene le diverse cards interattive -->
     <main class="dashboard-grid">
-        
-        <!-- CARD 1: Link per tornare alla pagina principale (index.html) -->
+        <!-- Card 1 -->
         <div class="lucky-card card-green">
             <div class="rivet r-tl"></div>
             <div class="rivet r-tr"></div>
@@ -70,8 +58,7 @@
                 <button class="btn-card"><a href="index.html">Torna a giocare</a></button>
             </div>
         </div>
-
-        <!-- CARD 2: Argomento Netiquette (Diritti e Doveri) -->
+        <!-- Card 2 -->
         <div class="lucky-card card-blue">
             <div class="rivet r-tl"></div>
             <div class="rivet r-tr"></div>
@@ -86,8 +73,7 @@
                 <button class="btn-card open-approfondimento" data-topic="rights">Scopri</button>
             </div>
         </div>
-
-        <!-- CARD 3: Argomento Identità Digitale (E-Reputation) -->
+        <!-- Card 3 -->
         <div class="lucky-card card-yellow">
             <div class="rivet r-tl"></div>
             <div class="rivet r-tr"></div>
@@ -102,11 +88,8 @@
                 <button class="btn-card open-approfondimento" data-topic="identity">Scopri</button>
             </div>
         </div>
-
     </main>
-
-    <!-- FINESTRA MODALE (POP-UP) PER GLI APPROFONDIMENTI -->
-    <!-- Questo elemento è nascosto di default (aria-hidden="true") -->
+    <!-- MODALE DUE COLONNE -->
     <div id="approfondimento-modal" class="approfondimento-modal" aria-hidden="true" data-open="false">
         <div class="approfondimento-box">
             <button class="approfondimento-close" aria-label="Chiudi">×</button>
@@ -122,11 +105,9 @@
             </div>
         </div>
     </div>
-
-    <!-- SCRIPT JAVASCRIPT: Gestisce l'apertura/chiusura del modale e l'inserimento dei contenuti -->
+     <!-- TESTI MODALI -->
     <script>
-        // Oggetto contenente i testi degli approfondimenti associati alle chiavi (topic)
-        const approfondimenti ={
+        const approfondimenti={
             rights:{
                 title: "Diritti e Doveri Online: le regole della cittadinanza",
                 body: `
@@ -164,8 +145,7 @@
             }
         };
 
-        // Funzione per aprire il modale
-        function openModal(key) {
+        function openModal(key){
             const modal = document.getElementById('approfondimento-modal');
             const data = approfondimenti[key]; // Cerca i dati in base alla chiave (es. "rights")
             if (!data) return; // Se la chiave non esiste, esce
@@ -179,16 +159,12 @@
             // Mostra il modale
             modal.setAttribute('data-open', 'true');
             modal.setAttribute('aria-hidden', 'false');
-        }
-
-        // Funzione per chiudere il modale
-        function closeModal() {
+}
+        function closeModal(){
             const modal = document.getElementById('approfondimento-modal');
             modal.setAttribute('data-open', 'false');
             modal.setAttribute('aria-hidden', 'true');
-        }
-
-        // Assegna l'evento click a tutti i bottoni con classe .open-approfondimento
+}
         document.querySelectorAll('.open-approfondimento').forEach(btn => {
             btn.addEventListener('click', () => {
                 const key = btn.dataset.topic; // Recupera la chiave impostata su data-topic="..."
