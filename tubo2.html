@@ -15,7 +15,7 @@
         }
 
         :root {
-            /* Mario core palette */
+            
             --mario-yellow: #facc15;
             --mario-green: #4caf50;
             --mario-blue: #38bdf8;
@@ -24,20 +24,20 @@
             --white: #ffffff;
             --bg-grid: #ffffff;
 
-            /* neo‑brutalist shadows */
+            
             --shadow-solid: 4px 4px 0px 0px var(--black);
             --shadow-heavy: 8px 8px 0px 0px var(--black);
             --shadow-3d: 0 12px 0 0 rgba(0,0,0,0.9), 0 18px 16px -6px rgba(0,0,0,0.4);
 
-            /* glassmorphism */
+            
             --glass-bg: rgba(255, 255, 255, 0.8);
             --glass-border: 3px solid var(--black);
             --glass-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
 
-            /* border */
+            
             --border-pixel: 3px solid var(--black);
 
-            /* transitions */
+            
             --bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
             --elastic: cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
@@ -129,7 +129,7 @@ body::before {
             z-index: 10;
         }
 
-        /* ---------- NAV (sticky glass) ---------- */
+        
         nav {
             display: flex;
             justify-content: space-between;
@@ -163,7 +163,7 @@ body::before {
             box-shadow: 3px 3px 0px var(--black);
         }
 
-        /* progress bar */
+        
         .life-bar-wrapper {
             display: flex;
             align-items: center;
@@ -200,7 +200,7 @@ body::before {
             100% { background-position: -200% 0; }
         }
 
-        /* ---------- HERO ---------- */
+        
         .hero {
             padding: 2rem 2rem 4rem 2rem;
             max-width: 1200px;
@@ -241,7 +241,7 @@ body::before {
             box-shadow: var(--shadow-heavy);
         }
 
-        /* pipe turbines */
+        
         .illustration-area {
             display: flex;
             align-items: flex-end;
@@ -271,7 +271,7 @@ body::before {
             box-shadow: 4px 4px 0px var(--black);
         }
 
-        /* ---------- CARD GRID ---------- */
+        
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -281,7 +281,7 @@ body::before {
             margin: 0 auto;
         }
 
-        /* 3D LUCKY BLOCKS with floating */
+        
         .lucky-card {
             background: var(--mario-yellow);
             border: var(--border-pixel);
@@ -447,7 +447,7 @@ body::before {
             flex-shrink: 0;
         }
 
-        /* METER */
+        
         .impact-meter {
             background: rgba(0,0,0,0.1);
             border: 3px solid var(--black);
@@ -466,7 +466,7 @@ body::before {
             margin: 10px 0;
         }
 
-        /* BADGES */
+        
         .tip-badge {
             display: inline-block;
             background: var(--black);
@@ -479,7 +479,7 @@ body::before {
             font-size: 0.85rem;
         }
 
-        /* LAB GRID */
+        
         .lab-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -501,7 +501,7 @@ body::before {
             margin: 10px 0;
         }
 
-        /* FOOTER */
+        
         .pipe-footer {
             margin-top: 80px;
             padding: 30px;
@@ -658,7 +658,7 @@ body::before {
             }
         }
 
-        /* RESPONSIVE */
+        
         @media (max-width: 968px) {
             h1 { font-size: 3rem; }
             .illustration-area { gap: 20px; }

@@ -177,7 +177,7 @@
             border: none;
             background: #000;
             border-radius: 15px;
-            /* CRT EFFECT */
+            
             box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.9);
             position: relative;
             z-index: 10;
@@ -476,7 +476,7 @@
                 </div>
 
                 <div class="control-panel">
-                    <!-- JOYSTICK -->
+                    
                     <div class="joystick-container">
                         <div class="joystick-base"></div>
                         <div class="joystick-stick-wrapper" id="joystick">
@@ -486,7 +486,7 @@
                         </div>
                     </div>
 
-                    <!-- BUTTONS -->
+                    
                     <div class="buttons-container">
                         <div class="arcade-btn-wrapper">
                             <div class="arcade-btn-base">
@@ -569,7 +569,7 @@
         });
 
         // Funzione per animare il joystick e i bottoni
-        function handleKey(key, isDown) {
+        function handleKey(key, isDown) { 
             // Mappatura movimenti Joystick (Rimossa la direzione 'GIÙ' o 'S' dal joystick)
             if (['arrowleft', 'a'].includes(key)) {
                 if (isDown) joystick.className = 'joystick-stick-wrapper joystick-left';
@@ -585,11 +585,11 @@
             }
 
             // Animazione Bottoni
-            // JUMP
+            
             if ([' ', 'arrowup', 'w'].includes(key)) {
                 isDown ? btnJump.classList.add('pressed') : btnJump.classList.remove('pressed');
             }
-            // TUBE (Adesso preme solo il bottone, senza inclinare il joystick)
+            
             if (['s', 'arrowdown'].includes(key)) {
                 isDown ? btnAction.classList.add('pressed') : btnAction.classList.remove('pressed');
             }
