@@ -89,7 +89,7 @@
             box-shadow: 0 0 100px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(255, 255, 255, 0.1);
         }
 
-        /* SIDE PANELS (FAKE 3D) */
+        
         .arcade-cabinet::before,
         .arcade-cabinet::after {
             content: '';
@@ -112,7 +112,7 @@
             transform: perspective(1000px) rotateY(80deg);
         }
 
-        /* MARQUEE (Top Sign) */
+        
         .marquee {
             width: 92%;
             height: 90px;
@@ -139,7 +139,7 @@
             z-index: 2;
         }
 
-        /* Marquee reflection */
+        
         .marquee::after {
             content: '';
             position: absolute;
@@ -152,7 +152,7 @@
             z-index: 1;
         }
 
-        /* SCREEN BEZEL */
+        
         .screen-bezel {
             width: 90%;
             flex: 1;
@@ -170,7 +170,7 @@
             box-shadow: inset 0 0 40px #000;
         }
 
-        /* THE ACTUAL IFRAME SCREEN */
+        
         .game-screen {
             width: 100%;
             height: 100%;
@@ -183,7 +183,7 @@
             z-index: 10;
         }
 
-        /* CRT SCANLINES & GLARE */
+        
         .screen-bezel::after {
             content: " ";
             display: block;
@@ -211,7 +211,7 @@
             z-index: 25;
         }
 
-        /* CONTROL PANEL (Slanted) */
+        
         .control-panel {
             width: 100%;
             height: 180px;
@@ -228,7 +228,7 @@
             flex-shrink: 0;
         }
 
-        /* JOYSTICK BASE AND STICK */
+        
         .joystick-container {
             position: relative;
             width: 140px;
@@ -283,7 +283,7 @@
             z-index: 6;
         }
 
-        /* JOYSTICK POSITIONS */
+        
         .joystick-left {
             transform: rotate(-25deg);
         }
@@ -296,7 +296,7 @@
             transform: rotateX(30deg) translateY(-20px);
         }
 
-        /* ACTION BUTTONS */
+        
         .buttons-container {
             display: flex;
             gap: 40px;
@@ -344,7 +344,7 @@
             background: radial-gradient(circle at 30% 30%, #8888ff 0%, var(--btn-blue) 60%, #00a 100%);
         }
 
-        /* PRESSED STATE */
+        
         .arcade-btn.pressed {
             top: 10px;
             box-shadow: inset -2px -2px 12px rgba(0, 0, 0, 0.5), 0 0px 3px rgba(0, 0, 0, 0.5);
@@ -357,7 +357,7 @@
             letter-spacing: 1px;
         }
 
-        /* INSTRUCTIONS TEXT OVERLAY */
+        
         .start-overlay {
             position: absolute;
             top: 50%;
